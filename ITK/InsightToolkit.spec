@@ -114,7 +114,7 @@ cp -r Examples/* %{buildroot}%{_datadir}/%{name}/examples/
 # remove copyrighted material
 rm -rf %{buildroot}%{_datadir}/%{name}/examples/Patented
 
-#mv $RPM_BUILD_ROOT%{_libdir}/%{name}/*.cmake $RPM_BUILD_ROOT%{_datadir}/%{name}/
+mv $RPM_BUILD_ROOT%{_libdir}/cmake $RPM_BUILD_ROOT%{_datadir}/%{name}/
 
 # Install ldd config file
 mkdir -p %{buildroot}%{_sysconfdir}/ld.so.conf.d/
@@ -158,7 +158,7 @@ Insight Toolkit Library Header Files and Link Libraries
 #%{_libdir}/%{name}/*.so
 %{_libdir}/*.so
 %{_includedir}/ITK-4.2/
-%{_libdir}/%{name}/*.cmake
+%{_datadir}/%{name}/cmake/
 
 %package        examples
 Summary:        C++, Tcl and Python example programs/scripts for ITK
@@ -185,7 +185,8 @@ ITK doc
 %files          doc
 %defattr(-,root,root,-)
 #%dir %{_docdir}/%{name}-%{version}
-%{_docdir}/%{name}-%{version}/*
+%{_docdir}/%{name}-devel-%{version}/
+%{_docdir}/ITK-4.2/
 
 
 %changelog
