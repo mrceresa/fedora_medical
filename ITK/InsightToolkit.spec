@@ -2,14 +2,15 @@
 Buildroot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 Summary:        Insight Toolkit library for medical image processing
 Name:           InsightToolkit
-Version:        3.20.1
+Version:        4.2.1
 Release:        1%{?dist}
 License:        BSD
 Group:          Applications/Engineering
 Vendor:         Insight Software Consortium
-Source0:        https://github.com/mrceresa/ITK/zipball/v3.20.1_fc15.zip
+Source0:        http://downloads.sourceforge.net/project/itk/itk/4.2/InsightToolkit-4.2.1.tar.gz
 Source1:        http://downloads.sourceforge.net/project/itk/itk/2.4/ItkSoftwareGuide-2.4.0.pdf
 URL:            http://www.itk.org/
+Patch0:		0001-Fixed-cmake-install-dir.patch
 
 # Thanks to Mathieu Malaterre for pointing out the following patch
 # The patch was retrieved from http://itk.org/gitweb?p=ITK.git;a=patch;h=93833edb2294c0190af9e6c0de26e9485399a7d3
@@ -24,12 +25,12 @@ BuildRequires:  libxml2-devel
 BuildRequires:  libpng-devel
 BuildRequires:  libtiff-devel
 BuildRequires:  zlib-devel
-BuildRequires:  fftw3-devel
+#BuildRequires:  fftw3-devel
 BuildRequires:  libjpeg-devel
-BuildRequires:  gdcm-devel
-BuildRequires:  vxl-devel
+#BuildRequires:  gdcm-devel
+#BuildRequires:  vxl-devel
 #For documentation
-BuildRequires:  graphviz
+#BuildRequires:  graphviz
 BuildRequires:  doxygen
 
 %description
@@ -49,9 +50,9 @@ that the code is highly efficient, and that many software problems are
 discovered at compile-time, rather than at run-time during program execution.
 
 %prep
-%setup -q -n mrceresa-ITK-69c640a
+%setup -q
 
-#%patch1 -p1
+%patch0 -p1
 #%patch2 -p1
 #%patch3 -p1
 #%patch4 -p1
@@ -60,13 +61,10 @@ discovered at compile-time, rather than at run-time during program execution.
 
 #for l in itkzlib zlib itkpng itktiff gdcm
 # Leave itkpng because new libpng changed apis
-for l in itkzlib zlib itktiff gdcm
-do
-	find Utilities/$l -type f ! -name 'CMakeLists.txt' -execdir rm {} +
-done
-
-# remove CVS dirs, if they exist
-find -name CVS -type d | xargs rm -rf
+#for l in ZLIB GDCM JPEG PNG TIFF Expat OpenJPEG
+#do
+#	find Modules/ThirdParty/$l -type f ! -name 'CMakeLists.txt' -execdir rm {} +
+#done
 
 # copy guide into the appropriate directory
 cp %{SOURCE1} .
@@ -74,43 +72,40 @@ cp %{SOURCE1} .
 # remove applications: they are shipped separately now
 rm -rf Applications/
 
-# remove utilities that are under review request in Fedora:
-#rm -rf Utilities/netlib
-#rm -rf Utilities/openjpeg
-
-# remove utilities that still needs to be packaged in Fedora
-#rm -rf Utilities/NrrdIO
-#rm -rf Utilities/DICOMParser
-#rm -rf Utilities/itkjpeg
-
 ### end of removing
+mkdir itk_build
 
 %build
+cd itk_build
 %cmake -DBUILD_SHARED_LIBS:BOOL=ON \
        -DBUILD_EXAMPLES:BOOL=ON \
        -DCMAKE_BUILD_TYPE:STRING="RelWithDebInfo"\
        -DCMAKE_VERBOSE_MAKEFILE=ON\
        -DBUILD_TESTING=OFF\
-       -DITK_USE_ORIENTED_IMAGE_DIRECTION:BOOL=ON \
-       -DITK_IMAGE_BEHAVES_AS_ORIENTED_IMAGE:BOOL=ON \
-       -DITK_USE_CENTERED_PIXEL_COORDINATES_CONSISTENTLY=ON \
+       -DITKV3_COMPATIBILITY:BOOL=ON \
+       -DITK_BUILD_ALL_MODULES:BOOL=ON \
+       -DITK_WRAP_PYTHON:BOOL=OFF \
+       -DITK_WRAP_JAVA:BOOL=OFF \
+       -DBUILD_DOCUMENTATION:BOOL=OFF \
        -DITK_USE_REVIEW:BOOL=ON \
-       -DITK_USE_REVIEW_STATISTICS=ON \
        -DITK_USE_PATENTED:BOOL=OFF \
-       -DITK_USE_SYSTEM_TIFF=ON \
-       -DITK_USE_SYSTEM_PNG=OFF \
+       -DITK_USE_SYSTEM_HDF5=ON \
+       -DITK_USE_SYSTEM_JPEG=ON \
+       -DITK_USE_SYSTEM_TIFF=OFF \
+       -DITK_USE_SYSTEM_PNG=ON \
        -DITK_USE_SYSTEM_ZLIB=ON \
-       -DITK_USE_SYSTEM_LIBXML2=ON \
        -DITK_USE_SYSTEM_GDCM=ON \
-       -DITK_USE_SYSTEM_VXL=ON \
-       -DITK_USE_SYSTEM_EXPAT=ON \
-       -DCMAKE_CXX_FLAGS:STRING="-fpermissive" .
+       -DITK_USE_SYSTEM_VXL=OFF \
+       -DITK_INSTALL_LIBRARY_DIR=%{_lib} \
+       -DCMAKE_CXX_FLAGS:STRING="-fpermissive" ../
 
 make %{?_smp_mflags}
 
 %install
 rm -rf %{buildroot}
+pushd itk_build
 make install DESTDIR=%{buildroot}
+popd
 # Install examples
 mkdir -p %{buildroot}%{_datadir}/%{name}/examples
 cp -r Examples/* %{buildroot}%{_datadir}/%{name}/examples/
@@ -129,15 +124,17 @@ rm -rf %{buildroot}
 
 %files
 %defattr(-,root,root,-)
-%dir %{_libdir}/%{name}
+#%dir %{_libdir}/%{name}
+%dir %{_libdir}
 %dir %{_datadir}/%{name}
 #In order to recognize /usr/lib64/InsightToolkit we need to ship a proper file for /etc/ld.so.conf.d/
-%config %{_sysconfdir}/ld.so.conf.d/%{name}.conf
+#%config %{_sysconfdir}/ld.so.conf.d/%{name}.conf
 %{_bindir}/itkTestDriver
-%{_bindir}/DicomSeriesReadImageWrite2
-%{_libdir}/%{name}/*.so.*
+#%{_bindir}/DicomSeriesReadImageWrite2
+#%{_libdir}/%{name}/*.so.*
+%{_libdir}/*.so.*
 
-%doc Copyright/*
+#%doc Copyright/*
 
 
 %post -p /sbin/ldconfig
@@ -157,8 +154,9 @@ Insight Toolkit Library Header Files and Link Libraries
 %defattr(-,root,root)
 %doc README.html
 %doc ItkSoftwareGuide-2.4.0.pdf
-%{_libdir}/%{name}/*.so
-%{_includedir}/%{name}/
+#%{_libdir}/%{name}/*.so
+%{_libdir}/*.so
+%{_includedir}/ITK-4.2/
 %{_libdir}/%{name}/*.cmake
 
 %package        examples
@@ -190,6 +188,9 @@ ITK doc
 
 
 %changelog
+* Tue Nov 20 2012 Mario Ceresa mrceresa fedoraproject org InsightToolkit 4.2.1-1
+- Updated to new version
+
 * Wed Nov 30 2011 Mario Ceresa mrceresa fedoraproject org InsightToolkit 3.20.1-1
 - Updated to new version
 - Added binary morphology code
