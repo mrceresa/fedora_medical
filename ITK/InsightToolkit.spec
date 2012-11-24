@@ -117,8 +117,8 @@ rm -rf %{buildroot}%{_datadir}/%{name}/examples/Patented
 mv $RPM_BUILD_ROOT%{_libdir}/cmake $RPM_BUILD_ROOT%{_datadir}/%{name}/
 
 # Install ldd config file
-mkdir -p %{buildroot}%{_sysconfdir}/ld.so.conf.d/
-echo %{_libdir}/%{name} > %{buildroot}%{_sysconfdir}/ld.so.conf.d/%{name}.conf
+#mkdir -p %{buildroot}%{_sysconfdir}/ld.so.conf.d/
+#echo %{_libdir}/%{name} > %{buildroot}%{_sysconfdir}/ld.so.conf.d/%{name}.conf
 
 %clean
 rm -rf %{buildroot}
