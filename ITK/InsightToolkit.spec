@@ -25,6 +25,7 @@ BuildRequires:  libxml2-devel
 BuildRequires:  libpng-devel
 BuildRequires:  libtiff-devel
 BuildRequires:  zlib-devel
+BuildRequires:  hdf5-devel
 #BuildRequires:  fftw3-devel
 BuildRequires:  libjpeg-devel
 #BuildRequires:  gdcm-devel
