@@ -1,0 +1,24 @@
+From fc074ee4b8c2f09a554646ba983622dfb8a75fb5 Mon Sep 17 00:00:00 2001
+From: Mario Ceresa <mrceresa@gmail.com>
+Date: Fri, 2 Nov 2012 14:41:23 +0100
+Subject: [PATCH 20/23] Included missing vcl_cstdio.h header
+
+---
+ .../core/vpgl_pro/processes/vpgl_load_perspective_camera_process.cxx     | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/contrib/brl/bpro/core/vpgl_pro/processes/vpgl_load_perspective_camera_process.cxx b/contrib/brl/bpro/core/vpgl_pro/processes/vpgl_load_perspective_camera_process.cxx
+index 10fe8a7..1082e34 100644
+--- a/contrib/brl/bpro/core/vpgl_pro/processes/vpgl_load_perspective_camera_process.cxx
++++ b/contrib/brl/bpro/core/vpgl_pro/processes/vpgl_load_perspective_camera_process.cxx
+@@ -5,6 +5,7 @@
+ 
+ #include <vcl_iostream.h>
+ #include <vcl_fstream.h>
++#include <vcl_cstdio.h>
+ #include <vpgl/vpgl_camera_double_sptr.h>
+ #include <vpgl/vpgl_perspective_camera.h>
+ #include <vpgl/io/vpgl_io_perspective_camera.h>
+-- 
+1.7.11.7
+

@@ -1,0 +1,71 @@
+From 2a338e6b27483b775d6ab0a6ba2661eb6231ac50 Mon Sep 17 00:00:00 2001
+From: Mario Ceresa <mrceresa@gmail.com>
+Date: Wed, 10 Oct 2012 17:15:37 +0200
+Subject: [PATCH 03/23] Use system rply
+
+Signed-off-by: Mario Ceresa <mrceresa@gmail.com>
+---
+ contrib/brl/bbas/bmsh3d/algo/CMakeLists.txt |  6 ++++--
+ v3p/CMakeLists.txt                          |  1 -
+ v3p/rply/CMakeLists.txt                     | 13 -------------
+ 3 files changed, 4 insertions(+), 16 deletions(-)
+ delete mode 100644 v3p/rply/CMakeLists.txt
+
+diff --git a/contrib/brl/bbas/bmsh3d/algo/CMakeLists.txt b/contrib/brl/bbas/bmsh3d/algo/CMakeLists.txt
+index d96bf35..c8be547 100644
+--- a/contrib/brl/bbas/bmsh3d/algo/CMakeLists.txt
++++ b/contrib/brl/bbas/bmsh3d/algo/CMakeLists.txt
+@@ -1,8 +1,10 @@
+ # This is bbas/bmsh3d/algo/CMakeLists.txt
+ # Brown 3D Mesh Algorithm Library
+ 
++FIND_PACKAGE(rply REQUIRED)
++
+ INCLUDE_DIRECTORIES( ${BRL_INCLUDE_DIR} )
+-INCLUDE_DIRECTORIES( ${VTHREEP_INCLUDE_DIR}/rply )
++INCLUDE_DIRECTORIES( ${RPLY_INCLUDE_DIR} )
+ 
+ SET( bmsh3d_algo_sources
+   bmsh3d_fileio.cxx           bmsh3d_fileio.h
+@@ -13,7 +15,7 @@ SET( bmsh3d_algo_sources
+ )
+ 
+ ADD_LIBRARY( bmsh3d_algo  ${bmsh3d_algo_sources})
+-TARGET_LINK_LIBRARIES( bmsh3d_algo bmsh3d rply vgl vnl vul)
++TARGET_LINK_LIBRARIES( bmsh3d_algo bmsh3d ${RPLY_LIBRARY} vgl vnl vul)
+ 
+ IF( BUILD_TESTING )
+   SUBDIRS(tests)
+diff --git a/v3p/CMakeLists.txt b/v3p/CMakeLists.txt
+index dbdb30a..2e300d4 100644
+--- a/v3p/CMakeLists.txt
++++ b/v3p/CMakeLists.txt
+@@ -60,6 +60,5 @@ IF (BUILD_CORE_IMAGING)
+   MARK_AS_ADVANCED( VXL_FORCE_V3P_OPENJPEG2 )
+   SUBDIRS(openjpeg2)
+ 
+-  SUBDIRS(rply)
+ 
+ ENDIF (BUILD_CORE_IMAGING)
+diff --git a/v3p/rply/CMakeLists.txt b/v3p/rply/CMakeLists.txt
+deleted file mode 100644
+index 87e7524..0000000
+--- a/v3p/rply/CMakeLists.txt
++++ /dev/null
+@@ -1,13 +0,0 @@
+-# This is /v3p/rply/CMakeLists.txt
+-# library for reading and writing .PLY file
+-
+-SET(rply_sources
+-  rply.h
+-  rply.c
+-  )
+- 
+-ADD_LIBRARY(rply ${rply_sources})
+-
+-#install the .h .txx and libs
+-INSTALL_TARGETS(/lib rply)
+-INSTALL_NOBASE_HEADER_FILES(/include/vxl/rply/brl/ ${rply_sources})
+-- 
+1.7.11.7
+

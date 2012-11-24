@@ -1,0 +1,819 @@
+From 0a1e1ce761a79e9856aea1e14dfd177b3d71fec1 Mon Sep 17 00:00:00 2001
+From: Mario Ceresa <mrceresa@gmail.com>
+Date: Wed, 10 Oct 2012 17:38:03 +0200
+Subject: [PATCH 08/23] More sonames
+
+Signed-off-by: Mario Ceresa <mrceresa@gmail.com>
+---
+ contrib/brl/b3p/minizip/CMakeLists.txt   | 1 +
+ contrib/brl/bbas/bdgl/CMakeLists.txt     | 1 +
+ contrib/brl/bbas/bdpg/CMakeLists.txt     | 1 +
+ contrib/brl/bbas/bgrl/CMakeLists.txt     | 1 +
+ contrib/brl/bbas/bnl/CMakeLists.txt      | 1 +
+ contrib/brl/bbas/bnl/algo/CMakeLists.txt | 1 +
+ contrib/brl/bbas/bsol/CMakeLists.txt     | 1 +
+ contrib/brl/bbas/bsta/CMakeLists.txt     | 1 +
+ contrib/brl/bbas/btol/CMakeLists.txt     | 1 +
+ contrib/brl/bbas/bugl/CMakeLists.txt     | 1 +
+ contrib/brl/bbas/bvgl/CMakeLists.txt     | 1 +
+ contrib/brl/bseg/brip/CMakeLists.txt     | 1 +
+ contrib/brl/bseg/sdet/CMakeLists.txt     | 1 +
+ contrib/gel/geml/CMakeLists.txt          | 1 +
+ contrib/gel/gevd/CMakeLists.txt          | 1 +
+ contrib/gel/gmvl/CMakeLists.txt          | 1 +
+ contrib/gel/gst/CMakeLists.txt           | 1 +
+ contrib/gel/gtrl/CMakeLists.txt          | 1 +
+ contrib/gel/vdgl/CMakeLists.txt          | 1 +
+ contrib/gel/vifa/CMakeLists.txt          | 1 +
+ contrib/gel/vmal/CMakeLists.txt          | 1 +
+ contrib/gel/vsol/CMakeLists.txt          | 1 +
+ contrib/gel/vtol/CMakeLists.txt          | 1 +
+ contrib/gel/vtol/algo/CMakeLists.txt     | 1 +
+ contrib/mul/clsfy/CMakeLists.txt         | 1 +
+ contrib/mul/ipts/CMakeLists.txt          | 1 +
+ contrib/mul/mbl/CMakeLists.txt           | 1 +
+ contrib/mul/pdf1d/CMakeLists.txt         | 1 +
+ contrib/mul/vil3d/CMakeLists.txt         | 1 +
+ contrib/mul/vil3d/algo/CMakeLists.txt    | 1 +
+ contrib/mul/vil3d/io/CMakeLists.txt      | 1 +
+ contrib/mul/vimt/CMakeLists.txt          | 1 +
+ contrib/mul/vimt/algo/CMakeLists.txt     | 1 +
+ contrib/mul/vimt3d/CMakeLists.txt        | 1 +
+ contrib/mul/vpdfl/CMakeLists.txt         | 1 +
+ contrib/oxl/mvl/CMakeLists.txt           | 1 +
+ contrib/oxl/osl/CMakeLists.txt           | 1 +
+ contrib/prip/vdtop/CMakeLists.txt        | 1 +
+ contrib/prip/vmap/CMakeLists.txt         | 1 +
+ contrib/prip/vpyr/CMakeLists.txt         | 1 +
+ contrib/rpl/rgrl/CMakeLists.txt          | 1 +
+ contrib/rpl/rrel/CMakeLists.txt          | 2 +-
+ contrib/rpl/rsdl/CMakeLists.txt          | 1 +
+ contrib/tbl/vepl/CMakeLists.txt          | 1 +
+ contrib/tbl/vipl/CMakeLists.txt          | 1 +
+ core/vbl/CMakeLists.txt                  | 1 +
+ core/vbl/io/CMakeLists.txt               | 1 +
+ core/vcsl/CMakeLists.txt                 | 1 +
+ core/vgl/CMakeLists.txt                  | 1 +
+ core/vgl/algo/CMakeLists.txt             | 1 +
+ core/vgl/io/CMakeLists.txt               | 1 +
+ core/vgl/xio/CMakeLists.txt              | 1 +
+ core/vidl/CMakeLists.txt                 | 1 +
+ core/vil/io/CMakeLists.txt               | 1 +
+ core/vil1/CMakeLists.txt                 | 1 +
+ core/vil1/io/CMakeLists.txt              | 1 +
+ core/vnl/io/CMakeLists.txt               | 1 +
+ core/vnl/xio/CMakeLists.txt              | 1 +
+ core/vpl/CMakeLists.txt                  | 1 +
+ core/vsl/CMakeLists.txt                  | 1 +
+ core/vul/CMakeLists.txt                  | 1 +
+ core/vul/io/CMakeLists.txt               | 1 +
+ 62 files changed, 62 insertions(+), 1 deletion(-)
+
+diff --git a/contrib/brl/b3p/minizip/CMakeLists.txt b/contrib/brl/b3p/minizip/CMakeLists.txt
+index 5f9c310..02ccbfe 100644
+--- a/contrib/brl/b3p/minizip/CMakeLists.txt
++++ b/contrib/brl/b3p/minizip/CMakeLists.txt
+@@ -22,6 +22,7 @@ IF(WIN32)
+ ENDIF(WIN32)
+ 
+ ADD_LIBRARY( minizip ${minizip_sources} )
++SET_TARGET_PROPERTIES(minizip PROPERTIES ${VXL_LIBRARY_PROPERTIES})
+ INSTALL_TARGETS( /lib minizip )
+ 
+ ENDIF(ZLIB_FOUND)
+diff --git a/contrib/brl/bbas/bdgl/CMakeLists.txt b/contrib/brl/bbas/bdgl/CMakeLists.txt
+index a6315f0..90b0856 100644
+--- a/contrib/brl/bbas/bdgl/CMakeLists.txt
++++ b/contrib/brl/bbas/bdgl/CMakeLists.txt
+@@ -20,6 +20,7 @@ SET(bdgl_sources
+ )
+ 
+ ADD_LIBRARY(bdgl ${bdgl_sources})
++SET_TARGET_PROPERTIES(bdgl PROPERTIES ${VXL_LIBRARY_PROPERTIES})
+ INSTALL_TARGETS(/lib bdgl)
+ INSTALL_NOBASE_HEADER_FILES(/include/vxl/contrib/brl/bbas/bdgl ${bdgl_sources})
+ 
+diff --git a/contrib/brl/bbas/bdpg/CMakeLists.txt b/contrib/brl/bbas/bdpg/CMakeLists.txt
+index 40ca6cb..73b4eec 100644
+--- a/contrib/brl/bbas/bdpg/CMakeLists.txt
++++ b/contrib/brl/bbas/bdpg/CMakeLists.txt
+@@ -10,6 +10,7 @@ bdpg_array_dynamic_prg.cxx    bdpg_array_dynamic_prg.h
+ AUX_SOURCE_DIRECTORY(Templates bdpg_sources)
+ 
+ ADD_LIBRARY(bdpg ${bdpg_sources})
++SET_TARGET_PROPERTIES(bdpg PROPERTIES ${VXL_LIBRARY_PROPERTIES})
+ INSTALL_TARGETS(/lib bdpg)
+ INSTALL_NOBASE_HEADER_FILES(/include/vxl/contrib/brl/bbas/bdpg ${bdpg_sources})
+ 
+diff --git a/contrib/brl/bbas/bgrl/CMakeLists.txt b/contrib/brl/bbas/bgrl/CMakeLists.txt
+index cd7071c..8a34186 100644
+--- a/contrib/brl/bbas/bgrl/CMakeLists.txt
++++ b/contrib/brl/bbas/bgrl/CMakeLists.txt
+@@ -19,6 +19,7 @@ SET(bgrl_sources
+ AUX_SOURCE_DIRECTORY(Templates bgrl_sources)
+ 
+ ADD_LIBRARY(bgrl ${bgrl_sources})
++SET_TARGET_PROPERTIES(bgrl PROPERTIES ${VXL_LIBRARY_PROPERTIES})
+ INSTALL_TARGETS(/lib bgrl)
+ INSTALL_NOBASE_HEADER_FILES(/include/vxl/contrib/brl/bbas/bgrl ${bgrl_sources})
+ 
+diff --git a/contrib/brl/bbas/bnl/CMakeLists.txt b/contrib/brl/bbas/bnl/CMakeLists.txt
+index 490b3ee..4b17399 100644
+--- a/contrib/brl/bbas/bnl/CMakeLists.txt
++++ b/contrib/brl/bbas/bnl/CMakeLists.txt
+@@ -8,6 +8,7 @@ SET(bnl_sources
+    )
+ 
+ ADD_LIBRARY(bnl ${bnl_sources})
++SET_TARGET_PROPERTIES(bnl PROPERTIES ${VXL_LIBRARY_PROPERTIES})
+ INSTALL_TARGETS(/lib bnl)
+ INSTALL_NOBASE_HEADER_FILES(/include/vxl/contrib/brl/bbas/bnl ${bnl_sources})
+ 
+diff --git a/contrib/brl/bbas/bnl/algo/CMakeLists.txt b/contrib/brl/bbas/bnl/algo/CMakeLists.txt
+index f0c455a..be88139 100644
+--- a/contrib/brl/bbas/bnl/algo/CMakeLists.txt
++++ b/contrib/brl/bbas/bnl/algo/CMakeLists.txt
+@@ -5,6 +5,7 @@ SET( bnl_algo_sources
+ )
+ 
+ ADD_LIBRARY( bnl_algo ${bnl_algo_sources} )
++SET_TARGET_PROPERTIES(bnl_algo PROPERTIES ${VXL_LIBRARY_PROPERTIES})
+ INSTALL_TARGETS(/lib bnl_algo)
+ INSTALL_NOBASE_HEADER_FILES(/include/vxl/contrib/brl/bbas/bnl/algo ${bnl_algo_sources})
+ TARGET_LINK_LIBRARIES( bnl_algo vnl )
+diff --git a/contrib/brl/bbas/bsol/CMakeLists.txt b/contrib/brl/bbas/bsol/CMakeLists.txt
+index 33f6dde..7608c80 100644
+--- a/contrib/brl/bbas/bsol/CMakeLists.txt
++++ b/contrib/brl/bbas/bsol/CMakeLists.txt
+@@ -24,6 +24,7 @@ SET(bsol_sources
+ AUX_SOURCE_DIRECTORY(Templates bsol_sources)
+ 
+ ADD_LIBRARY(bsol ${bsol_sources})
++SET_TARGET_PROPERTIES(bsol PROPERTIES ${VXL_LIBRARY_PROPERTIES})
+ INSTALL_TARGETS(/lib bsol)
+ INSTALL_NOBASE_HEADER_FILES(/include/vxl/contrib/brl/bbas/bsol ${bsol_sources})
+ TARGET_LINK_LIBRARIES(bsol vsol vgl_algo vgl vnl vbl)
+diff --git a/contrib/brl/bbas/bsta/CMakeLists.txt b/contrib/brl/bbas/bsta/CMakeLists.txt
+index 9370247..f762491 100644
+--- a/contrib/brl/bbas/bsta/CMakeLists.txt
++++ b/contrib/brl/bbas/bsta/CMakeLists.txt
+@@ -62,6 +62,7 @@ SET(bsta_sources
+ 
+ AUX_SOURCE_DIRECTORY(Templates bsta_sources)
+ ADD_LIBRARY(bsta  ${bsta_sources})
++SET_TARGET_PROPERTIES(bsta PROPERTIES ${VXL_LIBRARY_PROPERTIES})
+ INSTALL_TARGETS(/lib bsta)
+ INSTALL_NOBASE_HEADER_FILES(/include/vxl/contrib/bsta ${bsta_sources})
+ 
+diff --git a/contrib/brl/bbas/btol/CMakeLists.txt b/contrib/brl/bbas/btol/CMakeLists.txt
+index a80f2ce..d5bcba9 100644
+--- a/contrib/brl/bbas/btol/CMakeLists.txt
++++ b/contrib/brl/bbas/btol/CMakeLists.txt
+@@ -19,6 +19,7 @@ SET(btol_sources
+ )
+ 
+ ADD_LIBRARY(btol ${btol_sources})
++SET_TARGET_PROPERTIES(btol PROPERTIES ${VXL_LIBRARY_PROPERTIES})
+ INSTALL_TARGETS(/lib btol)
+ INSTALL_NOBASE_HEADER_FILES(/include/vxl/contrib/btol ${btol_sources})
+ 
+diff --git a/contrib/brl/bbas/bugl/CMakeLists.txt b/contrib/brl/bbas/bugl/CMakeLists.txt
+index f6cc10a..022890b 100644
+--- a/contrib/brl/bbas/bugl/CMakeLists.txt
++++ b/contrib/brl/bbas/bugl/CMakeLists.txt
+@@ -26,6 +26,7 @@ SET(bugl_sources
+ AUX_SOURCE_DIRECTORY(Templates bugl_sources)
+ 
+ ADD_LIBRARY(bugl ${bugl_sources})
++SET_TARGET_PROPERTIES(bugl PROPERTIES ${VXL_LIBRARY_PROPERTIES})
+ INSTALL_TARGETS(/lib bugl)
+ INSTALL_NOBASE_HEADER_FILES(/include/vxl/contrib/brl/bbas/bugl ${bugl_sources})
+ TARGET_LINK_LIBRARIES(bugl vnl vgl_algo vgl vbl)
+diff --git a/contrib/brl/bbas/bvgl/CMakeLists.txt b/contrib/brl/bbas/bvgl/CMakeLists.txt
+index 3d4e456..bcb5e8b 100644
+--- a/contrib/brl/bbas/bvgl/CMakeLists.txt
++++ b/contrib/brl/bbas/bvgl/CMakeLists.txt
+@@ -38,6 +38,7 @@ ENDIF(EXPAT_FOUND)
+ 
+ #Create BVGL library
+ ADD_LIBRARY(bvgl ${bvgl_sources})
++SET_TARGET_PROPERTIES(bvgl PROPERTIES ${VXL_LIBRARY_PROPERTIES})
+ INSTALL_TARGETS(/lib bvgl)
+ INSTALL_NOBASE_HEADER_FILES(/include/vxl/contrib/brl/bbas/bvgl ${bvgl_sources})
+ TARGET_LINK_LIBRARIES(bvgl vsol vgl_algo vgl_io vgl vnl_algo vnl vil vbl)
+diff --git a/contrib/brl/bseg/brip/CMakeLists.txt b/contrib/brl/bseg/brip/CMakeLists.txt
+index 0e03e27..7864317 100644
+--- a/contrib/brl/bseg/brip/CMakeLists.txt
++++ b/contrib/brl/bseg/brip/CMakeLists.txt
+@@ -40,6 +40,7 @@ SET(brip_sources
+ AUX_SOURCE_DIRECTORY(Templates brip_sources)
+ 
+ ADD_LIBRARY(brip ${brip_sources})
++SET_TARGET_PROPERTIES(brip PROPERTIES ${VXL_LIBRARY_PROPERTIES})
+ INSTALL_TARGETS(/lib brip)
+ INSTALL_NOBASE_HEADER_FILES(/include/vxl/contrib/brl/bseg/brip ${brip_sources})
+ 
+diff --git a/contrib/brl/bseg/sdet/CMakeLists.txt b/contrib/brl/bseg/sdet/CMakeLists.txt
+index 8d603f5..ffb0445 100644
+--- a/contrib/brl/bseg/sdet/CMakeLists.txt
++++ b/contrib/brl/bseg/sdet/CMakeLists.txt
+@@ -55,6 +55,7 @@ SET(sdet_sources
+ AUX_SOURCE_DIRECTORY(Templates sdet_sources)
+ 
+ ADD_LIBRARY(sdet ${sdet_sources})
++SET_TARGET_PROPERTIES(sdet PROPERTIES ${VXL_LIBRARY_PROPERTIES})
+ INSTALL_TARGETS(/lib sdet)
+ INSTALL_NOBASE_HEADER_FILES(/include/vxl/contrib/brl/bseg/sdet ${sdet_sources})
+ 
+diff --git a/contrib/gel/geml/CMakeLists.txt b/contrib/gel/geml/CMakeLists.txt
+index 07b4772..8f4b799 100644
+--- a/contrib/gel/geml/CMakeLists.txt
++++ b/contrib/gel/geml/CMakeLists.txt
+@@ -12,6 +12,7 @@ SET(geml_sources
+ )
+ 
+ ADD_LIBRARY(geml ${geml_sources})
++SET_TARGET_PROPERTIES(geml PROPERTIES ${VXL_LIBRARY_PROPERTIES})
+ INSTALL_TARGETS(/lib geml)
+ INSTALL_NOBASE_HEADER_FILES(/include/vxl/contrib/gel/geml ${geml_sources})
+ TARGET_LINK_LIBRARIES(geml vil1 vnl)
+diff --git a/contrib/gel/gevd/CMakeLists.txt b/contrib/gel/gevd/CMakeLists.txt
+index 87edfbe..265cb28 100644
+--- a/contrib/gel/gevd/CMakeLists.txt
++++ b/contrib/gel/gevd/CMakeLists.txt
+@@ -33,6 +33,7 @@ IF(CMAKE_COMPILER_IS_GNUCXX)
+ ENDIF(CMAKE_COMPILER_IS_GNUCXX)
+ 
+ ADD_LIBRARY(gevd ${gevd_sources})
++SET_TARGET_PROPERTIES(gevd PROPERTIES ${VXL_LIBRARY_PROPERTIES})
+ INSTALL_TARGETS(/lib gevd)
+ INSTALL_NOBASE_HEADER_FILES(/include/vxl/contrib/gel/gevd ${gevd_sources})
+ TARGET_LINK_LIBRARIES(gevd vtol vsol vdgl vil1 vil vnl vgl vbl vul)
+diff --git a/contrib/gel/gmvl/CMakeLists.txt b/contrib/gel/gmvl/CMakeLists.txt
+index 3f99c15..55b1d8c 100644
+--- a/contrib/gel/gmvl/CMakeLists.txt
++++ b/contrib/gel/gmvl/CMakeLists.txt
+@@ -21,6 +21,7 @@ SET(gmvl_sources
+ AUX_SOURCE_DIRECTORY(Templates gmvl_sources)
+ 
+ ADD_LIBRARY(gmvl ${gmvl_sources})
++SET_TARGET_PROPERTIES(gmvl PROPERTIES ${VXL_LIBRARY_PROPERTIES})
+ INSTALL_TARGETS(/lib gmvl)
+ INSTALL_NOBASE_HEADER_FILES(/include/vxl/contrib/gel/gmvl ${gmvl_sources})
+ TARGET_LINK_LIBRARIES(gmvl vtol vil1 vnl vbl vcl)
+diff --git a/contrib/gel/gst/CMakeLists.txt b/contrib/gel/gst/CMakeLists.txt
+index e9e5d01..3bb59d6 100644
+--- a/contrib/gel/gst/CMakeLists.txt
++++ b/contrib/gel/gst/CMakeLists.txt
+@@ -17,6 +17,7 @@ SET(gst_sources
+ AUX_SOURCE_DIRECTORY(Templates gst_sources)
+ 
+ ADD_LIBRARY(gst ${gst_sources})
++SET_TARGET_PROPERTIES(gst PROPERTIES ${VXL_LIBRARY_PROPERTIES})
+ INSTALL_TARGETS(/lib gst)
+ INSTALL_NOBASE_HEADER_FILES(/include/vxl/contrib/gel/gst ${gst_sources})
+ 
+diff --git a/contrib/gel/gtrl/CMakeLists.txt b/contrib/gel/gtrl/CMakeLists.txt
+index c3c79b9..9325960 100644
+--- a/contrib/gel/gtrl/CMakeLists.txt
++++ b/contrib/gel/gtrl/CMakeLists.txt
+@@ -25,6 +25,7 @@ IF(NETLIB_FOUND)
+ ENDIF(NETLIB_FOUND)
+ 
+ ADD_LIBRARY(gtrl ${gtrl_sources})
++SET_TARGET_PROPERTIES(gtrl PROPERTIES ${VXL_LIBRARY_PROPERTIES})
+ INSTALL_TARGETS(/lib gtrl)
+ INSTALL_NOBASE_HEADER_FILES(/include/vxl/contrib/gel/gtrl ${gtrl_sources})
+ 
+diff --git a/contrib/gel/vdgl/CMakeLists.txt b/contrib/gel/vdgl/CMakeLists.txt
+index d5d100d..f0792f2 100644
+--- a/contrib/gel/vdgl/CMakeLists.txt
++++ b/contrib/gel/vdgl/CMakeLists.txt
+@@ -23,6 +23,7 @@ SET(vdgl_sources
+ AUX_SOURCE_DIRECTORY(Templates vdgl_sources)
+ 
+ ADD_LIBRARY(vdgl ${vdgl_sources})
++SET_TARGET_PROPERTIES(vdgl PROPERTIES ${VXL_LIBRARY_PROPERTIES})
+ INSTALL_TARGETS(/lib vdgl)
+ INSTALL_NOBASE_HEADER_FILES(/include/vxl/contrib/gel/vdgl ${vdgl_sources})
+ TARGET_LINK_LIBRARIES(vdgl vsol vgl_algo vgl vnl_algo vnl vbl_io vbl vsl vul vcl)
+diff --git a/contrib/gel/vifa/CMakeLists.txt b/contrib/gel/vifa/CMakeLists.txt
+index a54fac7..8a19e60 100644
+--- a/contrib/gel/vifa/CMakeLists.txt
++++ b/contrib/gel/vifa/CMakeLists.txt
+@@ -31,6 +31,7 @@ SET(vifa_sources
+ AUX_SOURCE_DIRECTORY(Templates vifa_sources)
+ 
+ ADD_LIBRARY(vifa ${vifa_sources})
++SET_TARGET_PROPERTIES(vifa PROPERTIES ${VXL_LIBRARY_PROPERTIES})
+ INSTALL_TARGETS(/lib vifa)
+ INSTALL_NOBASE_HEADER_FILES(/include/vxl/contrib/gel/vifa ${vifa_sources})
+ TARGET_LINK_LIBRARIES(vifa gevd vtol vsol vdgl vnl vgl vbl vul vil vcl)
+diff --git a/contrib/gel/vmal/CMakeLists.txt b/contrib/gel/vmal/CMakeLists.txt
+index 66604bf..63f66f4 100644
+--- a/contrib/gel/vmal/CMakeLists.txt
++++ b/contrib/gel/vmal/CMakeLists.txt
+@@ -37,6 +37,7 @@ AUX_SOURCE_DIRECTORY(Templates vmal_sources)
+ 
+ 
+ ADD_LIBRARY(vmal ${vmal_sources})
++SET_TARGET_PROPERTIES(vmal PROPERTIES ${VXL_LIBRARY_PROPERTIES})
+ INSTALL_TARGETS(/lib vmal)
+ INSTALL_NOBASE_HEADER_FILES(/include/vxl/contrib/gel/vmal ${vmal_sources})
+ 
+diff --git a/contrib/gel/vsol/CMakeLists.txt b/contrib/gel/vsol/CMakeLists.txt
+index 942af24..9fdf889 100644
+--- a/contrib/gel/vsol/CMakeLists.txt
++++ b/contrib/gel/vsol/CMakeLists.txt
+@@ -63,6 +63,7 @@ INCLUDE_DIRECTORIES(${VXLCORE_INCLUDE_DIR})
+ AUX_SOURCE_DIRECTORY(Templates vsol_sources)
+ 
+ ADD_LIBRARY(vsol ${vsol_sources})
++SET_TARGET_PROPERTIES(vsol PROPERTIES ${VXL_LIBRARY_PROPERTIES})
+ INSTALL_TARGETS(/lib vsol)
+ INSTALL_NOBASE_HEADER_FILES(/include/vxl/contrib/gel/vsol ${vsol_sources})
+ TARGET_LINK_LIBRARIES(vsol vgl_algo vgl_io vgl vnl vbl_io vbl vsl vul vcl)
+diff --git a/contrib/gel/vtol/CMakeLists.txt b/contrib/gel/vtol/CMakeLists.txt
+index 7068118..28ab541 100644
+--- a/contrib/gel/vtol/CMakeLists.txt
++++ b/contrib/gel/vtol/CMakeLists.txt
+@@ -35,6 +35,7 @@ IF(CMAKE_COMPILER_IS_GNUCXX)
+ ENDIF(CMAKE_COMPILER_IS_GNUCXX)
+ 
+ ADD_LIBRARY(vtol ${vtol_sources})
++SET_TARGET_PROPERTIES(vtol PROPERTIES ${VXL_LIBRARY_PROPERTIES})
+ INSTALL_TARGETS(/lib vtol)
+ INSTALL_NOBASE_HEADER_FILES(/include/vxl/contrib/gel/vtol ${vtol_sources})
+ TARGET_LINK_LIBRARIES(vtol vdgl vsol vnl vbl vul ${CMAKE_THREAD_LIBS})
+diff --git a/contrib/gel/vtol/algo/CMakeLists.txt b/contrib/gel/vtol/algo/CMakeLists.txt
+index f0edd60..6004217 100644
+--- a/contrib/gel/vtol/algo/CMakeLists.txt
++++ b/contrib/gel/vtol/algo/CMakeLists.txt
+@@ -8,6 +8,7 @@ SET( vtol_algo_sources
+ AUX_SOURCE_DIRECTORY( Templates vtol_algo_sources )
+ 
+ ADD_LIBRARY( vtol_algo ${vtol_algo_sources} )
++SET_TARGET_PROPERTIES(vtol_algo PROPERTIES ${VXL_LIBRARY_PROPERTIES})
+ INSTALL_TARGETS(/lib vtol_algo)
+ INSTALL_NOBASE_HEADER_FILES(/include/vxl/contrib/gel/vtol/algo ${vtol_algo_sources})
+ TARGET_LINK_LIBRARIES( vtol_algo vtol vsol vdgl vil_algo vgl_algo vgl vil vbl )
+diff --git a/contrib/mul/clsfy/CMakeLists.txt b/contrib/mul/clsfy/CMakeLists.txt
+index 9e529ad..2569b87 100644
+--- a/contrib/mul/clsfy/CMakeLists.txt
++++ b/contrib/mul/clsfy/CMakeLists.txt
+@@ -53,6 +53,7 @@ SET(clsfy_sources
+ AUX_SOURCE_DIRECTORY(Templates clsfy_sources)
+ 
+ ADD_LIBRARY(clsfy ${clsfy_sources})
++SET_TARGET_PROPERTIES(clsfy PROPERTIES ${VXL_LIBRARY_PROPERTIES})
+ INSTALL_TARGETS(/lib clsfy)
+ INSTALL_NOBASE_HEADER_FILES(/include/vxl/contrib/mul/clsfy ${clsfy_sources})
+ TARGET_LINK_LIBRARIES(clsfy vpdfl mbl vnl_algo vnl_io vnl vbl vsl vul)
+diff --git a/contrib/mul/ipts/CMakeLists.txt b/contrib/mul/ipts/CMakeLists.txt
+index 54910b6..0d2e31e 100644
+--- a/contrib/mul/ipts/CMakeLists.txt
++++ b/contrib/mul/ipts/CMakeLists.txt
+@@ -16,6 +16,7 @@ SET(ipts_sources
+ )
+ 
+ ADD_LIBRARY(ipts ${ipts_sources})
++SET_TARGET_PROPERTIES(ipts PROPERTIES ${VXL_LIBRARY_PROPERTIES})
+ INSTALL_TARGETS(/lib ipts)
+ INSTALL_NOBASE_HEADER_FILES(/include/vxl/contrib/mul/ipts ${ipts_sources})
+ TARGET_LINK_LIBRARIES(ipts vimt_algo vimt vgl vil_algo vil)
+diff --git a/contrib/mul/mbl/CMakeLists.txt b/contrib/mul/mbl/CMakeLists.txt
+index 75b157f..7009c61 100644
+--- a/contrib/mul/mbl/CMakeLists.txt
++++ b/contrib/mul/mbl/CMakeLists.txt
+@@ -121,6 +121,7 @@ IF(CMAKE_COMPILER_IS_GNUCXX)
+ ENDIF(CMAKE_COMPILER_IS_GNUCXX)
+ 
+ ADD_LIBRARY(mbl ${mbl_sources})
++SET_TARGET_PROPERTIES(mbl PROPERTIES ${VXL_LIBRARY_PROPERTIES})
+ TARGET_LINK_LIBRARIES(mbl vnl_io vnl_algo vgl_io vgl vbl_io vil_io vsl vnl vil vul vbl)
+ 
+ INSTALL_TARGETS(/lib mbl)
+diff --git a/contrib/mul/pdf1d/CMakeLists.txt b/contrib/mul/pdf1d/CMakeLists.txt
+index 6c26478..aca9219 100644
+--- a/contrib/mul/pdf1d/CMakeLists.txt
++++ b/contrib/mul/pdf1d/CMakeLists.txt
+@@ -49,6 +49,7 @@ SET(pdf1d_sources
+ AUX_SOURCE_DIRECTORY(Templates pdf1d_sources)
+ 
+ ADD_LIBRARY(pdf1d ${pdf1d_sources})
++SET_TARGET_PROPERTIES(pdf1d PROPERTIES ${VXL_LIBRARY_PROPERTIES})
+ INSTALL_TARGETS(/lib pdf1d)
+ INSTALL_NOBASE_HEADER_FILES(/include/vxl/contrib/mul/pdf1d ${pdf1d_sources})
+ TARGET_LINK_LIBRARIES( pdf1d mbl vbl vnl_io vnl vsl )
+diff --git a/contrib/mul/vil3d/CMakeLists.txt b/contrib/mul/vil3d/CMakeLists.txt
+index b3fd91f..716ab57 100644
+--- a/contrib/mul/vil3d/CMakeLists.txt
++++ b/contrib/mul/vil3d/CMakeLists.txt
+@@ -49,6 +49,7 @@ SET(vil3d_sources
+ AUX_SOURCE_DIRECTORY(Templates vil3d_sources)
+ 
+ ADD_LIBRARY(vil3d ${vil3d_sources})
++SET_TARGET_PROPERTIES(vil3d PROPERTIES ${VXL_LIBRARY_PROPERTIES})
+ TARGET_LINK_LIBRARIES( vil3d vil vul vsl vcl vnl )
+ 
+ INSTALL_TARGETS(/lib vil3d)
+diff --git a/contrib/mul/vil3d/algo/CMakeLists.txt b/contrib/mul/vil3d/algo/CMakeLists.txt
+index 3aeeff4..9553ad2 100644
+--- a/contrib/mul/vil3d/algo/CMakeLists.txt
++++ b/contrib/mul/vil3d/algo/CMakeLists.txt
+@@ -36,6 +36,7 @@ SET(vil3d_algo_sources
+ AUX_SOURCE_DIRECTORY(Templates vil3d_algo_sources)
+ 
+ ADD_LIBRARY(vil3d_algo ${vil3d_algo_sources})
++SET_TARGET_PROPERTIES(vil3d_algo PROPERTIES ${VXL_LIBRARY_PROPERTIES})
+ INSTALL_TARGETS(/lib vil3d_algo)
+ INSTALL_NOBASE_HEADER_FILES(/include/vxl/contrib/mul/vil3d/algo ${vil3d_algo_sources})
+ TARGET_LINK_LIBRARIES( vil3d_algo vil3d vil_algo vil vnl vgl )
+diff --git a/contrib/mul/vil3d/io/CMakeLists.txt b/contrib/mul/vil3d/io/CMakeLists.txt
+index 9bb78cc..4a369e6 100644
+--- a/contrib/mul/vil3d/io/CMakeLists.txt
++++ b/contrib/mul/vil3d/io/CMakeLists.txt
+@@ -7,6 +7,7 @@ SET(vil3d_io_sources
+ )
+ 
+ ADD_LIBRARY(vil3d_io ${vil3d_io_sources})
++SET_TARGET_PROPERTIES(vil3d_io PROPERTIES ${VXL_LIBRARY_PROPERTIES})
+ INSTALL_TARGETS(/lib vil3d_io)
+ INSTALL_NOBASE_HEADER_FILES(/include/vxl/contrib/mul/vil3d/io ${vil3d_io_sources})
+ TARGET_LINK_LIBRARIES( vil3d_io vil3d vil_io )
+diff --git a/contrib/mul/vimt/CMakeLists.txt b/contrib/mul/vimt/CMakeLists.txt
+index ebcab91..3b07187 100644
+--- a/contrib/mul/vimt/CMakeLists.txt
++++ b/contrib/mul/vimt/CMakeLists.txt
+@@ -35,6 +35,7 @@ SET(vimt_sources
+ AUX_SOURCE_DIRECTORY(Templates vimt_sources)
+ 
+ ADD_LIBRARY(vimt ${vimt_sources})
++SET_TARGET_PROPERTIES(vimt PROPERTIES ${VXL_LIBRARY_PROPERTIES})
+ INSTALL_TARGETS(/lib vimt)
+ INSTALL_NOBASE_HEADER_FILES(/include/vxl/contrib/mul/vimt ${vimt_sources})
+ TARGET_LINK_LIBRARIES(vimt mbl vil_algo vgl vnl vil_io vil )
+diff --git a/contrib/mul/vimt/algo/CMakeLists.txt b/contrib/mul/vimt/algo/CMakeLists.txt
+index 5eb8e8e..215c568 100644
+--- a/contrib/mul/vimt/algo/CMakeLists.txt
++++ b/contrib/mul/vimt/algo/CMakeLists.txt
+@@ -11,6 +11,7 @@ SET( vimt_algo_sources
+ )
+ 
+ ADD_LIBRARY(vimt_algo ${vimt_algo_sources})
++SET_TARGET_PROPERTIES(vimt_algo PROPERTIES ${VXL_LIBRARY_PROPERTIES})
+ INSTALL_TARGETS(/lib vimt_algo)
+ INSTALL_NOBASE_HEADER_FILES(/include/vxl/contrib/mul/vimt/algo ${vimt_algo_sources})
+ TARGET_LINK_LIBRARIES( vimt_algo vimt vil_algo vgl vcl )
+diff --git a/contrib/mul/vimt3d/CMakeLists.txt b/contrib/mul/vimt3d/CMakeLists.txt
+index 51d053c..93efcbf 100644
+--- a/contrib/mul/vimt3d/CMakeLists.txt
++++ b/contrib/mul/vimt3d/CMakeLists.txt
+@@ -34,6 +34,7 @@ SET(vimt3d_sources
+ AUX_SOURCE_DIRECTORY(Templates vimt3d_sources)
+ 
+ ADD_LIBRARY(vimt3d ${vimt3d_sources})
++SET_TARGET_PROPERTIES(vimt3d PROPERTIES ${VXL_LIBRARY_PROPERTIES})
+ INSTALL_TARGETS(/lib vimt3d)
+ INSTALL_NOBASE_HEADER_FILES(/include/vxl/contrib/mul/vimt3d ${vimt3d_sources})
+ TARGET_LINK_LIBRARIES(vimt3d vil3d_algo vil3d_io vil3d vimt mbl vnl_algo vgl vnl_io vnl vil vsl vul)
+diff --git a/contrib/mul/vpdfl/CMakeLists.txt b/contrib/mul/vpdfl/CMakeLists.txt
+index 5e258cd..2c0b05b 100644
+--- a/contrib/mul/vpdfl/CMakeLists.txt
++++ b/contrib/mul/vpdfl/CMakeLists.txt
+@@ -37,6 +37,7 @@ SET(vpdfl_sources
+ AUX_SOURCE_DIRECTORY(Templates vpdfl_sources)
+ 
+ ADD_LIBRARY(vpdfl ${vpdfl_sources})
++SET_TARGET_PROPERTIES(vpdfl PROPERTIES ${VXL_LIBRARY_PROPERTIES})
+ INSTALL_TARGETS(/lib vpdfl)
+ INSTALL_NOBASE_HEADER_FILES(/include/vxl/contrib/mul/vpdfl ${vpdfl_sources})
+ TARGET_LINK_LIBRARIES(vpdfl mbl vnl_algo vnl_io vnl vsl vul)
+diff --git a/contrib/oxl/mvl/CMakeLists.txt b/contrib/oxl/mvl/CMakeLists.txt
+index d2bf196..878be51 100644
+--- a/contrib/oxl/mvl/CMakeLists.txt
++++ b/contrib/oxl/mvl/CMakeLists.txt
+@@ -113,6 +113,7 @@ IF(CMAKE_COMPILER_IS_GNUCXX)
+ ENDIF(CMAKE_COMPILER_IS_GNUCXX)
+ 
+ ADD_LIBRARY(mvl ${mvl_sources})
++SET_TARGET_PROPERTIES(mvl PROPERTIES ${VXL_LIBRARY_PROPERTIES})
+ INSTALL_TARGETS(/lib mvl)
+ INSTALL_NOBASE_HEADER_FILES(/include/vxl/contrib/oxl/mvl ${mvl_sources})
+ TARGET_LINK_LIBRARIES(mvl vil1 vnl_algo vnl vbl vgl vgl_algo vul)
+diff --git a/contrib/oxl/osl/CMakeLists.txt b/contrib/oxl/osl/CMakeLists.txt
+index a5a0fff..d399b31 100644
+--- a/contrib/oxl/osl/CMakeLists.txt
++++ b/contrib/oxl/osl/CMakeLists.txt
+@@ -45,6 +45,7 @@ SET(osl_sources
+ AUX_SOURCE_DIRECTORY(Templates osl_sources)
+ 
+ ADD_LIBRARY(osl ${osl_sources})
++SET_TARGET_PROPERTIES(osl PROPERTIES ${VXL_LIBRARY_PROPERTIES})
+ INSTALL_TARGETS(/lib osl)
+ INSTALL_NOBASE_HEADER_FILES(/include/vxl/contrib/oxl/osl ${osl_sources})
+ TARGET_LINK_LIBRARIES(osl vnl_algo vnl vgl vil1 vbl)
+diff --git a/contrib/prip/vdtop/CMakeLists.txt b/contrib/prip/vdtop/CMakeLists.txt
+index 9723450..feee0c2 100644
+--- a/contrib/prip/vdtop/CMakeLists.txt
++++ b/contrib/prip/vdtop/CMakeLists.txt
+@@ -26,6 +26,7 @@ SET(vdtop_sources
+ )
+ 
+ ADD_LIBRARY(vdtop ${vdtop_sources})
++SET_TARGET_PROPERTIES(vdtop PROPERTIES ${VXL_LIBRARY_PROPERTIES})
+ INSTALL_TARGETS(/lib vdtop)
+ INSTALL_NOBASE_HEADER_FILES(/include/vxl/contrib/prip/vdtop ${vdtop_sources})
+ TARGET_LINK_LIBRARIES(vdtop vmap vil)
+diff --git a/contrib/prip/vmap/CMakeLists.txt b/contrib/prip/vmap/CMakeLists.txt
+index 5c8938b..051ffc2 100644
+--- a/contrib/prip/vmap/CMakeLists.txt
++++ b/contrib/prip/vmap/CMakeLists.txt
+@@ -28,6 +28,7 @@ SET(vmap_sources
+ )
+ 
+ ADD_LIBRARY(vmap ${vmap_sources})
++SET_TARGET_PROPERTIES(vmap PROPERTIES ${VXL_LIBRARY_PROPERTIES})
+ INSTALL_TARGETS(/lib vmap)
+ INSTALL_NOBASE_HEADER_FILES(/include/vxl/contrib/prip/vmap ${vmap_sources})
+ TARGET_LINK_LIBRARIES(vmap vcl)
+diff --git a/contrib/prip/vpyr/CMakeLists.txt b/contrib/prip/vpyr/CMakeLists.txt
+index 0074833..d1a4dda 100644
+--- a/contrib/prip/vpyr/CMakeLists.txt
++++ b/contrib/prip/vpyr/CMakeLists.txt
+@@ -23,6 +23,7 @@ SET(vpyr_sources
+ )
+ 
+ ADD_LIBRARY(vpyr ${vpyr_sources})
++SET_TARGET_PROPERTIES(vpyr PROPERTIES ${VXL_LIBRARY_PROPERTIES})
+ INSTALL_TARGETS(/lib vpyr)
+ INSTALL_NOBASE_HEADER_FILES(/include/vxl/contrib/prip/vpyr ${vpyr_sources})
+ TARGET_LINK_LIBRARIES(vpyr vmap)
+diff --git a/contrib/rpl/rgrl/CMakeLists.txt b/contrib/rpl/rgrl/CMakeLists.txt
+index 82c9861..3b0be6e 100644
+--- a/contrib/rpl/rgrl/CMakeLists.txt
++++ b/contrib/rpl/rgrl/CMakeLists.txt
+@@ -161,6 +161,7 @@ SET( rgrl_sources
+ AUX_SOURCE_DIRECTORY( Templates rgrl_sources )
+ 
+ ADD_LIBRARY( rgrl ${rgrl_sources} )
++SET_TARGET_PROPERTIES(rgrl PROPERTIES ${VXL_LIBRARY_PROPERTIES})
+ INSTALL_TARGETS(/lib rgrl)
+ INSTALL_NOBASE_HEADER_FILES(/include/vxl/contrib/rpl/rgrl ${rgrl_sources})
+ TARGET_LINK_LIBRARIES( rgrl rrel rsdl vil3d vil vnl_algo vnl vbl vul)
+diff --git a/contrib/rpl/rrel/CMakeLists.txt b/contrib/rpl/rrel/CMakeLists.txt
+index 761c023..407a5b0 100644
+--- a/contrib/rpl/rrel/CMakeLists.txt
++++ b/contrib/rpl/rrel/CMakeLists.txt
+@@ -44,7 +44,7 @@ SET(rrel_sources
+ AUX_SOURCE_DIRECTORY(Templates rrel_sources)
+ 
+ ADD_LIBRARY(rrel ${rrel_sources})
+-
++SET_TARGET_PROPERTIES(rrel PROPERTIES ${VXL_LIBRARY_PROPERTIES})
+ INSTALL_TARGETS(/lib rrel)
+ INSTALL_NOBASE_HEADER_FILES(/include/vxl/contrib/rpl/rrel ${rrel_sources})
+ TARGET_LINK_LIBRARIES(rrel vnl_algo vnl vgl)
+diff --git a/contrib/rpl/rsdl/CMakeLists.txt b/contrib/rpl/rsdl/CMakeLists.txt
+index 360068b..b758e19 100644
+--- a/contrib/rpl/rsdl/CMakeLists.txt
++++ b/contrib/rpl/rsdl/CMakeLists.txt
+@@ -21,6 +21,7 @@ IF(CMAKE_COMPILER_IS_GNUCXX)
+ ENDIF(CMAKE_COMPILER_IS_GNUCXX)
+ 
+ ADD_LIBRARY(rsdl ${rsdl_sources})
++SET_TARGET_PROPERTIES(rsdl PROPERTIES ${VXL_LIBRARY_PROPERTIES})
+ INSTALL_TARGETS(/lib rsdl)
+ INSTALL_NOBASE_HEADER_FILES(/include/vxl/contrib/rpl/rsdl ${rsdl_sources})
+ TARGET_LINK_LIBRARIES( rsdl vnl vbl )
+diff --git a/contrib/tbl/vepl/CMakeLists.txt b/contrib/tbl/vepl/CMakeLists.txt
+index c6fa6ec..c7efe76 100644
+--- a/contrib/tbl/vepl/CMakeLists.txt
++++ b/contrib/tbl/vepl/CMakeLists.txt
+@@ -52,6 +52,7 @@ IF(CMAKE_COMPILER_IS_GNUCXX)
+ ENDIF(CMAKE_COMPILER_IS_GNUCXX)
+ 
+ ADD_LIBRARY(vepl ${vepl_sources})
++SET_TARGET_PROPERTIES(vepl PROPERTIES ${VXL_LIBRARY_PROPERTIES})
+ INSTALL_TARGETS(/lib vepl)
+ INSTALL_NOBASE_HEADER_FILES(/include/vxl/contrib/tbl/vepl ${vepl_sources})
+ TARGET_LINK_LIBRARIES(vepl vipl vil ${CMAKE_THREAD_LIBS})
+diff --git a/contrib/tbl/vipl/CMakeLists.txt b/contrib/tbl/vipl/CMakeLists.txt
+index 91a8726..4ee00e7 100644
+--- a/contrib/tbl/vipl/CMakeLists.txt
++++ b/contrib/tbl/vipl/CMakeLists.txt
+@@ -77,6 +77,7 @@ IF(CMAKE_COMPILER_IS_GNUCXX)
+ ENDIF(CMAKE_COMPILER_IS_GNUCXX)
+ 
+ ADD_LIBRARY(vipl ${vipl_sources})
++SET_TARGET_PROPERTIES(vipl PROPERTIES ${VXL_LIBRARY_PROPERTIES})
+ INSTALL_TARGETS(/lib vipl)
+ INSTALL_NOBASE_HEADER_FILES(/include/vxl/contrib/tbl/vipl ${vipl_sources})
+ TARGET_LINK_LIBRARIES(vipl vil vil1 vnl vbl)
+diff --git a/core/vbl/CMakeLists.txt b/core/vbl/CMakeLists.txt
+index 7298356..5c9f57b 100644
+--- a/core/vbl/CMakeLists.txt
++++ b/core/vbl/CMakeLists.txt
+@@ -42,6 +42,7 @@ SET( vbl_sources
+ AUX_SOURCE_DIRECTORY(Templates vbl_sources)
+ 
+ ADD_LIBRARY(vbl ${vbl_sources})
++SET_TARGET_PROPERTIES(vbl PROPERTIES ${VXL_LIBRARY_PROPERTIES})
+ TARGET_LINK_LIBRARIES( vbl vcl )
+ 
+ INSTALL_TARGETS(/lib vbl)
+diff --git a/core/vbl/io/CMakeLists.txt b/core/vbl/io/CMakeLists.txt
+index f79b9f8..8ec5629 100644
+--- a/core/vbl/io/CMakeLists.txt
++++ b/core/vbl/io/CMakeLists.txt
+@@ -17,6 +17,7 @@ SET(vbl_io_sources
+ AUX_SOURCE_DIRECTORY(Templates vbl_io_sources)
+ 
+ ADD_LIBRARY(vbl_io ${vbl_io_sources})
++SET_TARGET_PROPERTIES(vbl_io PROPERTIES ${VXL_LIBRARY_PROPERTIES})
+ TARGET_LINK_LIBRARIES( vbl_io vbl vsl )
+ 
+ INSTALL_TARGETS(/lib vbl_io)
+diff --git a/core/vcsl/CMakeLists.txt b/core/vcsl/CMakeLists.txt
+index f7e8894..49191e6 100644
+--- a/core/vcsl/CMakeLists.txt
++++ b/core/vcsl/CMakeLists.txt
+@@ -63,6 +63,7 @@ doxygen_add_library(core/vcsl
+   AUX_SOURCE_DIRECTORY( Templates vcsl_sources )
+ 
+   ADD_LIBRARY( vcsl ${vcsl_sources} )
++  SET_TARGET_PROPERTIES(vcsl PROPERTIES ${VXL_LIBRARY_PROPERTIES})
+   TARGET_LINK_LIBRARIES( vcsl vnl vbl )
+ 
+   INSTALL_TARGETS(/lib vcsl)
+diff --git a/core/vgl/CMakeLists.txt b/core/vgl/CMakeLists.txt
+index 486fe81..0f22323 100644
+--- a/core/vgl/CMakeLists.txt
++++ b/core/vgl/CMakeLists.txt
+@@ -69,6 +69,7 @@ ENDIF( BUILD_NONCOMMERCIAL )
+ AUX_SOURCE_DIRECTORY(Templates vgl_sources)
+ 
+ ADD_LIBRARY(vgl ${vgl_sources})
++SET_TARGET_PROPERTIES(vgl PROPERTIES ${VXL_LIBRARY_PROPERTIES})
+ TARGET_LINK_LIBRARIES( vgl vcl )
+ doxygen_add_library(core/vgl
+   #DEPENDS core/vsl core/vnl
+diff --git a/core/vgl/algo/CMakeLists.txt b/core/vgl/algo/CMakeLists.txt
+index f124a5c..5cd991f 100644
+--- a/core/vgl/algo/CMakeLists.txt
++++ b/core/vgl/algo/CMakeLists.txt
+@@ -44,6 +44,7 @@ SET( vgl_algo_sources
+ AUX_SOURCE_DIRECTORY(Templates vgl_algo_sources)
+ 
+ ADD_LIBRARY(vgl_algo ${vgl_algo_sources})
++SET_TARGET_PROPERTIES(vgl_algo PROPERTIES ${VXL_LIBRARY_PROPERTIES})
+ TARGET_LINK_LIBRARIES( vgl_algo vgl vnl_algo vnl )
+ 
+ INSTALL_TARGETS(/lib vgl_algo)
+diff --git a/core/vgl/io/CMakeLists.txt b/core/vgl/io/CMakeLists.txt
+index bf27abc..10a6420 100644
+--- a/core/vgl/io/CMakeLists.txt
++++ b/core/vgl/io/CMakeLists.txt
+@@ -29,6 +29,7 @@ SET(vgl_io_sources
+ AUX_SOURCE_DIRECTORY(Templates vgl_io_sources)
+ 
+ ADD_LIBRARY(vgl_io ${vgl_io_sources})
++SET_TARGET_PROPERTIES(vgl_io PROPERTIES ${VXL_LIBRARY_PROPERTIES})
+ TARGET_LINK_LIBRARIES( vgl_io vgl vsl )
+ 
+ INSTALL_TARGETS(/lib vgl_io)
+diff --git a/core/vgl/xio/CMakeLists.txt b/core/vgl/xio/CMakeLists.txt
+index 365fbef..83989e4 100644
+--- a/core/vgl/xio/CMakeLists.txt
++++ b/core/vgl/xio/CMakeLists.txt
+@@ -10,6 +10,7 @@ SET(vgl_xio_sources
+ AUX_SOURCE_DIRECTORY(Templates vgl_xio_sources)
+ 
+ ADD_LIBRARY(vgl_xio ${vgl_xio_sources})
++SET_TARGET_PROPERTIES(vgl_xio PROPERTIES ${VXL_LIBRARY_PROPERTIES})
+ IF(NOT WIN32)
+   SET_TARGET_PROPERTIES(vgl_xio PROPERTIES COMPILE_FLAGS "-fPIC")
+ ENDIF(NOT WIN32)
+diff --git a/core/vidl/CMakeLists.txt b/core/vidl/CMakeLists.txt
+index 1778ca7..eb3dcf1 100644
+--- a/core/vidl/CMakeLists.txt
++++ b/core/vidl/CMakeLists.txt
+@@ -128,6 +128,7 @@ ENDIF(VIDEODEV2_FOUND)
+ AUX_SOURCE_DIRECTORY(Templates vidl_sources)
+ 
+ ADD_LIBRARY(vidl ${vidl_sources})
++SET_TARGET_PROPERTIES(vidl PROPERTIES ${VXL_LIBRARY_PROPERTIES})
+ INSTALL_TARGETS(/lib vidl)
+ INSTALL_NOBASE_HEADER_FILES(/include/vxl/core/vidl ${vidl_sources})
+ 
+diff --git a/core/vil/io/CMakeLists.txt b/core/vil/io/CMakeLists.txt
+index 4b9800f..b6153d8 100644
+--- a/core/vil/io/CMakeLists.txt
++++ b/core/vil/io/CMakeLists.txt
+@@ -15,6 +15,7 @@ IF(CMAKE_COMPILER_IS_GNUCXX)
+ ENDIF(CMAKE_COMPILER_IS_GNUCXX)
+ 
+ ADD_LIBRARY(vil_io ${vil_io_sources})
++SET_TARGET_PROPERTIES(vil_io PROPERTIES ${VXL_LIBRARY_PROPERTIES})
+ TARGET_LINK_LIBRARIES( vil_io vil vsl )
+ 
+ INSTALL_TARGETS(/lib vil_io)
+diff --git a/core/vil1/CMakeLists.txt b/core/vil1/CMakeLists.txt
+index 2bde8ff..cd0797f 100644
+--- a/core/vil1/CMakeLists.txt
++++ b/core/vil1/CMakeLists.txt
+@@ -169,6 +169,7 @@ IF(CMAKE_COMPILER_IS_GNUCXX)
+ ENDIF(CMAKE_COMPILER_IS_GNUCXX)
+ 
+ ADD_LIBRARY(vil1 ${vil1_sources})
++SET_TARGET_PROPERTIES(vil1 PROPERTIES ${VXL_LIBRARY_PROPERTIES})
+ INSTALL_TARGETS(/lib vil1)
+ INSTALL_NOBASE_HEADER_FILES(/include/vxl/core/vil1 ${vil1_sources})
+ 
+diff --git a/core/vil1/io/CMakeLists.txt b/core/vil1/io/CMakeLists.txt
+index c16238a..836bb67 100644
+--- a/core/vil1/io/CMakeLists.txt
++++ b/core/vil1/io/CMakeLists.txt
+@@ -15,6 +15,7 @@ SET(vil1_io_sources
+ AUX_SOURCE_DIRECTORY(Templates vil1_io_sources)
+ 
+ ADD_LIBRARY(vil1_io ${vil1_io_sources})
++SET_TARGET_PROPERTIES(vil1_io PROPERTIES ${VXL_LIBRARY_PROPERTIES})
+ TARGET_LINK_LIBRARIES( vil1_io vil1 vsl )
+ INSTALL_TARGETS(/lib vil1_io)
+ INSTALL_NOBASE_HEADER_FILES(/include/vxl/core/vil1/io ${vil1_io_sources})
+diff --git a/core/vnl/io/CMakeLists.txt b/core/vnl/io/CMakeLists.txt
+index 74da98e..3a723c6 100644
+--- a/core/vnl/io/CMakeLists.txt
++++ b/core/vnl/io/CMakeLists.txt
+@@ -26,6 +26,7 @@ IF(CMAKE_COMPILER_IS_GNUCXX)
+ ENDIF(CMAKE_COMPILER_IS_GNUCXX)
+ 
+ ADD_LIBRARY(vnl_io ${vnl_io_sources} )
++SET_TARGET_PROPERTIES(vnl_io PROPERTIES ${VXL_LIBRARY_PROPERTIES})
+ TARGET_LINK_LIBRARIES( vnl_io vnl vsl )
+ 
+ INSTALL_TARGETS(/lib vnl_io)
+diff --git a/core/vnl/xio/CMakeLists.txt b/core/vnl/xio/CMakeLists.txt
+index b27f519..4b62d4a 100644
+--- a/core/vnl/xio/CMakeLists.txt
++++ b/core/vnl/xio/CMakeLists.txt
+@@ -11,6 +11,7 @@ SET(vnl_xio_sources
+ AUX_SOURCE_DIRECTORY(Templates vnl_xio_sources)
+ 
+ ADD_LIBRARY(vnl_xio ${vnl_xio_sources} )
++SET_TARGET_PROPERTIES(vnl_xio PROPERTIES ${VXL_LIBRARY_PROPERTIES})
+ TARGET_LINK_LIBRARIES( vnl_xio vnl vsl )
+ 
+ INSTALL_TARGETS(/lib vnl_xio)
+diff --git a/core/vpl/CMakeLists.txt b/core/vpl/CMakeLists.txt
+index 4c0fdfe..f2bd994 100644
+--- a/core/vpl/CMakeLists.txt
++++ b/core/vpl/CMakeLists.txt
+@@ -13,6 +13,7 @@ SET( vpl_sources
+ )
+ 
+ ADD_LIBRARY(vpl ${vpl_sources})
++SET_TARGET_PROPERTIES(vpl PROPERTIES ${VXL_LIBRARY_PROPERTIES})
+ IF(NOT WIN32)
+   SET_TARGET_PROPERTIES(vpl PROPERTIES COMPILE_FLAGS "-fPIC")
+ ENDIF(NOT WIN32)
+diff --git a/core/vsl/CMakeLists.txt b/core/vsl/CMakeLists.txt
+index 7823022..e12ddd0 100644
+--- a/core/vsl/CMakeLists.txt
++++ b/core/vsl/CMakeLists.txt
+@@ -36,6 +36,7 @@ SET(vsl_sources
+ AUX_SOURCE_DIRECTORY(Templates vsl_sources)
+ 
+ ADD_LIBRARY(vsl ${vsl_sources})
++SET_TARGET_PROPERTIES(vsl PROPERTIES ${VXL_LIBRARY_PROPERTIES})
+ TARGET_LINK_LIBRARIES( vsl vcl )
+ 
+ INSTALL_TARGETS(/lib vsl)
+diff --git a/core/vul/CMakeLists.txt b/core/vul/CMakeLists.txt
+index f444d6a..ecacb58 100644
+--- a/core/vul/CMakeLists.txt
++++ b/core/vul/CMakeLists.txt
+@@ -76,6 +76,7 @@ ENDIF (SOLARIS)
+ 
+ ENDIF(APPLE)
+ 
++SET_TARGET_PROPERTIES(vul PROPERTIES ${VXL_LIBRARY_PROPERTIES})
+ TARGET_LINK_LIBRARIES( vul vcl )
+ 
+ INSTALL_NOBASE_HEADER_FILES(/include/vxl/core/vul 
+diff --git a/core/vul/io/CMakeLists.txt b/core/vul/io/CMakeLists.txt
+index e52099e..ee4ff9d 100644
+--- a/core/vul/io/CMakeLists.txt
++++ b/core/vul/io/CMakeLists.txt
+@@ -5,6 +5,7 @@ SET(vul_io_sources
+ )
+ 
+ ADD_LIBRARY(vul_io ${vul_io_sources})
++SET_TARGET_PROPERTIES(vul_io PROPERTIES ${VXL_LIBRARY_PROPERTIES})
+ TARGET_LINK_LIBRARIES(vul_io vul vsl)
+ 
+ INSTALL_TARGETS(/lib vul_io)
+-- 
+1.7.11.7
+

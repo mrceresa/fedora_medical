@@ -1,0 +1,53 @@
+From 4c5770c15c0ba12e4d11ec3e00b0d5852636aa76 Mon Sep 17 00:00:00 2001
+From: Mario Ceresa <mrceresa@gmail.com>
+Date: Wed, 10 Oct 2012 17:16:38 +0200
+Subject: [PATCH 04/23] Added more soname
+
+Signed-off-by: Mario Ceresa <mrceresa@gmail.com>
+---
+ CMakeLists.txt               | 3 ++-
+ core/vil/CMakeLists.txt      | 1 +
+ core/vil/algo/CMakeLists.txt | 1 +
+ 3 files changed, 4 insertions(+), 1 deletion(-)
+
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 67b2ea4..71f48bc 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -29,7 +29,8 @@ SET(VCL_LIBRARY_PROPERTIES ${VXL_LIBRARY_PROPERTIES})
+ SET(VNL_ALGO_LIBRARY_PROPERTIES ${VXL_LIBRARY_PROPERTIES})
+ SET(VNL_LIBRARY_PROPERTIES ${VXL_LIBRARY_PROPERTIES})
+ SET(TESTLIB_LIBRARY_PROPERTIES ${VXL_LIBRARY_PROPERTIES})
+-
++SET(VIL_ALGO_LIBRARY_PROPERTIES ${VXL_LIBRARY_PROPERTIES})
++SET(VIL_LIBRARY_PROPERTIES ${VXL_LIBRARY_PROPERTIES})
+ 
+ 
+ SET( LIBRARY_OUTPUT_PATH ${vxl_BINARY_DIR}/lib CACHE PATH
+diff --git a/core/vil/CMakeLists.txt b/core/vil/CMakeLists.txt
+index 75b660a..d297412 100644
+--- a/core/vil/CMakeLists.txt
++++ b/core/vil/CMakeLists.txt
+@@ -330,6 +330,7 @@ IF(OPENJPEG2_FOUND)
+   TARGET_LINK_LIBRARIES( vil ${OPENJPEG2_LIBRARIES} )
+ ENDIF(OPENJPEG2_FOUND)
+ 
++SET_TARGET_PROPERTIES(vil PROPERTIES ${VIL_LIBRARY_PROPERTIES})
+ TARGET_LINK_LIBRARIES( vil vcl )
+ 
+ IF (NOT UNIX)
+diff --git a/core/vil/algo/CMakeLists.txt b/core/vil/algo/CMakeLists.txt
+index e9f2119..a7ab0d7 100644
+--- a/core/vil/algo/CMakeLists.txt
++++ b/core/vil/algo/CMakeLists.txt
+@@ -58,6 +58,7 @@ AUX_SOURCE_DIRECTORY(Templates vil_algo_sources)
+ 
+ ADD_LIBRARY(vil_algo ${vil_algo_sources})
+ 
++SET_TARGET_PROPERTIES(vil_algo PROPERTIES ${VIL_ALGO_LIBRARY_PROPERTIES})
+ TARGET_LINK_LIBRARIES( vil_algo vil vnl_algo vnl vcl )
+ 
+ INSTALL_TARGETS(/lib vil_algo)
+-- 
+1.7.11.7
+

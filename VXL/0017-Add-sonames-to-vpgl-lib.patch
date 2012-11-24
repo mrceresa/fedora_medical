@@ -1,0 +1,77 @@
+From b23d58cbe99dd3bda8468a83e59ca0c18a38150d Mon Sep 17 00:00:00 2001
+From: Mario Ceresa <mrceresa@gmail.com>
+Date: Sun, 14 Oct 2012 17:11:31 +0200
+Subject: [PATCH 17/23] Add sonames to vpgl lib
+
+---
+ core/vpgl/CMakeLists.txt              | 1 +
+ core/vpgl/algo/CMakeLists.txt         | 1 +
+ core/vpgl/file_formats/CMakeLists.txt | 2 +-
+ core/vpgl/io/CMakeLists.txt           | 1 +
+ core/vpgl/xio/CMakeLists.txt          | 1 +
+ 5 files changed, 5 insertions(+), 1 deletion(-)
+
+diff --git a/core/vpgl/CMakeLists.txt b/core/vpgl/CMakeLists.txt
+index 235853f..120eebb 100755
+--- a/core/vpgl/CMakeLists.txt
++++ b/core/vpgl/CMakeLists.txt
+@@ -32,6 +32,7 @@ SET( vpgl_sources
+ AUX_SOURCE_DIRECTORY(Templates vpgl_sources)
+ 
+ ADD_LIBRARY(vpgl ${vpgl_sources})
++SET_TARGET_PROPERTIES(vpgl PROPERTIES ${VXL_LIBRARY_PROPERTIES})
+ TARGET_LINK_LIBRARIES(vpgl vnl_algo vnl vgl_algo vgl vul vsl vbl)
+ 
+ IF( BUILD_TESTING )
+diff --git a/core/vpgl/algo/CMakeLists.txt b/core/vpgl/algo/CMakeLists.txt
+index 753efb8..7dfdb9e 100755
+--- a/core/vpgl/algo/CMakeLists.txt
++++ b/core/vpgl/algo/CMakeLists.txt
+@@ -29,6 +29,7 @@ SET( vpgl_algo_sources
+ AUX_SOURCE_DIRECTORY(Templates vpgl_algo_sources)
+ 
+ ADD_LIBRARY(vpgl_algo ${vpgl_algo_sources})
++SET_TARGET_PROPERTIES(vpgl_algo PROPERTIES ${VXL_LIBRARY_PROPERTIES})
+ 
+ TARGET_LINK_LIBRARIES(vpgl_algo vpgl vpgl_file_formats vgl_algo vnl_algo vnl vgl vil vul vbl)
+ 
+diff --git a/core/vpgl/file_formats/CMakeLists.txt b/core/vpgl/file_formats/CMakeLists.txt
+index d5c38f9..e864476 100755
+--- a/core/vpgl/file_formats/CMakeLists.txt
++++ b/core/vpgl/file_formats/CMakeLists.txt
+@@ -21,7 +21,7 @@ IF(TIFF_FOUND)
+ ENDIF(TIFF_FOUND)
+ 
+ ADD_LIBRARY(vpgl_file_formats ${vpgl_file_formats_sources})
+-
++SET_TARGET_PROPERTIES(vpgl_file_formats PROPERTIES ${VXL_LIBRARY_PROPERTIES})
+ TARGET_LINK_LIBRARIES(vpgl_file_formats vpgl vil vnl)
+ 
+ IF( BUILD_TESTING )
+diff --git a/core/vpgl/io/CMakeLists.txt b/core/vpgl/io/CMakeLists.txt
+index 6809320..80ff3a1 100755
+--- a/core/vpgl/io/CMakeLists.txt
++++ b/core/vpgl/io/CMakeLists.txt
+@@ -13,6 +13,7 @@ SET(vpgl_io_sources
+ AUX_SOURCE_DIRECTORY(Templates vpgl_io_sources)
+ 
+ ADD_LIBRARY(vpgl_io ${vpgl_io_sources})
++SET_TARGET_PROPERTIES(vpgl_io PROPERTIES ${VXL_LIBRARY_PROPERTIES})
+ 
+ TARGET_LINK_LIBRARIES(vpgl_io vsl vpgl vnl vgl vgl_algo vgl_io vnl_io vbl_io)
+ 
+diff --git a/core/vpgl/xio/CMakeLists.txt b/core/vpgl/xio/CMakeLists.txt
+index 986ac31..a883456 100644
+--- a/core/vpgl/xio/CMakeLists.txt
++++ b/core/vpgl/xio/CMakeLists.txt
+@@ -5,6 +5,7 @@ SET(vpgl_xio_sources
+ )
+ 
+ ADD_LIBRARY(vpgl_xio ${vpgl_xio_sources} )
++SET_TARGET_PROPERTIES(vpgl_xio PROPERTIES ${VXL_LIBRARY_PROPERTIES})
+ TARGET_LINK_LIBRARIES( vpgl_xio vpgl vsl )
+ 
+ INSTALL_TARGETS(/lib vpgl_xio)
+-- 
+1.7.11.7
+

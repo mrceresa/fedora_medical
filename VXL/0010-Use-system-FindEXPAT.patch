@@ -1,0 +1,26 @@
+From 2eb77e1b65646b0f20682ce8345917b84aa73d11 Mon Sep 17 00:00:00 2001
+From: Mario Ceresa <mrceresa@gmail.com>
+Date: Wed, 10 Oct 2012 17:39:33 +0200
+Subject: [PATCH 10/23] Use system FindEXPAT
+
+Signed-off-by: Mario Ceresa <mrceresa@gmail.com>
+---
+ contrib/brl/bbas/bxml/CMakeLists.txt | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/contrib/brl/bbas/bxml/CMakeLists.txt b/contrib/brl/bbas/bxml/CMakeLists.txt
+index 1e15c59..f513190 100644
+--- a/contrib/brl/bbas/bxml/CMakeLists.txt
++++ b/contrib/brl/bbas/bxml/CMakeLists.txt
+@@ -12,7 +12,7 @@ SET( bxml_sources
+     bxml_find.cxx                bxml_find.h
+ )
+ 
+-INCLUDE( ${BRL_MODULE_PATH}/FindEXPAT.cmake )
++FIND_PACKAGE(EXPAT REQUIRED)
+ 
+ IF(EXPAT_FOUND)
+  IF(EXPATPP_FOUND)
+-- 
+1.7.11.7
+

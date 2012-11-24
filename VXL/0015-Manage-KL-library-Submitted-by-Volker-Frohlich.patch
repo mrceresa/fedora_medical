@@ -1,0 +1,85 @@
+From f5f4f002e47ce541d8020cd2ae3203bf1b08b9f7 Mon Sep 17 00:00:00 2001
+From: Mario Ceresa <mrceresa@gmail.com>
+Date: Wed, 10 Oct 2012 18:54:20 +0200
+Subject: [PATCH 15/23] Manage KL library (Submitted by Volker Frohlich)
+
+Signed-off-by: Mario Ceresa <mrceresa@gmail.com>
+---
+ contrib/gel/CMakeLists.txt         |  2 ++
+ contrib/gel/vgel/kl/CMakeLists.txt | 46 ++++++++++++++++++++++----------------
+ 2 files changed, 29 insertions(+), 19 deletions(-)
+
+diff --git a/contrib/gel/CMakeLists.txt b/contrib/gel/CMakeLists.txt
+index d9284db..d605337 100644
+--- a/contrib/gel/CMakeLists.txt
++++ b/contrib/gel/CMakeLists.txt
+@@ -4,6 +4,8 @@ PROJECT( gel )
+ 
+ doxygen_add_package(contrib/gel "GE Libraries")
+ 
++SET( GEL_MODULE_PATH ${vxl_SOURCE_DIR}/contrib/gel/gelmods )
++
+ SET( GEL_INCLUDE_DIR ${gel_SOURCE_DIR} CACHE STATIC "GE package include files" )
+ SET( GEL_INSTALL_INCLUDE_DIR 
+   ${CMAKE_INSTALL_PREFIX}/include/vxl/contrib/gel
+diff --git a/contrib/gel/vgel/kl/CMakeLists.txt b/contrib/gel/vgel/kl/CMakeLists.txt
+index bbb86ed..986fe44 100644
+--- a/contrib/gel/vgel/kl/CMakeLists.txt
++++ b/contrib/gel/vgel/kl/CMakeLists.txt
+@@ -1,26 +1,34 @@
+ # gel/vgel/kl/CMakeLists.txt
+ 
+-SET(vgel_kl_sources
+-                      base.h
+- convolve.c           convolve.h
+- klt.c                klt.h
+- pnmio.c              pnmio.h
+- selectGoodFeatures.c
+- trackFeatures.c
+- error.c              error.h
+- klt_util.c           klt_util.h
+- pyramid.c            pyramid.h
+- storeFeatures.c
+- writeFeatures.c
+-)
++INCLUDE(${MODULE_PATH}/FindKL.cmake)
+ 
+-ADD_LIBRARY(vgel_kl ${vgel_kl_sources})
+-INSTALL_TARGETS(/lib vgel_kl)
+-INSTALL_NOBASE_HEADER_FILES(/include/vxl/contrib/gel/vgel/kl ${vgel_kl_sources})
++IF(NOT VXL_USING_NATIVE_KL)
++    INCLUDE(${GEL_MODULE_PATH}/FindKL.cmake)
+ 
+-IF(UNIX)
+-  TARGET_LINK_LIBRARIES(vgel_kl m)
+-ENDIF(UNIX)
++    INCLUDE_DIRECTORIES(${KL_INCLUDE_DIR})
++
++    SET( vgel_kl_sources
++                          base.h
++     convolve.c           convolve.h
++     klt.c                klt.h
++     pnmio.c              pnmio.h
++     selectGoodFeatures.c
++     trackFeatures.c
++     error.c              error.h
++     klt_util.c           klt_util.h
++     pyramid.c            pyramid.h
++     storeFeatures.c
++     writeFeatures.c
++    )
++
++    ADD_LIBRARY(vgel_kl ${vgel_kl_sources})
++    INSTALL_TARGETS(/lib vgel_kl)
++    INSTALL_NOBASE_HEADER_FILES(/include/vxl/contrib/gel/vgel/kl ${vgel_kl_sources})
++
++    IF(UNIX)
++      TARGET_LINK_LIBRARIES(vgel_kl m)
++    ENDIF(UNIX)
++ENDIF(NOT VXL_USING_NATIVE_KL)
+ 
+ IF( BUILD_TESTING )
+   SUBDIRS(tests)
+-- 
+1.7.11.7
+

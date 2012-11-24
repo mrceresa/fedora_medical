@@ -1,0 +1,24 @@
+From ec88b62f858fd9c03dd58d18d4f52d4f1e9aa784 Mon Sep 17 00:00:00 2001
+From: Mario Ceresa <mrceresa@gmail.com>
+Date: Fri, 2 Nov 2012 14:48:14 +0100
+Subject: [PATCH 22/23] Include missing vcl_cstdio.h header
+
+---
+ contrib/brl/bbas/volm/volm_io.cxx | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/contrib/brl/bbas/volm/volm_io.cxx b/contrib/brl/bbas/volm/volm_io.cxx
+index 07e695f..02964fb 100755
+--- a/contrib/brl/bbas/volm/volm_io.cxx
++++ b/contrib/brl/bbas/volm/volm_io.cxx
+@@ -11,6 +11,7 @@
+ #include <bsol/bsol_algs.h>
+ #include <vcl_iostream.h>
+ #include <vcl_iomanip.h>
++#include <vcl_cstdio.h>
+ 
+ //:
+ // \file
+-- 
+1.7.11.7
+

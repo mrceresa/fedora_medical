@@ -1,0 +1,23 @@
+From b26213c75a1a5f1b9d3ccabab89b1a68d7dffa24 Mon Sep 17 00:00:00 2001
+From: Mario Ceresa <mrceresa@gmail.com>
+Date: Fri, 2 Nov 2012 14:50:10 +0100
+Subject: [PATCH 23/23] Remove volm because of error in function prototype
+
+---
+ contrib/brl/bbas/CMakeLists.txt | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/contrib/brl/bbas/CMakeLists.txt b/contrib/brl/bbas/CMakeLists.txt
+index 63f57d4..1628c61 100644
+--- a/contrib/brl/bbas/CMakeLists.txt
++++ b/contrib/brl/bbas/CMakeLists.txt
+@@ -90,5 +90,5 @@ SUBDIRS(bcvr)
+ SUBDIRS(bkml)
+ 
+ # volumetric matching tools
+-SUBDIRS(volm)
++#SUBDIRS(volm)
+ 
+-- 
+1.7.11.7
+

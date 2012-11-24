@@ -1,0 +1,26 @@
+From dd4f9c285bba2b49eadfa4cbf4759ca00e731235 Mon Sep 17 00:00:00 2001
+From: Mario Ceresa <mrceresa@gmail.com>
+Date: Wed, 10 Oct 2012 17:18:42 +0200
+Subject: [PATCH 05/23] Do not build OUL
+
+Signed-off-by: Mario Ceresa <mrceresa@gmail.com>
+---
+ contrib/CMakeLists.txt | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/contrib/CMakeLists.txt b/contrib/CMakeLists.txt
+index 03ee1b5..b228422 100644
+--- a/contrib/CMakeLists.txt
++++ b/contrib/CMakeLists.txt
+@@ -18,7 +18,7 @@ IF( EXISTS ${vxl_SOURCE_DIR}/contrib/mul/CMakeLists.txt )
+ ENDIF( EXISTS ${vxl_SOURCE_DIR}/contrib/mul/CMakeLists.txt )
+ 
+ IF( EXISTS ${vxl_SOURCE_DIR}/contrib/oul/CMakeLists.txt )
+-  OPTION(BUILD_OUL "Build the Otago University library package?" YES)
++  OPTION(BUILD_OUL "Build the Otago University library package?" NO)
+ ENDIF( EXISTS ${vxl_SOURCE_DIR}/contrib/oul/CMakeLists.txt )
+ 
+ IF( EXISTS ${vxl_SOURCE_DIR}/contrib/prip/CMakeLists.txt )
+-- 
+1.7.11.7
+

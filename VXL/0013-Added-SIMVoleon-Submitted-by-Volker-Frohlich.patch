@@ -1,0 +1,31 @@
+From 03679cdfb3253e9cdae7513c0c0e7e44e5beb641 Mon Sep 17 00:00:00 2001
+From: Mario Ceresa <mrceresa@gmail.com>
+Date: Wed, 10 Oct 2012 18:51:36 +0200
+Subject: [PATCH 13/23] Added SIMVoleon (Submitted by Volker Frohlich)
+
+Signed-off-by: Mario Ceresa <mrceresa@gmail.com>
+---
+ config/cmake/Modules/NewCMake/FindSIMVoleon.cmake | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/config/cmake/Modules/NewCMake/FindSIMVoleon.cmake b/config/cmake/Modules/NewCMake/FindSIMVoleon.cmake
+index c4658eb..f4f81d4 100644
+--- a/config/cmake/Modules/NewCMake/FindSIMVoleon.cmake
++++ b/config/cmake/Modules/NewCMake/FindSIMVoleon.cmake
+@@ -54,11 +54,13 @@ IF(COIN3D_FOUND)
+ 
+       FIND_PATH(SIMVOLEON_INCLUDE_DIR VolumeViz/nodes/SoVolumeRender.h
+         /usr/include
++        /usr/include/Coin2
+         /usr/local/include
+       )
+ 
+       FIND_LIBRARY(SIMVOLEON_LIBRARY SimVoleon
+         /usr/lib
++        /usr/lib64
+         /usr/local/lib
+       )   
+ 
+-- 
+1.7.11.7
+

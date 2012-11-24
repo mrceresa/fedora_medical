@@ -1,0 +1,64 @@
+From 354b76db3c873078198017ca33a22dcfc217be09 Mon Sep 17 00:00:00 2001
+From: Mario Ceresa <mrceresa@gmail.com>
+Date: Sun, 14 Oct 2012 17:38:51 +0200
+Subject: [PATCH 18/23] Added sonames to vgui vidl vpdl Qv libs
+
+---
+ core/vgui/CMakeLists.txt     | 1 +
+ core/vidl/gui/CMakeLists.txt | 1 +
+ core/vpdl/CMakeLists.txt     | 1 +
+ v3p/Qv/CMakeLists.txt        | 2 +-
+ 4 files changed, 4 insertions(+), 1 deletion(-)
+
+diff --git a/core/vgui/CMakeLists.txt b/core/vgui/CMakeLists.txt
+index df5eb3b..0dc1121 100644
+--- a/core/vgui/CMakeLists.txt
++++ b/core/vgui/CMakeLists.txt
+@@ -518,6 +518,7 @@ SET( vgui_sources ${vgui_sources}
+ )
+ 
+ ADD_LIBRARY(vgui ${vgui_sources})
++SET_TARGET_PROPERTIES(vgui PROPERTIES ${VXL_LIBRARY_PROPERTIES})
+ INSTALL_TARGETS(/lib vgui)
+ INSTALL_NOBASE_HEADER_FILES(/include/vxl/core/vgui ${vgui_sources})
+ SET( VGUI_FOUND "YES" CACHE INTERNAL "Was vgui successfully built?" )
+diff --git a/core/vidl/gui/CMakeLists.txt b/core/vidl/gui/CMakeLists.txt
+index 3ecc67f..c055a55 100644
+--- a/core/vidl/gui/CMakeLists.txt
++++ b/core/vidl/gui/CMakeLists.txt
+@@ -12,6 +12,7 @@ SET(vidl_gui_sources
+    )
+ 
+ ADD_LIBRARY(vidl_gui ${vidl_gui_sources})
++SET_TARGET_PROPERTIES(vidl_gui PROPERTIES ${VXL_LIBRARY_PROPERTIES})
+ INSTALL_TARGETS(/lib vidl_gui)
+ INSTALL_NOBASE_HEADER_FILES(/include/vxl/core/vidl/gui ${vidl_gui_sources})
+ TARGET_LINK_LIBRARIES( vidl_gui vidl vgui vil )
+diff --git a/core/vpdl/CMakeLists.txt b/core/vpdl/CMakeLists.txt
+index 7f7fcd8..263cd8c 100644
+--- a/core/vpdl/CMakeLists.txt
++++ b/core/vpdl/CMakeLists.txt
+@@ -48,6 +48,7 @@ SET( vpdl_sources
+ AUX_SOURCE_DIRECTORY(Templates vpdl_sources)
+ 
+ ADD_LIBRARY(vpdl ${vpdl_sources})
++SET_TARGET_PROPERTIES(vpdl PROPERTIES ${VXL_LIBRARY_PROPERTIES})
+ TARGET_LINK_LIBRARIES( vpdl vnl_algo vnl )
+ 
+ INSTALL_TARGETS(/lib vpdl)
+diff --git a/v3p/Qv/CMakeLists.txt b/v3p/Qv/CMakeLists.txt
+index 75bd643..e53f334 100644
+--- a/v3p/Qv/CMakeLists.txt
++++ b/v3p/Qv/CMakeLists.txt
+@@ -169,7 +169,7 @@ IF(CMAKE_COMPILER_IS_GNUCXX)
+ ENDIF(CMAKE_COMPILER_IS_GNUCXX)
+ 
+ ADD_LIBRARY( Qv ${Qv_sources} )
+-
++SET_TARGET_PROPERTIES(Qv PROPERTIES ${VXL_LIBRARY_PROPERTIES})
+ TARGET_LINK_LIBRARIES( Qv vcl )
+ 
+ INSTALL_TARGETS(/lib Qv)
+-- 
+1.7.11.7
+

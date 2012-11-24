@@ -1,0 +1,26 @@
+From ac852c19102585381f1762251716e62ebc86c0f7 Mon Sep 17 00:00:00 2001
+From: Mario Ceresa <mrceresa@gmail.com>
+Date: Wed, 10 Oct 2012 17:09:48 +0200
+Subject: [PATCH 01/23] Added include path for geotiff
+
+Signed-off-by: Mario Ceresa <mrceresa@gmail.com>
+---
+ config/cmake/Modules/NewCMake/FindGEOTIFF.cmake | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/config/cmake/Modules/NewCMake/FindGEOTIFF.cmake b/config/cmake/Modules/NewCMake/FindGEOTIFF.cmake
+index 9e5013f..624e331 100644
+--- a/config/cmake/Modules/NewCMake/FindGEOTIFF.cmake
++++ b/config/cmake/Modules/NewCMake/FindGEOTIFF.cmake
+@@ -8,6 +8,8 @@
+ #  GEOTIFF_LIBRARY, where to find the GEOTIFF library.
+ 
+ FIND_PATH(GEOTIFF_INCLUDE_DIR geotiff.h
++  /usr/local/include/libgeotiff
++  /usr/include/libgeotiff
+   /usr/local/include
+   /usr/include
+ )
+-- 
+1.7.11.7
+
