@@ -153,7 +153,7 @@ Insight Toolkit Library Header Files and Link Libraries
 
 %files devel
 %defattr(-,root,root)
-%doc README.html
+%doc Documentation/README.html
 %doc ItkSoftwareGuide-2.4.0.pdf
 #%{_libdir}/%{name}/*.so
 %{_libdir}/*.so
