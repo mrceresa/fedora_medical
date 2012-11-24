@@ -10,7 +10,7 @@ Vendor:         Insight Software Consortium
 Source0:        http://downloads.sourceforge.net/project/itk/itk/4.2/InsightToolkit-4.2.1.tar.gz
 Source1:        http://downloads.sourceforge.net/project/itk/itk/2.4/ItkSoftwareGuide-2.4.0.pdf
 URL:            http://www.itk.org/
-Patch0:		0001-Fixed-cmake-install-dir.patch
+Patch0:		0001-Set-lib-lib64-according-to-the-architecture.patch
 
 # Thanks to Mathieu Malaterre for pointing out the following patch
 # The patch was retrieved from http://itk.org/gitweb?p=ITK.git;a=patch;h=93833edb2294c0190af9e6c0de26e9485399a7d3
