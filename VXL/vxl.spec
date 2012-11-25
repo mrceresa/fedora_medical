@@ -1,12 +1,12 @@
 
 Name:		vxl	
 Version:	1.17.0	
-Release:	6%{?dist}
+Release:	7%{?dist}
 Summary:	C++ Libraries for Computer Vision Research and Implementation
 Group:		Development/Libraries
 License:	BSD
 URL:		http://vxl.sourceforge.net/
-Source0:	http://sourceforge.net/projects/vxl/files/vxl/1.14/vxl-git4e07960.tar.gz
+Source0:	http://downloads.sourceforge.net/project/vxl/vxl/1.17/vxl-1.17.0.tar.gz
 Source2:	https://vxl.svn.sourceforge.net/svnroot/vxl/trunk/core/vxl_copyright.h
 # Fedora has a distribution-specific include dir
 Patch1:		0001-Added-include-path-for-geotiff.patch
@@ -235,6 +235,10 @@ ctest .
 
 
 %changelog
+* Sun Nov 25 2012 Mario Ceresa mrceresa fedoraproject org vxl 1.17.0-7%{?dist}
+- Changed source0 path to point to vxl 1.17
+- 
+
 * Fri Nov 02 2012 Mario Ceresa mrceresa fedoraproject org vxl 1.17.0-6%{?dist}
 - Patched to build BRL
 - Updated to last version
