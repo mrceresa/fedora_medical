@@ -92,11 +92,11 @@ cd itk_build
        -DITK_USE_PATENTED:BOOL=OFF \
        -DITK_USE_SYSTEM_HDF5=ON \
        -DITK_USE_SYSTEM_JPEG=ON \
-       -DITK_USE_SYSTEM_TIFF=ON \
+       -DITK_USE_SYSTEM_TIFF=OFF \
        -DITK_USE_SYSTEM_PNG=ON \
        -DITK_USE_SYSTEM_ZLIB=ON \
        -DITK_USE_SYSTEM_GDCM=ON \
-       -DITK_USE_SYSTEM_VXL=OFF \
+       -DITK_USE_SYSTEM_VXL=ON \
        -DITK_INSTALL_LIBRARY_DIR=%{_lib}/%{name} \
        -DITK_INSTALL_INCLUDE_DIR=include/%{name} \
        -DITK_INSTALL_PACKAGE_DIR=%{_lib}/%{name}/cmake \
