@@ -1,0 +1,420 @@
+From f650d1007070277ae3e561d989cfba3b279cc226 Mon Sep 17 00:00:00 2001
+From: Mario Ceresa <mario.ceresa@alma3d.com>
+Date: Mon, 26 Nov 2012 18:17:36 +0100
+Subject: [PATCH 2/2] Fixed vnl_math namespace usage for compatibility with
+ VXL 1.17
+
+---
+ .../Core/Common/include/itkBSplineKernelFunction.h | 16 ++++----
+ .../Common/include/itkSpatialOrientationAdapter.h  |  6 +--
+ .../Common/include/itkSymmetricEigenAnalysis.hxx   | 48 +++++++++++-----------
+ .../Transform/include/itkSimilarity2DTransform.hxx |  4 +-
+ ...tkBSplineScatteredDataPointSetToImageFilter.hxx |  8 ++--
+ .../include/itkCoxDeBoorBSplineKernelFunction.hxx  |  4 +-
+ .../IO/ImageBase/src/itkStreamingImageIOBase.cxx   |  2 +-
+ .../Numerics/Optimizers/src/itkPowellOptimizer.cxx |  4 +-
+ .../Numerics/Optimizers/src/itkSPSAOptimizer.cxx   |  2 +-
+ .../itkWindowConvergenceMonitoringFunction.hxx     |  2 +-
+ Modules/Video/Core/include/itkRingBuffer.hxx       |  2 +-
+ 11 files changed, 49 insertions(+), 49 deletions(-)
+
+diff --git a/Modules/Core/Common/include/itkBSplineKernelFunction.h b/Modules/Core/Common/include/itkBSplineKernelFunction.h
+index 7ebaa7b..55ef2ab 100644
+--- a/Modules/Core/Common/include/itkBSplineKernelFunction.h
++++ b/Modules/Core/Common/include/itkBSplineKernelFunction.h
+@@ -84,7 +84,7 @@ private:
+   /** Zeroth order spline. */
+   inline TRealValueType Evaluate(const Dispatch< 0 > &, const TRealValueType & u) const
+   {
+-    const TRealValueType absValue = vnl_math_abs(u);
++    const TRealValueType absValue = vnl_math::abs(u);
+     if ( absValue  < static_cast< TRealValueType >(0.5) )
+       {
+       return NumericTraits< TRealValueType >::One;
+@@ -102,7 +102,7 @@ private:
+   /** First order spline */
+   inline TRealValueType Evaluate(const Dispatch< 1 > &, const TRealValueType & u) const
+   {
+-    const TRealValueType absValue = vnl_math_abs(u);
++    const TRealValueType absValue = vnl_math::abs(u);
+     if ( absValue  < NumericTraits< TRealValueType >::One )
+       {
+       return NumericTraits< TRealValueType >::One - absValue;
+@@ -116,15 +116,15 @@ private:
+   /** Second order spline. */
+   inline TRealValueType Evaluate(const Dispatch< 2 > &, const TRealValueType & u) const
+   {
+-    const TRealValueType absValue = vnl_math_abs(u);
++    const TRealValueType absValue = vnl_math::abs(u);
+     if ( absValue  < static_cast< TRealValueType >(0.5) )
+       {
+-      const TRealValueType sqrValue = vnl_math_sqr(absValue);
++      const TRealValueType sqrValue = vnl_math::sqr(absValue);
+       return static_cast< TRealValueType >(0.75) - sqrValue;
+       }
+     else if ( absValue < static_cast< TRealValueType >(1.5) )
+       {
+-      const TRealValueType sqrValue = vnl_math_sqr(absValue);
++      const TRealValueType sqrValue = vnl_math::sqr(absValue);
+       // NOTE: 1.0/8.0 == static_cast< TRealValueType >( 0.125 )
+       return ( static_cast< TRealValueType >(9.0) - static_cast< TRealValueType >(12.0) * absValue
+         + static_cast< TRealValueType >(4.0) * sqrValue ) * static_cast< TRealValueType >(0.125);
+@@ -138,16 +138,16 @@ private:
+   /**  Third order spline. */
+   inline TRealValueType Evaluate(const Dispatch< 3 > &, const TRealValueType & u) const
+   {
+-    const TRealValueType absValue = vnl_math_abs(u);
++    const TRealValueType absValue = vnl_math::abs(u);
+     if ( absValue  < NumericTraits< TRealValueType >::One )
+       {
+-      const TRealValueType sqrValue = vnl_math_sqr(absValue);
++      const TRealValueType sqrValue = vnl_math::sqr(absValue);
+       return ( static_cast< TRealValueType >(4.0) - static_cast< TRealValueType >(6.0) * sqrValue
+         + static_cast< TRealValueType >(3.0) * sqrValue * absValue ) / static_cast< TRealValueType >(6.0);
+       }
+     else if ( absValue < static_cast< TRealValueType >(2.0) )
+       {
+-      const TRealValueType sqrValue = vnl_math_sqr(absValue);
++      const TRealValueType sqrValue = vnl_math::sqr(absValue);
+       return ( static_cast< TRealValueType >(8.0) - static_cast< TRealValueType >(12.0) * absValue + static_cast< TRealValueType >(6.0) * sqrValue
+                - sqrValue * absValue ) / static_cast< TRealValueType >(6.0);
+       }
+diff --git a/Modules/Core/Common/include/itkSpatialOrientationAdapter.h b/Modules/Core/Common/include/itkSpatialOrientationAdapter.h
+index d8d3152..887a3f1 100644
+--- a/Modules/Core/Common/include/itkSpatialOrientationAdapter.h
++++ b/Modules/Core/Common/include/itkSpatialOrientationAdapter.h
+@@ -42,9 +42,9 @@ inline unsigned Max3(double x, double y, double z)
+ {
+   const double obliquityThresholdCosineValue = 0.001;
+ 
+-  double absX = vnl_math_abs(x);
+-  double absY = vnl_math_abs(y);
+-  double absZ = vnl_math_abs(z);
++  double absX = vnl_math::abs(x);
++  double absY = vnl_math::abs(y);
++  double absZ = vnl_math::abs(z);
+ 
+   if ( ( absX > obliquityThresholdCosineValue ) && ( absX > absY ) && ( absX > absZ ) )
+     {
+diff --git a/Modules/Core/Common/include/itkSymmetricEigenAnalysis.hxx b/Modules/Core/Common/include/itkSymmetricEigenAnalysis.hxx
+index 8b43a2f..75b7b9c 100644
+--- a/Modules/Core/Common/include/itkSymmetricEigenAnalysis.hxx
++++ b/Modules/Core/Common/include/itkSymmetricEigenAnalysis.hxx
+@@ -125,7 +125,7 @@ SymmetricEigenAnalysis< TMatrix, TVector, TEigenMatrix >::ReduceToTridiagonalMat
+     /*     .......... scale row (algol tol then not needed) .......... */
+     for ( k = 0; k <= l; ++k )
+       {
+-      scale += vnl_math_abs(d[k]);
++      scale += vnl_math::abs(d[k]);
+       }
+     if ( scale == 0. )
+       {
+@@ -148,7 +148,7 @@ SymmetricEigenAnalysis< TMatrix, TVector, TEigenMatrix >::ReduceToTridiagonalMat
+     e2[i] = scale * scale * h;
+     f = d[l];
+     d__1 = vcl_sqrt(h);
+-    g = ( -1.0 ) * vnl_math_sgn0(f) * vnl_math_abs(d__1);
++    g = ( -1.0 ) * vnl_math::sgn0(f) * vnl_math::abs(d__1);
+     e[i] = scale * g;
+     h -= f * g;
+     d[l] = f - g;
+@@ -245,7 +245,7 @@ const
+     /*     .......... scale row (algol tol then not needed) .......... */
+     for ( k = 0; k <= l; ++k )
+       {
+-      scale += vnl_math_abs(d[k]);
++      scale += vnl_math::abs(d[k]);
+       }
+     if ( scale == 0.0 )
+       {
+@@ -268,7 +268,7 @@ const
+ 
+       f = d[l];
+       d__1 = vcl_sqrt(h);
+-      g = ( -1.0 ) * vnl_math_sgn0(f) * vnl_math_abs(d__1);
++      g = ( -1.0 ) * vnl_math::sgn0(f) * vnl_math::abs(d__1);
+       e[i] = scale * g;
+       h -= f * g;
+       d[l] = f - g;
+@@ -409,7 +409,7 @@ SymmetricEigenAnalysis< TMatrix, TVector, TEigenMatrix >::ComputeEigenValuesUsin
+   for ( l = 0; l < m_Order; ++l )
+     {
+     j = 0;
+-    h = vnl_math_abs(d[l]) + vnl_math_abs(e[l]);
++    h = vnl_math::abs(d[l]) + vnl_math::abs(e[l]);
+     if ( tst1 < h )
+       {
+       tst1 = h;
+@@ -417,7 +417,7 @@ SymmetricEigenAnalysis< TMatrix, TVector, TEigenMatrix >::ComputeEigenValuesUsin
+     /*     .......... look for small sub-diagonal element .......... */
+     for ( m = l; m < m_Order - 1; ++m )
+       {
+-      tst2 = tst1 + vnl_math_abs(e[m]);
++      tst2 = tst1 + vnl_math::abs(e[m]);
+       if ( tst2 == tst1 )
+         {
+         break;
+@@ -441,9 +441,9 @@ SymmetricEigenAnalysis< TMatrix, TVector, TEigenMatrix >::ComputeEigenValuesUsin
+         /*     .......... form shift .......... */
+         g = d[l];
+         p = ( d[l + 1] - g ) / ( e[l] * 2. );
+-        r = vnl_math_hypot(p, c_b10);
+-        d[l] = e[l] / ( p + vnl_math_sgn0(p) * vnl_math_abs(r) );
+-        d[l + 1] = e[l] * ( p + vnl_math_sgn0(p) * vnl_math_abs(r) );
++        r = vnl_math::hypot(p, c_b10);
++        d[l] = e[l] / ( p + vnl_math::sgn0(p) * vnl_math::abs(r) );
++        d[l + 1] = e[l] * ( p + vnl_math::sgn0(p) * vnl_math::abs(r) );
+         dl1 = d[l + 1];
+         h = g - d[l];
+ 
+@@ -466,7 +466,7 @@ SymmetricEigenAnalysis< TMatrix, TVector, TEigenMatrix >::ComputeEigenValuesUsin
+           s2 = s;
+           g = c * e[i];
+           h = c * p;
+-          r = vnl_math_hypot(p, e[i]);
++          r = vnl_math::hypot(p, e[i]);
+           e[i + 1] = s * r;
+           s = e[i] / r;
+           c = p / r;
+@@ -481,7 +481,7 @@ SymmetricEigenAnalysis< TMatrix, TVector, TEigenMatrix >::ComputeEigenValuesUsin
+         p = -s * s2 * c3 * el1 * e[l] / dl1;
+         e[l] = s * p;
+         d[l] = c * p;
+-        tst2 = tst1 + vnl_math_abs(e[l]);
++        tst2 = tst1 + vnl_math::abs(e[l]);
+         }
+       while ( tst2 > tst1 );
+       }
+@@ -506,13 +506,13 @@ SymmetricEigenAnalysis< TMatrix, TVector, TEigenMatrix >::ComputeEigenValuesUsin
+       // Order by magnitude.. make eigen values positive
+       for ( i = l; i > 0; --i )
+         {
+-        if ( vnl_math_abs(p) >= vnl_math_abs(d[i - 1]) )
++        if ( vnl_math::abs(p) >= vnl_math::abs(d[i - 1]) )
+           {
+           break;
+           }
+-        d[i] = vnl_math_abs(d[i - 1]);
++        d[i] = vnl_math::abs(d[i - 1]);
+         }
+-      d[i] = vnl_math_abs(p);
++      d[i] = vnl_math::abs(p);
+       }
+     else
+       {
+@@ -558,7 +558,7 @@ SymmetricEigenAnalysis< TMatrix, TVector, TEigenMatrix >::ComputeEigenValuesAndV
+   for ( l = 0; l < m_Order; ++l )
+     {
+     j = 0;
+-    h = vnl_math_abs(d[l]) + vnl_math_abs(e[l]);
++    h = vnl_math::abs(d[l]) + vnl_math::abs(e[l]);
+     if ( tst1 < h )
+       {
+       tst1 = h;
+@@ -567,7 +567,7 @@ SymmetricEigenAnalysis< TMatrix, TVector, TEigenMatrix >::ComputeEigenValuesAndV
+     /*     .......... look for small sub-diagonal element .......... */
+     for ( m = l; m < m_Order - 1; ++m )
+       {
+-      tst2 = tst1 + vnl_math_abs(e[m]);
++      tst2 = tst1 + vnl_math::abs(e[m]);
+       if ( tst2 == tst1 )
+         {
+         break;
+@@ -592,9 +592,9 @@ SymmetricEigenAnalysis< TMatrix, TVector, TEigenMatrix >::ComputeEigenValuesAndV
+         /*     .......... form shift .......... */
+         g = d[l];
+         p = ( d[l + 1] - g ) / ( e[l] * 2. );
+-        r = vnl_math_hypot(p, c_b10);
+-        d[l] = e[l] / ( p + vnl_math_sgn0(p) * vnl_math_abs(r) );
+-        d[l + 1] = e[l] * ( p + vnl_math_sgn0(p) * vnl_math_abs(r) );
++        r = vnl_math::hypot(p, c_b10);
++        d[l] = e[l] / ( p + vnl_math::sgn0(p) * vnl_math::abs(r) );
++        d[l + 1] = e[l] * ( p + vnl_math::sgn0(p) * vnl_math::abs(r) );
+         dl1 = d[l + 1];
+         h = g - d[l];
+ 
+@@ -618,7 +618,7 @@ SymmetricEigenAnalysis< TMatrix, TVector, TEigenMatrix >::ComputeEigenValuesAndV
+           s2 = s;
+           g = c * e[i];
+           h = c * p;
+-          r = vnl_math_hypot(p, e[i]);
++          r = vnl_math::hypot(p, e[i]);
+           e[i + 1] = s * r;
+           s = e[i] / r;
+           c = p / r;
+@@ -641,7 +641,7 @@ SymmetricEigenAnalysis< TMatrix, TVector, TEigenMatrix >::ComputeEigenValuesAndV
+         p = -s * s2 * c3 * el1 * e[l] / dl1;
+         e[l] = s * p;
+         d[l] = c * p;
+-        tst2 = tst1 + vnl_math_abs(e[l]);
++        tst2 = tst1 + vnl_math::abs(e[l]);
+         }
+       while ( tst2 > tst1 );
+       }
+@@ -693,7 +693,7 @@ SymmetricEigenAnalysis< TMatrix, TVector, TEigenMatrix >::ComputeEigenValuesAndV
+ 
+       for ( j = i + 1; j < m_Order; ++j )
+         {
+-        if ( vnl_math_abs(d[j]) >= vnl_math_abs(p) )
++        if ( vnl_math::abs(d[j]) >= vnl_math::abs(p) )
+           {
+           continue;
+           }
+@@ -705,8 +705,8 @@ SymmetricEigenAnalysis< TMatrix, TVector, TEigenMatrix >::ComputeEigenValuesAndV
+         {
+         continue;
+         }
+-      d[k] = vnl_math_abs(d[i]);
+-      d[i] = vnl_math_abs(p);
++      d[k] = vnl_math::abs(d[i]);
++      d[i] = vnl_math::abs(p);
+ 
+       for ( j = 0; j < m_Order; ++j )
+         {
+diff --git a/Modules/Core/Transform/include/itkSimilarity2DTransform.hxx b/Modules/Core/Transform/include/itkSimilarity2DTransform.hxx
+index 3ab5f13..06ca444 100644
+--- a/Modules/Core/Transform/include/itkSimilarity2DTransform.hxx
++++ b/Modules/Core/Transform/include/itkSimilarity2DTransform.hxx
+@@ -148,8 +148,8 @@ void
+ Similarity2DTransform<TScalarType>
+ ::ComputeMatrixParameters(void)
+ {
+-  m_Scale = vcl_sqrt( vnl_math_sqr(this->GetMatrix()[0][0])
+-                      + vnl_math_sqr(this->GetMatrix()[0][1]) );
++  m_Scale = vcl_sqrt( vnl_math::sqr(this->GetMatrix()[0][0])
++                      + vnl_math::sqr(this->GetMatrix()[0][1]) );
+ 
+   this->SetVarAngle( vcl_acos(this->GetMatrix()[0][0] / m_Scale) );
+ 
+diff --git a/Modules/Filtering/ImageGrid/include/itkBSplineScatteredDataPointSetToImageFilter.hxx b/Modules/Filtering/ImageGrid/include/itkBSplineScatteredDataPointSetToImageFilter.hxx
+index 61d1f64..a6c7b62 100644
+--- a/Modules/Filtering/ImageGrid/include/itkBSplineScatteredDataPointSetToImageFilter.hxx
++++ b/Modules/Filtering/ImageGrid/include/itkBSplineScatteredDataPointSetToImageFilter.hxx
+@@ -615,7 +615,7 @@ BSplineScatteredDataPointSetToImageFilter<TInputPointSet, TOutputImage>
+         this->m_CurrentNumberOfControlPoints[i] - this->m_SplineOrder[i];
+ 
+       p[i] = ( point[i] - this->m_Origin[i] ) * r[i];
+-      if( vnl_math_abs( p[i] - static_cast<RealType>( totalNumberOfSpans ) ) <=
++      if( vnl_math::abs( p[i] - static_cast<RealType>( totalNumberOfSpans ) ) <=
+         this->m_BSplineEpsilon )
+         {
+         p[i] = static_cast<RealType>( totalNumberOfSpans )
+@@ -760,7 +760,7 @@ BSplineScatteredDataPointSetToImageFilter<TInputPointSet, TOutputImage>
+       U[i] = static_cast<RealType>( totalNumberOfSpans[i] ) *
+         static_cast<RealType>( idx[i] - startIndex[i] ) /
+         static_cast<RealType>( this->m_Size[i] - 1 );
+-      if( vnl_math_abs( U[i] - static_cast<RealType>( totalNumberOfSpans[i] ) )
++      if( vnl_math::abs( U[i] - static_cast<RealType>( totalNumberOfSpans[i] ) )
+         <= this->m_BSplineEpsilon )
+         {
+         U[i] = static_cast<RealType>( totalNumberOfSpans[i] ) -
+@@ -866,7 +866,7 @@ BSplineScatteredDataPointSetToImageFilter<TInputPointSet, TOutputImage>
+         P = ItD.Get() / ItO.Get();
+         for( unsigned int i = 0; i < P.Size(); i++ )
+           {
+-          if( vnl_math_isnan( P[i] ) || vnl_math_isinf( P[i] ) )
++          if( vnl_math::isnan( P[i] ) || vnl_math::isinf( P[i] ) )
+             {
+             P[i] = 0;
+             }
+@@ -1094,7 +1094,7 @@ BSplineScatteredDataPointSetToImageFilter<TInputPointSet, TOutputImage>
+       U[i] = static_cast<RealType>( totalNumberOfSpans[i] ) *
+         static_cast<RealType>( point[i] - this->m_Origin[i] ) /
+         ( static_cast<RealType>( this->m_Size[i] - 1 ) * this->m_Spacing[i] );
+-      if( vnl_math_abs( U[i] - static_cast<RealType>( totalNumberOfSpans[i] ) )
++      if( vnl_math::abs( U[i] - static_cast<RealType>( totalNumberOfSpans[i] ) )
+         <= this->m_BSplineEpsilon )
+         {
+         U[i] = static_cast<RealType>( totalNumberOfSpans[i] ) -
+diff --git a/Modules/Filtering/ImageGrid/include/itkCoxDeBoorBSplineKernelFunction.hxx b/Modules/Filtering/ImageGrid/include/itkCoxDeBoorBSplineKernelFunction.hxx
+index bd2fe52..d7e4b15 100644
+--- a/Modules/Filtering/ImageGrid/include/itkCoxDeBoorBSplineKernelFunction.hxx
++++ b/Modules/Filtering/ImageGrid/include/itkCoxDeBoorBSplineKernelFunction.hxx
+@@ -164,7 +164,7 @@ TRealValueType
+ CoxDeBoorBSplineKernelFunction<VSplineOrder,TRealValueType>
+ ::Evaluate( const TRealValueType &u ) const
+ {
+-  const TRealValueType absValue = vnl_math_abs( u );
++  const TRealValueType absValue = vnl_math::abs( u );
+ 
+   unsigned int which;
+   if( this->m_SplineOrder % 2 == 0 )
+@@ -200,7 +200,7 @@ TRealValueType
+ CoxDeBoorBSplineKernelFunction<VSplineOrder,TRealValueType>
+ ::EvaluateNthDerivative( const TRealValueType & u, const unsigned int n ) const
+ {
+-  const TRealValueType absValue = vnl_math_abs( u );
++  const TRealValueType absValue = vnl_math::abs( u );
+ 
+   unsigned int which;
+   if( this->m_SplineOrder % 2 == 0 )
+diff --git a/Modules/IO/ImageBase/src/itkStreamingImageIOBase.cxx b/Modules/IO/ImageBase/src/itkStreamingImageIOBase.cxx
+index 0e563cd..61ce3f1 100644
+--- a/Modules/IO/ImageBase/src/itkStreamingImageIOBase.cxx
++++ b/Modules/IO/ImageBase/src/itkStreamingImageIOBase.cxx
+@@ -447,7 +447,7 @@ bool StreamingImageIOBase::RequestedToStream(void) const
+   // This enables a 2D request from a 3D volume to get the first slice,
+   // and a 4D with a 1-sized 4th dimension to equal the 3D volume
+   // as well.
+-  unsigned int maxNumberOfDimension = vnl_math_max( this->GetNumberOfDimensions(),
++  unsigned int maxNumberOfDimension = vnl_math::max( this->GetNumberOfDimensions(),
+                                                     this->GetIORegion().GetImageDimension() );
+ 
+   ImageIORegion ioregion(maxNumberOfDimension);
+diff --git a/Modules/Numerics/Optimizers/src/itkPowellOptimizer.cxx b/Modules/Numerics/Optimizers/src/itkPowellOptimizer.cxx
+index 941262a..c35297d 100644
+--- a/Modules/Numerics/Optimizers/src/itkPowellOptimizer.cxx
++++ b/Modules/Numerics/Optimizers/src/itkPowellOptimizer.cxx
+@@ -508,8 +508,8 @@ PowellOptimizer
+     if ( fptt < fp )
+       {
+       double t = 2.0 * ( fp - 2.0 * fx + fptt )
+-                 * vnl_math_sqr(fp - fx - del)
+-                 - del *vnl_math_sqr(fp - fptt);
++                 * vnl_math::sqr(fp - fx - del)
++                 - del *vnl_math::sqr(fp - fptt);
+       if ( t < 0.0 )
+         {
+         this->SetLine(p, xit);
+diff --git a/Modules/Numerics/Optimizers/src/itkSPSAOptimizer.cxx b/Modules/Numerics/Optimizers/src/itkSPSAOptimizer.cxx
+index 9e6fc71..877bdcd 100644
+--- a/Modules/Numerics/Optimizers/src/itkSPSAOptimizer.cxx
++++ b/Modules/Numerics/Optimizers/src/itkSPSAOptimizer.cxx
+@@ -403,7 +403,7 @@ SPSAOptimizer::ComputeGradient(
+   /** Apply scaling (see below) and divide by the NumberOfPerturbations */
+   for ( unsigned int j = 0; j < spaceDimension; j++ )
+     {
+-    gradient[j] /= ( vnl_math_sqr(scales[j]) * static_cast< double >( m_NumberOfPerturbations ) );
++    gradient[j] /= ( vnl_math::sqr(scales[j]) * static_cast< double >( m_NumberOfPerturbations ) );
+     }
+   /**
+    * Scaling was still needed, because the gradient
+diff --git a/Modules/Numerics/Optimizersv4/include/itkWindowConvergenceMonitoringFunction.hxx b/Modules/Numerics/Optimizersv4/include/itkWindowConvergenceMonitoringFunction.hxx
+index 4aedf7c..3c5736f 100644
+--- a/Modules/Numerics/Optimizersv4/include/itkWindowConvergenceMonitoringFunction.hxx
++++ b/Modules/Numerics/Optimizersv4/include/itkWindowConvergenceMonitoringFunction.hxx
+@@ -55,7 +55,7 @@ WindowConvergenceMonitoringFunction<TScalar>
+     {
+     this->m_EnergyValues.pop_front();
+     }
+-  this->m_TotalEnergy += vnl_math_abs( value );
++  this->m_TotalEnergy += vnl_math::abs( value );
+ 
+   this->Modified();
+ }
+diff --git a/Modules/Video/Core/include/itkRingBuffer.hxx b/Modules/Video/Core/include/itkRingBuffer.hxx
+index 9da5a09..61ad50f 100644
+--- a/Modules/Video/Core/include/itkRingBuffer.hxx
++++ b/Modules/Video/Core/include/itkRingBuffer.hxx
+@@ -225,7 +225,7 @@ typename RingBuffer< TElement >::OffsetValueType
+ RingBuffer< TElement >
+ ::GetOffsetBufferIndex(OffsetValueType offset)
+ {
+-  OffsetValueType moddedOffset = vnl_math_abs(offset) % this->GetNumberOfBuffers();
++  OffsetValueType moddedOffset = vnl_math::abs(offset) % this->GetNumberOfBuffers();
+   OffsetValueType signedHeadIndex = static_cast<OffsetValueType>(m_HeadIndex);
+   if (offset >= 0)
+     {
+-- 
+1.7.11.7
+
