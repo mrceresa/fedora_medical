@@ -3,7 +3,7 @@ Buildroot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 Summary:        Insight Toolkit library for medical image processing
 Name:           InsightToolkit
 Version:        4.2.1
-Release:        1%{?dist}
+Release:        2%{?dist}
 License:        BSD
 Group:          Applications/Engineering
 Vendor:         Insight Software Consortium
@@ -28,7 +28,7 @@ BuildRequires:  zlib-devel
 BuildRequires:  hdf5-devel
 #BuildRequires:  fftw3-devel
 BuildRequires:  libjpeg-devel
-#BuildRequires:  gdcm-devel
+BuildRequires:  gdcm-devel
 #BuildRequires:  vxl-devel
 #For documentation
 #BuildRequires:  graphviz
@@ -79,7 +79,7 @@ mkdir itk_build
 %build
 cd itk_build
 %cmake -DBUILD_SHARED_LIBS:BOOL=ON \
-       -DBUILD_EXAMPLES:BOOL=ON \
+       -DBUILD_EXAMPLES:BOOL=OFF \
        -DCMAKE_BUILD_TYPE:STRING="RelWithDebInfo"\
        -DCMAKE_VERBOSE_MAKEFILE=ON\
        -DBUILD_TESTING=OFF\
@@ -92,12 +92,14 @@ cd itk_build
        -DITK_USE_PATENTED:BOOL=OFF \
        -DITK_USE_SYSTEM_HDF5=ON \
        -DITK_USE_SYSTEM_JPEG=ON \
-       -DITK_USE_SYSTEM_TIFF=OFF \
+       -DITK_USE_SYSTEM_TIFF=ON \
        -DITK_USE_SYSTEM_PNG=ON \
        -DITK_USE_SYSTEM_ZLIB=ON \
        -DITK_USE_SYSTEM_GDCM=ON \
        -DITK_USE_SYSTEM_VXL=OFF \
-       -DITK_INSTALL_LIBRARY_DIR=%{_lib} \
+       -DITK_INSTALL_LIBRARY_DIR=%{_lib}/%{name} \
+       -DITK_INSTALL_INCLUDE_DIR=include/%{name} \
+       -DITK_INSTALL_PACKAGE_DIR=%{_lib}/%{name}/cmake \
        -DCMAKE_CXX_FLAGS:STRING="-fpermissive" ../
 
 make %{?_smp_mflags}
@@ -114,11 +116,11 @@ cp -r Examples/* %{buildroot}%{_datadir}/%{name}/examples/
 # remove copyrighted material
 rm -rf %{buildroot}%{_datadir}/%{name}/examples/Patented
 
-mv $RPM_BUILD_ROOT%{_libdir}/cmake $RPM_BUILD_ROOT%{_datadir}/%{name}/
+#mv $RPM_BUILD_ROOT%{_libdir}/cmake $RPM_BUILD_ROOT%{_datadir}/%{name}/
 
 # Install ldd config file
-#mkdir -p %{buildroot}%{_sysconfdir}/ld.so.conf.d/
-#echo %{_libdir}/%{name} > %{buildroot}%{_sysconfdir}/ld.so.conf.d/%{name}.conf
+mkdir -p %{buildroot}%{_sysconfdir}/ld.so.conf.d/
+echo %{_libdir}/%{name} > %{buildroot}%{_sysconfdir}/ld.so.conf.d/%{name}.conf
 
 %clean
 rm -rf %{buildroot}
@@ -129,11 +131,11 @@ rm -rf %{buildroot}
 %dir %{_libdir}
 %dir %{_datadir}/%{name}
 #In order to recognize /usr/lib64/InsightToolkit we need to ship a proper file for /etc/ld.so.conf.d/
-#%config %{_sysconfdir}/ld.so.conf.d/%{name}.conf
+%config %{_sysconfdir}/ld.so.conf.d/%{name}.conf
 %{_bindir}/itkTestDriver
 #%{_bindir}/DicomSeriesReadImageWrite2
 #%{_libdir}/%{name}/*.so.*
-%{_libdir}/*.so.*
+%{_libdir}/%{name}/*.so.*
 
 #%doc Copyright/*
 
@@ -155,10 +157,10 @@ Insight Toolkit Library Header Files and Link Libraries
 %defattr(-,root,root)
 %doc Documentation/README.html
 %doc ItkSoftwareGuide-2.4.0.pdf
-#%{_libdir}/%{name}/*.so
-%{_libdir}/*.so
-%{_includedir}/ITK-4.2/
-%{_datadir}/%{name}/cmake/
+%{_libdir}/%{name}/*.so
+%{_libdir}/%{name}/cmake/
+#%{_libdir}/*.so
+%{_includedir}/%{name}/
 
 %package        examples
 Summary:        C++, Tcl and Python example programs/scripts for ITK
@@ -190,6 +192,9 @@ ITK doc
 
 
 %changelog
+* Mon Nov 26 2012 Mario Ceresa mrceresa fedoraproject org InsightToolkit 4.2.1-2%{?dist}
+- Reorganized install paths
+
 * Tue Nov 20 2012 Mario Ceresa mrceresa fedoraproject org InsightToolkit 4.2.1-1
 - Updated to new version
 
