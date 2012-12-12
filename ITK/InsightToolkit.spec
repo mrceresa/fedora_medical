@@ -11,6 +11,7 @@ Source0:        http://downloads.sourceforge.net/project/itk/itk/4.2/InsightTool
 Source1:        http://downloads.sourceforge.net/project/itk/itk/2.4/ItkSoftwareGuide-2.4.0.pdf
 URL:            http://www.itk.org/
 Patch0:		0001-Set-lib-lib64-according-to-the-architecture.patch
+Patch1:		0002-Fixed-vnl_math-namespace-usage-for-compatibility-wit.patch
 
 # Thanks to Mathieu Malaterre for pointing out the following patch
 # The patch was retrieved from http://itk.org/gitweb?p=ITK.git;a=patch;h=93833edb2294c0190af9e6c0de26e9485399a7d3
@@ -29,7 +30,7 @@ BuildRequires:  hdf5-devel
 #BuildRequires:  fftw3-devel
 BuildRequires:  libjpeg-devel
 BuildRequires:  gdcm-devel
-#BuildRequires:  vxl-devel
+BuildRequires:  vxl-devel
 #For documentation
 #BuildRequires:  graphviz
 BuildRequires:  doxygen
@@ -54,7 +55,7 @@ discovered at compile-time, rather than at run-time during program execution.
 %setup -q
 
 %patch0 -p1
-#%patch2 -p1
+%patch1 -p1
 #%patch3 -p1
 #%patch4 -p1
 
@@ -192,6 +193,9 @@ ITK doc
 
 
 %changelog
+* Tue Dec 4 2012 Mario Ceresa mrceresa fedoraproject org InsightToolkit 4.2.1-3%{?dist}
+- Build against system VXL
+
 * Mon Nov 26 2012 Mario Ceresa mrceresa fedoraproject org InsightToolkit 4.2.1-2%{?dist}
 - Reorganized install paths
 
