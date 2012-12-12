@@ -1,13 +1,17 @@
+%define _ver_major      4
+%define _ver_minor      2
+%define _ver_release    1
+
 
 Buildroot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 Summary:        Insight Toolkit library for medical image processing
 Name:           InsightToolkit
-Version:        4.2.1
-Release:        2%{?dist}
+Version:        %{_ver_major}.%{_ver_minor}.%{_ver_release}
+Release:        4%{?dist}
 License:        BSD
 Group:          Applications/Engineering
 Vendor:         Insight Software Consortium
-Source0:        http://downloads.sourceforge.net/project/itk/itk/4.2/InsightToolkit-4.2.1.tar.gz
+Source0:        http://sourceforge.net/projects/itk/files/itk/%{_ver_major}.%{_ver_minor}/InsightToolkit-%{version}.tar.xz
 Source1:        http://downloads.sourceforge.net/project/itk/itk/2.4/ItkSoftwareGuide-2.4.0.pdf
 URL:            http://www.itk.org/
 Patch0:		0001-Set-lib-lib64-according-to-the-architecture.patch
@@ -22,15 +26,17 @@ Patch1:		0002-Fixed-vnl_math-namespace-usage-for-compatibility-wit.patch
 #Patch5:         0005-Provide-a-target-for-vtkmetaio.patch
 
 BuildRequires:  cmake >= 2.6.0
+BuildRequires:  fftw-devel
+BuildRequires:  gcc-c++
+BuildRequires:  gdcm-devel
+BuildRequires:  hdf5-devel
+BuildRequires:  libjpeg-turbo-devel
 BuildRequires:  libxml2-devel
 BuildRequires:  libpng-devel
 BuildRequires:  libtiff-devel
-BuildRequires:  zlib-devel
-BuildRequires:  hdf5-devel
-#BuildRequires:  fftw3-devel
 BuildRequires:  libjpeg-devel
-BuildRequires:  gdcm-devel
 BuildRequires:  vxl-devel
+BuildRequires:  zlib-devel
 #For documentation
 #BuildRequires:  graphviz
 BuildRequires:  doxygen
@@ -75,11 +81,14 @@ cp %{SOURCE1} .
 rm -rf Applications/
 
 ### end of removing
-mkdir itk_build
 
 %build
-cd itk_build
-%cmake -DBUILD_SHARED_LIBS:BOOL=ON \
+
+mkdir -p %{_target_platform}
+pushd %{_target_platform}
+
+%cmake .. \
+	-DBUILD_SHARED_LIBS:BOOL=ON \
        -DBUILD_EXAMPLES:BOOL=OFF \
        -DCMAKE_BUILD_TYPE:STRING="RelWithDebInfo"\
        -DCMAKE_VERBOSE_MAKEFILE=ON\
@@ -101,15 +110,17 @@ cd itk_build
        -DITK_INSTALL_LIBRARY_DIR=%{_lib}/%{name} \
        -DITK_INSTALL_INCLUDE_DIR=include/%{name} \
        -DITK_INSTALL_PACKAGE_DIR=%{_lib}/%{name}/cmake \
-       -DCMAKE_CXX_FLAGS:STRING="-fpermissive" ../
+       -DITK_INSTALL_RUNTIME_DIR:PATH=%{_bindir} \
+       -DCMAKE_CXX_FLAGS:STRING="-fpermissive"
 
-make %{?_smp_mflags}
+popd
+
+make %{?_smp_mflags} -C %{_target_platform}
 
 %install
-rm -rf %{buildroot}
-pushd itk_build
-make install DESTDIR=%{buildroot}
-popd
+rm -rf $RPM_BUILD_ROOT
+%make_install -C %{_target_platform}
+
 # Install examples
 mkdir -p %{buildroot}%{_datadir}/%{name}/examples
 cp -r Examples/* %{buildroot}%{_datadir}/%{name}/examples/
@@ -123,8 +134,10 @@ rm -rf %{buildroot}%{_datadir}/%{name}/examples/Patented
 mkdir -p %{buildroot}%{_sysconfdir}/ld.so.conf.d/
 echo %{_libdir}/%{name} > %{buildroot}%{_sysconfdir}/ld.so.conf.d/%{name}.conf
 
-%clean
-rm -rf %{buildroot}
+%post -p /sbin/ldconfig
+
+%postun -p /sbin/ldconfig
+
 
 %files
 %defattr(-,root,root,-)
@@ -140,10 +153,6 @@ rm -rf %{buildroot}
 
 #%doc Copyright/*
 
-
-%post -p /sbin/ldconfig
-
-%postun -p /sbin/ldconfig
 
 %package        devel
 Summary:        Insight Toolkit
@@ -193,6 +202,9 @@ ITK doc
 
 
 %changelog
+* Wed Dec 12 2012 Mario Ceresa mrceresa fedoraproject org InsightToolkit 4.2.1-4%{?dist}
+- Included improvements to the spec file from Dan VrÃ¡til
+
 * Tue Dec 4 2012 Mario Ceresa mrceresa fedoraproject org InsightToolkit 4.2.1-3%{?dist}
 - Build against system VXL
 
