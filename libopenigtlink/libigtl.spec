@@ -75,15 +75,6 @@ echo %{_libdir}/%{_short_name} > %{buildroot}%{_sysconfdir}/ld.so.conf.d/%{name}
 
 %postun -p /sbin/ldconfig
 
-%package        devel
-Summary:        libigtl development files
-Group:          Development/Libraries
-Requires:       %{name}%{?_isa} = %{version}-%{release}
-
-%description devel
-
-OpenIGTLink Library Header Files and Link Libraries
-
 
 %files
 %dir %{_libdir}/igtl/
