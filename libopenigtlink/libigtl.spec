@@ -1,11 +1,11 @@
-%define _short_name igtl
-%define _ver_major      1
-%define _ver_minor      9
-%define _ver_release    7
+%global _short_name igtl
+%global _ver_major      1
+%global _ver_minor      9
+%global _ver_release    7
 
 Name:		lib%{_short_name}
 Version:	%{_ver_major}.%{_ver_minor}.%{_ver_release}
-Release:	1%{?dist}
+Release:	2%{?dist}
 Summary:	Free, open-source network communication library for image-guided therapy
 
 License:	BSD
@@ -16,17 +16,17 @@ BuildRequires:	cmake
 
 %description
 OpenIGTLink provides a standardized mechanism for communications among computers
-and devices in operating rooms (OR) for wide variety of image-guided therapy (IGT)
-applications. Examples of such applications include:
+and devices in operating rooms (OR) for wide variety of image-guided therapy 
+(IGT) applications. Examples of such applications include:
 
 * Stereotactic surgical guidance using optical position sensor.
 * Intraoperative image guidance using real-time MRI.
-* Robot-assisted intervention using robotic device and surgical planning software 
+* Robot-assisted intervention with robotic device + surgical planning software
 
-OpenIGTLink is a set of digital messaging formats and rules (protocol) used for data 
-exchange on a local area network (LAN). The specification of OpenIGTLink and its 
-reference implementation, the OpenIGTLink Library, are available free of charge 
-for any purpose including commercial use. 
+OpenIGTLink is a set of digital messaging formats and rules (protocol) used 
+for data exchange on a local area network (LAN). The specification of 
+OpenIGTLink and its reference implementation, the OpenIGTLink Library, are 
+available free of charge for any purpose including commercial use. 
 
 An OpenIGTLink interface is available in popular medical image processing and 
 visualization software 3D Slicer.
@@ -62,10 +62,9 @@ popd
 make %{?_smp_mflags} -C %{_target_platform}
 
 %install
-rm -rf $RPM_BUILD_ROOT
 %make_install -C %{_target_platform}
 
-find $RPM_BUILD_ROOT -name '*.la' -exec rm -f {} ';'
+find %{buildroot} -name '*.la' -exec rm -f {} ';'
 
 # Install ldd config file
 mkdir -p %{buildroot}%{_sysconfdir}/ld.so.conf.d/
@@ -76,11 +75,20 @@ echo %{_libdir}/%{_short_name} > %{buildroot}%{_sysconfdir}/ld.so.conf.d/%{name}
 
 %postun -p /sbin/ldconfig
 
+%package        devel
+Summary:        libigtl development files
+Group:          Development/Libraries
+Requires:       %{name}%{?_isa} = %{version}-%{release}
+
+%description devel
+
+OpenIGTLink Library Header Files and Link Libraries
+
 
 %files
-%{_libdir}/igtl/*
+%dir %{_libdir}/igtl/
 #In order to recognize /usr/lib64/igtl we need to ship a proper file for /etc/ld.so.conf.d/
-%config %{_sysconfdir}/ld.so.conf.d/%{name}.conf
+%config(noreplace) %{_sysconfdir}/ld.so.conf.d/%{name}.conf
 %{_libdir}/igtl/*.so.*
 
 %files devel
@@ -89,6 +97,13 @@ echo %{_libdir}/%{_short_name} > %{buildroot}%{_sysconfdir}/ld.so.conf.d/%{name}
 
 
 %changelog
+* Mon Dec 17 2012 Mario Ceresa mrceresa fedoraproject org libOpenIGTLink 1.9.7-2%{?dist}
+- Fixing fedora-review detected errors:
+-- Duplicate listing in libdir
+-- Macro consistency improved
+-- Using config noreplace
+-- Use global instead of define
+
 * Mon Dec 17 2012 Mario Ceresa mrceresa fedoraproject org libOpenIGTLink 1.9.7-1%{?dist}
 - Initial import
 
