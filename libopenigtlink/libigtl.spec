@@ -12,7 +12,7 @@ License:	BSD
 URL:		https://github.com/openigtlink/OpenIGTLink/
 Source0:	https://github.com/openigtlink/OpenIGTLink/tarball/development/openigtlink-OpenIGTLink-00c007f.tar.gz
 
-#BuildRequires:	
+BuildRequires:	cmake
 
 %description
 OpenIGTLink provides a standardized mechanism for communications among computers
