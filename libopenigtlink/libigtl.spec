@@ -77,15 +77,15 @@ echo %{_libdir}/%{_short_name} > %{buildroot}%{_sysconfdir}/ld.so.conf.d/%{name}
 
 
 %files
-%dir %{_libdir}/igtl/
+%dir %{_libdir}/%{_short_name}/
 #In order to recognize /usr/lib64/igtl we need to ship a proper file for /etc/ld.so.conf.d/
 %config(noreplace) %{_sysconfdir}/ld.so.conf.d/%{name}.conf
-%{_libdir}/igtl/*.so.*
+%{_libdir}/%{_short_name}/*.so.*
 
 %files devel
-%{_includedir}/igtl/*
-%{_libdir}/igtl/*.so
-
+%{_includedir}/%{_short_name}/*
+%{_libdir}/%{_short_name}/*.so
+%{_libdir}/{_short_name}/cmake/*
 
 %changelog
 * Mon Dec 17 2012 Mario Ceresa mrceresa fedoraproject org libOpenIGTLink 1.9.7-2%{?dist}
@@ -94,6 +94,7 @@ echo %{_libdir}/%{_short_name} > %{buildroot}%{_sysconfdir}/ld.so.conf.d/%{name}
 -- Macro consistency improved
 -- Using config noreplace
 -- Use global instead of define
+- Fixed dir ownership
 
 * Mon Dec 17 2012 Mario Ceresa mrceresa fedoraproject org libOpenIGTLink 1.9.7-1%{?dist}
 - Initial import
