@@ -1,7 +1,10 @@
 %define _short_name igtl
+%define _ver_major      1
+%define _ver_minor      9
+%define _ver_release    7
 
 Name:		lib%{_short_name}
-Version:	1.0
+Version:	%{_ver_major}.%{_ver_minor}.%{_ver_release}
 Release:	1%{?dist}
 Summary:	Free, open-source network communication library for image-guided therapy
 
@@ -75,20 +78,18 @@ echo %{_libdir}/%{_short_name} > %{buildroot}%{_sysconfdir}/ld.so.conf.d/%{name}
 
 
 %files
-%doc
-%dir %{_libdir}/%{_short_name}
+%{_libdir}/igtl/*
 #In order to recognize /usr/lib64/igtl we need to ship a proper file for /etc/ld.so.conf.d/
 %config %{_sysconfdir}/ld.so.conf.d/%{name}.conf
-%{_libdir}/%{_short_name}/*.so.*
+%{_libdir}/igtl/*.so.*
 
 %files devel
-%doc
-%dir %{_includedir}/%{_short_name}/
-%{_libdir}/%{_short_name}/*.so
+%{_includedir}/igtl/*
+%{_libdir}/igtl/*.so
 
 
 %changelog
-* Mon Dec 17 2012 Mario Ceresa mrceresa fedoraproject org libOpenIGTLink 1.0-1%{?dist}
+* Mon Dec 17 2012 Mario Ceresa mrceresa fedoraproject org libOpenIGTLink 1.9.7-1%{?dist}
 - Initial import
 
 
