@@ -1,13 +1,15 @@
-Name:		libopenigt
+%define _short_name igtl
+
+Name:		lib%{_short_name}
 Version:	1.0
 Release:	1%{?dist}
 Summary:	Free, open-source network communication library for image-guided therapy
 
 License:	BSD
 URL:		https://github.com/openigtlink/OpenIGTLink/
-Source0:	https://github.com/openigtlink/OpenIGTLink/tarball/development
+Source0:	https://github.com/openigtlink/OpenIGTLink/tarball/development/openigtlink-OpenIGTLink-00c007f.tar.gz
 
-BuildRequires:  
+#BuildRequires:	
 
 %description
 OpenIGTLink provides a standardized mechanism for communications among computers
@@ -36,7 +38,7 @@ developing applications that use %{name}.
 
 
 %prep
-%setup -q
+%setup -q -n openigtlink-OpenIGTLink-00c007f
 
 
 %build
@@ -44,10 +46,13 @@ mkdir -p %{_target_platform}
 pushd %{_target_platform}
 %cmake .. \
     -DBUILD_SHARED_LIBS:BOOL=ON \
-    -DBUILD_EXAMPLES:BOOL=OFF \
+    -DBUILD_EXAMPLES:BOOL=ON \
     -DCMAKE_BUILD_TYPE:STRING="RelWithDebInfo"\
     -DCMAKE_VERBOSE_MAKEFILE=ON\
-    -DBUILD_TESTING=OFF
+    -DOpenIGTLink_INSTALL_LIB_DIR=%{_lib}/%{_short_name} \
+    -DOpenIGTLink_INSTALL_PACKAGE_DIR=%{_lib}/%{_short_name}/cmake \
+    -DBUILD_TESTING=ON \
+    -DBUILD_DOCUMENTATION=ON
 
 popd
 
@@ -59,6 +64,10 @@ rm -rf $RPM_BUILD_ROOT
 
 find $RPM_BUILD_ROOT -name '*.la' -exec rm -f {} ';'
 
+# Install ldd config file
+mkdir -p %{buildroot}%{_sysconfdir}/ld.so.conf.d/
+echo %{_libdir}/%{_short_name} > %{buildroot}%{_sysconfdir}/ld.so.conf.d/%{name}.conf
+
 
 %post -p /sbin/ldconfig
 
@@ -67,12 +76,15 @@ find $RPM_BUILD_ROOT -name '*.la' -exec rm -f {} ';'
 
 %files
 %doc
-%{_libdir}/*.so.*
+%dir %{_libdir}/%{_short_name}
+#In order to recognize /usr/lib64/igtl we need to ship a proper file for /etc/ld.so.conf.d/
+%config %{_sysconfdir}/ld.so.conf.d/%{name}.conf
+%{_libdir}/%{_short_name}/*.so.*
 
 %files devel
 %doc
-%{_includedir}/*
-%{_libdir}/*.so
+%dir %{_includedir}/%{_short_name}/
+%{_libdir}/%{_short_name}/*.so
 
 
 %changelog
