@@ -85,7 +85,7 @@ echo %{_libdir}/%{_short_name} > %{buildroot}%{_sysconfdir}/ld.so.conf.d/%{name}
 %files devel
 %{_includedir}/%{_short_name}/*
 %{_libdir}/%{_short_name}/*.so
-%{_libdir}/{_short_name}/cmake/*
+%{_libdir}/%{_short_name}/cmake/*
 
 %changelog
 * Mon Dec 17 2012 Mario Ceresa mrceresa fedoraproject org libOpenIGTLink 1.9.7-2%{?dist}
