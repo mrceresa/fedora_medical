@@ -78,6 +78,7 @@ echo %{_libdir}/%{_short_name} > %{buildroot}%{_sysconfdir}/ld.so.conf.d/%{name}
 
 %files
 %dir %{_libdir}/%{_short_name}/
+%doc LICENSE.txt README
 #In order to recognize /usr/lib64/igtl we need to ship a proper file for /etc/ld.so.conf.d/
 %config(noreplace) %{_sysconfdir}/ld.so.conf.d/%{name}.conf
 %{_libdir}/%{_short_name}/*.so.*
@@ -88,6 +89,10 @@ echo %{_libdir}/%{_short_name} > %{buildroot}%{_sysconfdir}/ld.so.conf.d/%{name}
 %{_libdir}/%{_short_name}/cmake/*
 
 %changelog
+* Mon Dec 17 2012 Mario Ceresa mrceresa fedoraproject org libOpenIGTLink 1.9.7-3%{?dist}
+- Added license and README file
+
+
 * Mon Dec 17 2012 Mario Ceresa mrceresa fedoraproject org libOpenIGTLink 1.9.7-2%{?dist}
 - Fixing fedora-review detected errors:
 -- Duplicate listing in libdir
