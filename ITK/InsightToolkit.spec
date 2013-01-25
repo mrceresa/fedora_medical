@@ -99,7 +99,7 @@ pushd %{_target_platform}
        -DITK_USE_PATENTED:BOOL=OFF \
        -DITK_USE_SYSTEM_HDF5=ON \
        -DITK_USE_SYSTEM_JPEG=ON \
-       -DITK_USE_SYSTEM_TIFF=OFF \
+       -DITK_USE_SYSTEM_TIFF=ON \
        -DITK_USE_SYSTEM_PNG=ON \
        -DITK_USE_SYSTEM_ZLIB=ON \
        -DITK_USE_SYSTEM_GDCM=ON \
