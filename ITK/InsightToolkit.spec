@@ -135,9 +135,8 @@ echo %{_libdir}/%{name} > %{buildroot}%{_sysconfdir}/ld.so.conf.d/%{name}.conf
 
 
 %files
-%defattr(-,root,root,-)
-%dir %{_libdir}
-%dir %{_datadir}/%{name}
+%{_datadir}/%{name}
+%{_libdir}/%{name}
 #In order to recognize /usr/lib64/InsightToolkit we need to ship a proper file for /etc/ld.so.conf.d/
 %config %{_sysconfdir}/ld.so.conf.d/%{name}.conf
 %{_bindir}/itkTestDriver
@@ -154,7 +153,6 @@ Requires:       %{name} = %{version}-%{release}
 Install this if you want to develop applications that use ITK.
 
 %files devel
-%defattr(-,root,root)
 %doc Documentation/README.html
 %doc ItkSoftwareGuide-2.4.0.pdf
 %{_libdir}/%{name}/*.so
@@ -170,8 +168,7 @@ Requires:       %{name} = %{version}-%{release}
 ITK examples
 
 %files          examples
-%defattr(-,root,root,-)
-%dir %{_datadir}/%{name}/examples
+%{_datadir}/%{name}/examples
 %{_datadir}/%{name}/examples/*
 
 
