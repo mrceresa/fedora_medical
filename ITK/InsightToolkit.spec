@@ -7,7 +7,7 @@ Buildroot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 Summary:        Insight Toolkit library for medical image processing
 Name:           InsightToolkit
 Version:        %{_ver_major}.%{_ver_minor}.%{_ver_release}
-Release:        4%{?dist}
+Release:        5%{?dist}
 License:        BSD
 Group:          Applications/Engineering
 Vendor:         Insight Software Consortium
@@ -27,7 +27,6 @@ Patch1:		0002-Fixed-vnl_math-namespace-usage-for-compatibility-wit.patch
 
 BuildRequires:  cmake >= 2.6.0
 BuildRequires:  fftw-devel
-BuildRequires:  gcc-c++
 BuildRequires:  gdcm-devel
 BuildRequires:  hdf5-devel
 BuildRequires:  libjpeg-turbo-devel
@@ -202,8 +201,18 @@ ITK doc
 
 
 %changelog
+* Fri Jan 25 2013 Mario Ceresa mrceresa fedoraproject org InsightToolkit 4.2.1-5%{?dist}
+- Dropped gcc from BR
+- Fixed tabs-vs-space
+- Improved description
+- Re-enabled system tiff
+- Clean up the spec
+- Sanitize use of dir macro
+- Re-organized docs
+- Fixed libdir and datadir ownership
+
 * Wed Dec 12 2012 Mario Ceresa mrceresa fedoraproject org InsightToolkit 4.2.1-4%{?dist}
-- Included improvements to the spec file from Dan VrÃ¡til
+- Included improvements to the spec file from Dan Vratil
 
 * Tue Dec 4 2012 Mario Ceresa mrceresa fedoraproject org InsightToolkit 4.2.1-3%{?dist}
 - Build against system VXL
