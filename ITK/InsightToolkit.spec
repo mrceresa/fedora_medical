@@ -62,14 +62,6 @@ discovered at compile-time, rather than at run-time during program execution.
 %patch0 -p1
 %patch1 -p1
 
-#Remove bundled library (let's use FEDORA's ones)
-
-# Leave itkpng because new libpng changed apis
-for l in ZLIB GDCM JPEG PNG TIFF Expat OpenJPEG
-do
-    find Modules/ThirdParty/$l -type f ! -name 'CMakeLists.txt' -execdir rm {} +
-done
-
 # copy guide into the appropriate directory
 cp %{SOURCE1} .
 
@@ -111,7 +103,8 @@ pushd %{_target_platform}
 
 popd
 
-make %{?_smp_mflags} -C %{_target_platform}
+#make %{?_smp_mflags} -C %{_target_platform}
+make -C %{_target_platform}
 
 %install
 rm -rf $RPM_BUILD_ROOT
