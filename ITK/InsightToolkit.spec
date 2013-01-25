@@ -14,12 +14,12 @@ Vendor:         Insight Software Consortium
 Source0:        http://sourceforge.net/projects/itk/files/itk/%{_ver_major}.%{_ver_minor}/InsightToolkit-%{version}.tar.gz
 Source1:        http://downloads.sourceforge.net/project/itk/itk/2.4/ItkSoftwareGuide-2.4.0.pdf
 URL:            http://www.itk.org/
-Patch0:		0001-Set-lib-lib64-according-to-the-architecture.patch
-Patch1:		0002-Fixed-vnl_math-namespace-usage-for-compatibility-wit.patch
+Patch0:         0001-Set-lib-lib64-according-to-the-architecture.patch
+Patch1:         0002-Fixed-vnl_math-namespace-usage-for-compatibility-wit.patch
 
 # Thanks to Mathieu Malaterre for pointing out the following patch
 # The patch was retrieved from http://itk.org/gitweb?p=ITK.git;a=patch;h=93833edb2294c0190af9e6c0de26e9485399a7d3
-#Patch1:		0001-Fix-vtkmetaio.patch
+#Patch1:         0001-Fix-vtkmetaio.patch
 #Patch2:         0002-Fix-install-dir.patch
 #Patch3:         0003-Remove-applications-because-this-is-now-a-separate-I.patch
 #Patch4:         0004-Fix-cstddef-inclusion-for-gcc-4.6.patch
@@ -64,11 +64,10 @@ discovered at compile-time, rather than at run-time during program execution.
 
 #Remove bundled library (let's use FEDORA's ones)
 
-for l in itkzlib zlib itkpng itktiff gdcm
 # Leave itkpng because new libpng changed apis
 for l in ZLIB GDCM JPEG PNG TIFF Expat OpenJPEG
 do
-	find Modules/ThirdParty/$l -type f ! -name 'CMakeLists.txt' -execdir rm {} +
+    find Modules/ThirdParty/$l -type f ! -name 'CMakeLists.txt' -execdir rm {} +
 done
 
 # copy guide into the appropriate directory
