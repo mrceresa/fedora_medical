@@ -1,11 +1,11 @@
 %global _short_name igtl
-%global _ver_major      1
-%global _ver_minor      9
-%global _ver_release    7
+%global _ver_major 1
+%global _ver_minor 9
+%global _ver_release 7
 
 Name:		lib%{_short_name}
 Version:	%{_ver_major}.%{_ver_minor}.%{_ver_release}
-Release:	5%{?dist}
+Release:	6%{?dist}
 Summary:	Network communication library for image-guided therapy
 
 License:	BSD
@@ -25,9 +25,9 @@ BuildRequires:	graphviz
 BuildRequires:	doxygen
 # Including fonts for fedora 18 and later
 %if 0%{?fedora} >= 18
-BuildRequires: tex-helvetic
-BuildRequires: tex-symbol
-BuildRequires: tex-times
+BuildRequires:	tex-helvetic
+BuildRequires:	tex-symbol
+BuildRequires:	tex-times
 %endif
 
 
@@ -48,20 +48,20 @@ available free of charge for any purpose including commercial use.
 An OpenIGTLink interface is available in popular medical image processing and 
 visualization software 3D Slicer.
 
-%package        devel
-Summary:        Development files for %{name}
-Requires:       %{name}%{?_isa} = %{version}-%{release}
+%package	devel
+Summary:	Development files for %{name}
+Requires:	%{name}%{?_isa} = %{version}-%{release}
 
-%description    devel
+%description	devel
 The %{name}-devel package contains libraries and header files for
 developing applications that use %{name}.
 
-%package        doc
-Summary:        Documentation for %{name}
-Group:          Documentation
-Requires:       %{name}%{?_isa} = %{version}-%{release}
+%package	doc
+Summary:	Documentation for %{name}
+Group:		Documentation
+Requires:	%{name}%{?_isa} = %{version}-%{release}
 
-%description    doc
+%description	doc
 The %{name}-doc package contains documentation for %{name}
 
 %prep
@@ -70,8 +70,8 @@ The %{name}-doc package contains documentation for %{name}
 %patch1 -p1
 %patch2 -p1
 
-# Thanks to Jarry James for suggesting this handy fix to the documentation
-sed s/dvips/pdftex/ Documents/Papers/InsightJournal2008/OpenIGTLinkIJ2008.tex
+# Build documentation with pdflatex instead of latex + dvips
+sed -i s/dvips/pdftex/ Documents/Papers/InsightJournal2008/OpenIGTLinkIJ2008.tex
 
 %build
 mkdir -p %{_target_platform}
@@ -98,6 +98,8 @@ find %{buildroot} -name '*.la' -exec rm -f {} ';'
 
 # Install documentation
 mkdir -p %{buildroot}%{_docdir}/%{name}-%{version}
+cp LICENSE.txt %{buildroot}%{_docdir}/%{name}-%{version}/
+cp README %{buildroot}%{_docdir}/%{name}-%{version}/
 
 pushd %{_target_platform}
 cp Documents/Papers/InsightJournal2008/OpenIGTLinkIJ2008.pdf %{buildroot}%{_docdir}/%{name}-%{version}/
@@ -113,7 +115,9 @@ make test -C %{_target_platform}
 
 
 %files
-%doc LICENSE.txt README
+%dir %{_docdir}/%{name}-%{version}
+%{_docdir}/%{name}-%{version}/LICENSE.txt
+%{_docdir}/%{name}-%{version}/README
 %{_libdir}/*.so.*
 
 %files devel
@@ -123,15 +127,18 @@ make test -C %{_target_platform}
 %{_libdir}/*.so
 %{_datadir}/%{_short_name}/cmake/
 
-%files          doc
-#%dir %{_docdir}/%{name}-%{version}
+%files doc
 %{_docdir}/%{name}-%{version}/OpenIGTLinkIJ2008.pdf
 %{_docdir}/%{name}-%{version}/html/
 
 
-
 %changelog
-* Wed Dec 19 2012 Mario Ceresa <mrceresa at fedoraproject.org> 1.9.7-5%{?dist}
+* Fri Dec 21 2012 Mario Ceresa <mrceresa at fedoraproject.org> 1.9.7-6
+- Fixing documentation
+- Fixing changelogs
+- Fixing miscellaneous rpmlit errors
+
+* Wed Dec 19 2012 Mario Ceresa <mrceresa at fedoraproject.org> 1.9.7-5
 - Fixed compilation of documentation under f18+
 - Fixed double inclusion of doc files
 - Shortened summary
@@ -140,13 +147,13 @@ make test -C %{_target_platform}
 - Commented patches
 
 
-* Tue Dec 18 2012 Mario Ceresa <mrceresa at fedoraproject.org> 1.9.7-4%{?dist}
+* Tue Dec 18 2012 Mario Ceresa <mrceresa at fedoraproject.org> 1.9.7-4
 - Added documentation
 
-* Mon Dec 17 2012 Mario Ceresa <mrceresa at fedoraproject.org> 1.9.7-3%{?dist}
+* Mon Dec 17 2012 Mario Ceresa <mrceresa at fedoraproject.org> 1.9.7-3
 - Added license and README file
 
-* Mon Dec 17 2012 Mario Ceresa <mrceresa at fedoraproject.org> 1.9.7-2%{?dist}
+* Mon Dec 17 2012 Mario Ceresa <mrceresa at fedoraproject.org> 1.9.7-2
 - Fixing fedora-review detected errors:
 -- Duplicate listing in libdir
 -- Macro consistency improved
@@ -154,7 +161,7 @@ make test -C %{_target_platform}
 -- Use global instead of define
 - Fixed dir ownership
 
-* Mon Dec 17 2012 Mario Ceresa <mrceresa at fedoraproject.org> 1.9.7-1%{?dist}
+* Mon Dec 17 2012 Mario Ceresa <mrceresa at fedoraproject.org> 1.9.7-1
 - Initial import
 
 
