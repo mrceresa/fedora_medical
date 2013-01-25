@@ -37,7 +37,7 @@ BuildRequires:  libjpeg-devel
 BuildRequires:  vxl-devel
 BuildRequires:  zlib-devel
 #For documentation
-#BuildRequires:  graphviz
+BuildRequires:  graphviz
 BuildRequires:  doxygen
 
 %description
@@ -61,17 +61,15 @@ discovered at compile-time, rather than at run-time during program execution.
 
 %patch0 -p1
 %patch1 -p1
-#%patch3 -p1
-#%patch4 -p1
 
 #Remove bundled library (let's use FEDORA's ones)
 
-#for l in itkzlib zlib itkpng itktiff gdcm
+for l in itkzlib zlib itkpng itktiff gdcm
 # Leave itkpng because new libpng changed apis
-#for l in ZLIB GDCM JPEG PNG TIFF Expat OpenJPEG
-#do
-#	find Modules/ThirdParty/$l -type f ! -name 'CMakeLists.txt' -execdir rm {} +
-#done
+for l in ZLIB GDCM JPEG PNG TIFF Expat OpenJPEG
+do
+	find Modules/ThirdParty/$l -type f ! -name 'CMakeLists.txt' -execdir rm {} +
+done
 
 # copy guide into the appropriate directory
 cp %{SOURCE1} .
@@ -127,8 +125,6 @@ cp -r Examples/* %{buildroot}%{_datadir}/%{name}/examples/
 # remove copyrighted material
 rm -rf %{buildroot}%{_datadir}/%{name}/examples/Patented
 
-#mv $RPM_BUILD_ROOT%{_libdir}/cmake $RPM_BUILD_ROOT%{_datadir}/%{name}/
-
 # Install ldd config file
 mkdir -p %{buildroot}%{_sysconfdir}/ld.so.conf.d/
 echo %{_libdir}/%{name} > %{buildroot}%{_sysconfdir}/ld.so.conf.d/%{name}.conf
@@ -140,18 +136,12 @@ echo %{_libdir}/%{name} > %{buildroot}%{_sysconfdir}/ld.so.conf.d/%{name}.conf
 
 %files
 %defattr(-,root,root,-)
-#%dir %{_libdir}/%{name}
 %dir %{_libdir}
 %dir %{_datadir}/%{name}
 #In order to recognize /usr/lib64/InsightToolkit we need to ship a proper file for /etc/ld.so.conf.d/
 %config %{_sysconfdir}/ld.so.conf.d/%{name}.conf
 %{_bindir}/itkTestDriver
-#%{_bindir}/DicomSeriesReadImageWrite2
-#%{_libdir}/%{name}/*.so.*
 %{_libdir}/%{name}/*.so.*
-
-#%doc Copyright/*
-
 
 %package        devel
 Summary:        Insight Toolkit
@@ -160,7 +150,8 @@ Requires:       %{name} = %{version}-%{release}
 
 %description devel
 
-Insight Toolkit Library Header Files and Link Libraries
+%(summary).
+Install this if you want to develop applications that use ITK.
 
 %files devel
 %defattr(-,root,root)
@@ -168,7 +159,6 @@ Insight Toolkit Library Header Files and Link Libraries
 %doc ItkSoftwareGuide-2.4.0.pdf
 %{_libdir}/%{name}/*.so
 %{_libdir}/%{name}/cmake/
-#%{_libdir}/*.so
 %{_includedir}/%{name}/
 
 %package        examples
@@ -191,11 +181,11 @@ Summary:        Documentation for ITK
 Group:          Documentation
 
 %description    doc
-ITK doc
+%{summary}.
+This package contains additional documentation.
 
 %files          doc
 %defattr(-,root,root,-)
-#%dir %{_docdir}/%{name}-%{version}
 %{_docdir}/%{name}-devel-%{version}/
 %{_docdir}/ITK-4.2/
 
