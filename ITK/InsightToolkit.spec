@@ -141,6 +141,7 @@ echo %{_libdir}/%{name} > %{buildroot}%{_sysconfdir}/ld.so.conf.d/%{name}.conf
 %config %{_sysconfdir}/ld.so.conf.d/%{name}.conf
 %{_bindir}/itkTestDriver
 %{_libdir}/%{name}/*.so.*
+%doc LICENSE README.txt NOTICE COPYRIGHT
 
 %package        devel
 Summary:        Insight Toolkit
@@ -153,8 +154,6 @@ Requires:       %{name} = %{version}-%{release}
 Install this if you want to develop applications that use ITK.
 
 %files devel
-%doc Documentation/README.html
-%doc ItkSoftwareGuide-2.4.0.pdf
 %{_libdir}/%{name}/*.so
 %{_libdir}/%{name}/cmake/
 %{_includedir}/%{name}/
@@ -185,6 +184,8 @@ This package contains additional documentation.
 %defattr(-,root,root,-)
 %{_docdir}/%{name}-devel-%{version}/
 %{_docdir}/ITK-4.2/
+%doc Documentation/README.html
+%doc ItkSoftwareGuide-2.4.0.pdf
 
 
 %changelog
