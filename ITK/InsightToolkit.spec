@@ -7,7 +7,7 @@ Buildroot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 Summary:        Insight Toolkit library for medical image processing
 Name:           InsightToolkit
 Version:        %{_ver_major}.%{_ver_minor}.%{_ver_release}
-Release:        5%{?dist}
+Release:        1%{?dist}
 License:        BSD
 Group:          Applications/Engineering
 Vendor:         Insight Software Consortium
@@ -106,7 +106,6 @@ pushd %{_target_platform}
 popd
 
 make %{?_smp_mflags} -C %{_target_platform}
-#make -C %{_target_platform}
 
 %install
 rm -rf $RPM_BUILD_ROOT
@@ -122,9 +121,6 @@ rm -rf %{buildroot}%{_datadir}/%{name}/examples/Patented
 # Install ldd config file
 mkdir -p %{buildroot}%{_sysconfdir}/ld.so.conf.d/
 echo %{_libdir}/%{name} > %{buildroot}%{_sysconfdir}/ld.so.conf.d/%{name}.conf
-
-%check
-make test
 
 %post -p /sbin/ldconfig
 
@@ -181,7 +177,7 @@ This package contains additional documentation.
 
 
 %changelog
-* Fri Jan 25 2013 Mario Ceresa mrceresa fedoraproject org InsightToolkit 4.2.1-5%{?dist}
+* Fri Jan 25 2013 Mario Ceresa mrceresa fedoraproject org InsightToolkit 4.3.1-1%{?dist}
 - Updated to 4.3.1
 - Fixed conflicts with previous patches
 - Dropped gcc from BR
