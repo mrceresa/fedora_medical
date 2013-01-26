@@ -1,5 +1,5 @@
 %define _ver_major      4
-%define _ver_minor      2
+%define _ver_minor      3
 %define _ver_release    1
 
 
@@ -14,8 +14,9 @@ Vendor:         Insight Software Consortium
 Source0:        http://sourceforge.net/projects/itk/files/itk/%{_ver_major}.%{_ver_minor}/InsightToolkit-%{version}.tar.gz
 Source1:        http://downloads.sourceforge.net/project/itk/itk/2.4/ItkSoftwareGuide-2.4.0.pdf
 URL:            http://www.itk.org/
-Patch0:         0001-Set-lib-lib64-according-to-the-architecture.patch
-Patch1:         0002-Fixed-vnl_math-namespace-usage-for-compatibility-wit.patch
+Patch0:         ITK-0001-Set-lib-lib64-according-to-the-architecture.patch
+Patch1:         ITK-0002-Fixed-vnl_math-namespace-usage-for-compatibility-wit.patch
+Patch2:         ITK-0003-ENH-Fix-vxl-vnl-namespace.patch
 
 # Thanks to Mathieu Malaterre for pointing out the following patch
 # The patch was retrieved from http://itk.org/gitweb?p=ITK.git;a=patch;h=93833edb2294c0190af9e6c0de26e9485399a7d3
@@ -61,6 +62,7 @@ discovered at compile-time, rather than at run-time during program execution.
 
 %patch0 -p1
 %patch1 -p1
+%patch2 -p1
 
 # copy guide into the appropriate directory
 cp %{SOURCE1} .
@@ -103,8 +105,8 @@ pushd %{_target_platform}
 
 popd
 
-#make %{?_smp_mflags} -C %{_target_platform}
-make -C %{_target_platform}
+make %{?_smp_mflags} -C %{_target_platform}
+#make -C %{_target_platform}
 
 %install
 rm -rf $RPM_BUILD_ROOT
@@ -121,6 +123,9 @@ rm -rf %{buildroot}%{_datadir}/%{name}/examples/Patented
 mkdir -p %{buildroot}%{_sysconfdir}/ld.so.conf.d/
 echo %{_libdir}/%{name} > %{buildroot}%{_sysconfdir}/ld.so.conf.d/%{name}.conf
 
+%check
+make test
+
 %post -p /sbin/ldconfig
 
 %postun -p /sbin/ldconfig
@@ -132,8 +137,7 @@ echo %{_libdir}/%{name} > %{buildroot}%{_sysconfdir}/ld.so.conf.d/%{name}.conf
 #In order to recognize /usr/lib64/InsightToolkit we need to ship a proper file for /etc/ld.so.conf.d/
 %config %{_sysconfdir}/ld.so.conf.d/%{name}.conf
 %{_bindir}/itkTestDriver
-%{_libdir}/%{name}/*.so.*
-%doc LICENSE README.txt NOTICE COPYRIGHT
+%doc LICENSE README.txt NOTICE
 
 %package        devel
 Summary:        Insight Toolkit
@@ -160,9 +164,6 @@ ITK examples
 
 %files          examples
 %{_datadir}/%{name}/examples
-%{_datadir}/%{name}/examples/*
-
-
 
 %package        doc
 Summary:        Documentation for ITK
@@ -174,14 +175,15 @@ This package contains additional documentation.
 
 %files          doc
 %defattr(-,root,root,-)
-%{_docdir}/%{name}-devel-%{version}/
-%{_docdir}/ITK-4.2/
-%doc Documentation/README.html
+%{_docdir}/%{name}-%{version}/
+%{_docdir}/ITK-%{_ver_major}.%{_ver_minor}/
 %doc ItkSoftwareGuide-2.4.0.pdf
 
 
 %changelog
 * Fri Jan 25 2013 Mario Ceresa mrceresa fedoraproject org InsightToolkit 4.2.1-5%{?dist}
+- Updated to 4.3.1
+- Fixed conflicts with previous patches
 - Dropped gcc from BR
 - Fixed tabs-vs-space
 - Improved description
