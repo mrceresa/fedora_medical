@@ -2,21 +2,18 @@
 %define _ver_minor      3
 %define _ver_release    1
 
-
-Buildroot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
-Summary:        Insight Toolkit library for medical image processing
 Name:           InsightToolkit
+Summary:        Insight Toolkit library for medical image processing
 Version:        %{_ver_major}.%{_ver_minor}.%{_ver_release}
-Release:        1%{?dist}
+Release:        2%{?dist}
 License:        BSD
 Group:          Applications/Engineering
-Vendor:         Insight Software Consortium
-Source0:        http://sourceforge.net/projects/itk/files/itk/%{_ver_major}.%{_ver_minor}/InsightToolkit-%{version}.tar.gz
+Source0:        http://sourceforge.net/projects/itk/files/itk/%{_ver_major}.%{_ver_minor}/%{name}-%{version}.tar.gz
 Source1:        http://downloads.sourceforge.net/project/itk/itk/2.4/ItkSoftwareGuide-2.4.0.pdf
 URL:            http://www.itk.org/
-Patch0:         ITK-0001-Set-lib-lib64-according-to-the-architecture.patch
-Patch1:         ITK-0002-Fixed-vnl_math-namespace-usage-for-compatibility-wit.patch
-Patch2:         ITK-0003-ENH-Fix-vxl-vnl-namespace.patch
+Patch0:         %{name}-0001-Set-lib-lib64-according-to-the-architecture.patch
+Patch1:         %{name}-0002-Fixed-vnl_math-namespace-usage-for-compatibility-wit.patch
+Patch2:         %{name}-0003-ENH-Fix-vxl-vnl-namespace.patch
 
 # Thanks to Mathieu Malaterre for pointing out the following patch
 # The patch was retrieved from http://itk.org/gitweb?p=ITK.git;a=patch;h=93833edb2294c0190af9e6c0de26e9485399a7d3
@@ -26,11 +23,11 @@ Patch2:         ITK-0003-ENH-Fix-vxl-vnl-namespace.patch
 #Patch4:         0004-Fix-cstddef-inclusion-for-gcc-4.6.patch
 #Patch5:         0005-Provide-a-target-for-vtkmetaio.patch
 
-BuildRequires:  cmake >= 2.6.0
+BuildRequires:  cmake
 BuildRequires:  fftw-devel
 BuildRequires:  gdcm-devel
 BuildRequires:  hdf5-devel
-BuildRequires:  libjpeg-turbo-devel
+BuildRequires:  libjpeg-devel
 BuildRequires:  libxml2-devel
 BuildRequires:  libpng-devel
 BuildRequires:  libtiff-devel
@@ -57,6 +54,35 @@ generic programming (i.e.,using templated code). Such C++ templating means
 that the code is highly efficient, and that many software problems are 
 discovered at compile-time, rather than at run-time during program execution.
 
+%package        devel
+Summary:        Insight Toolkit
+Group:          Development/Libraries
+Requires:       %{name}%{?_isa} = %{version}-%{release}
+
+%description devel
+
+%(summary).
+Install this if you want to develop applications that use ITK.
+
+%package        examples
+Summary:        C++, Tcl and Python example programs/scripts for ITK
+Group:          Development/Languages
+Requires:       %{name}%{?_isa} = %{version}-%{release}
+
+%description examples
+ITK examples
+
+%package        doc
+Summary:        Documentation for ITK
+Group:          Documentation
+BuildArch:	noarch
+
+%description    doc
+%{summary}.
+This package contains additional documentation.
+
+
+
 %prep
 %setup -q
 
@@ -65,7 +91,7 @@ discovered at compile-time, rather than at run-time during program execution.
 %patch2 -p1
 
 # copy guide into the appropriate directory
-cp %{SOURCE1} .
+cp -a %{SOURCE1} .
 
 # remove applications: they are shipped separately now
 rm -rf Applications/
@@ -108,15 +134,11 @@ popd
 make %{?_smp_mflags} -C %{_target_platform}
 
 %install
-rm -rf $RPM_BUILD_ROOT
 %make_install -C %{_target_platform}
 
 # Install examples
 mkdir -p %{buildroot}%{_datadir}/%{name}/examples
 cp -r Examples/* %{buildroot}%{_datadir}/%{name}/examples/
-
-# remove copyrighted material
-rm -rf %{buildroot}%{_datadir}/%{name}/examples/Patented
 
 # Install ldd config file
 mkdir -p %{buildroot}%{_sysconfdir}/ld.so.conf.d/
@@ -127,6 +149,8 @@ echo %{_libdir}/%{name} > %{buildroot}%{_sysconfdir}/ld.so.conf.d/%{name}.conf
 %postun -p /sbin/ldconfig
 
 
+
+
 %files
 %{_datadir}/%{name}
 %{_libdir}/%{name}
@@ -135,39 +159,16 @@ echo %{_libdir}/%{name} > %{buildroot}%{_sysconfdir}/ld.so.conf.d/%{name}.conf
 %{_bindir}/itkTestDriver
 %doc LICENSE README.txt NOTICE
 
-%package        devel
-Summary:        Insight Toolkit
-Group:          Development/Libraries
-Requires:       %{name} = %{version}-%{release}
-
-%description devel
-
-%(summary).
-Install this if you want to develop applications that use ITK.
 
 %files devel
 %{_libdir}/%{name}/*.so
 %{_libdir}/%{name}/cmake/
 %{_includedir}/%{name}/
 
-%package        examples
-Summary:        C++, Tcl and Python example programs/scripts for ITK
-Group:          Development/Languages
-Requires:       %{name} = %{version}-%{release}
-
-%description examples
-ITK examples
 
 %files          examples
 %{_datadir}/%{name}/examples
 
-%package        doc
-Summary:        Documentation for ITK
-Group:          Documentation
-
-%description    doc
-%{summary}.
-This package contains additional documentation.
 
 %files          doc
 %defattr(-,root,root,-)
@@ -177,6 +178,14 @@ This package contains additional documentation.
 
 
 %changelog
+* Tue Feb 12 2013 Mario Ceresa mrceresa fedoraproject org InsightToolkit 4.3.1-2%{?dist}
+- Reorganized sections
+- Fixed patch naming
+- Removed buildroot and rm in install section
+- Removed cmake version constraint
+- Changed BR libjpeg-turbo-devel to libjpeg-devel
+- Preserve timestamp of SOURCE1 file.
+
 * Fri Jan 25 2013 Mario Ceresa mrceresa fedoraproject org InsightToolkit 4.3.1-1%{?dist}
 - Updated to 4.3.1
 - Fixed conflicts with previous patches
