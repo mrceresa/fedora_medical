@@ -75,7 +75,7 @@ ITK examples
 %package        doc
 Summary:        Documentation for ITK
 Group:          Documentation
-BuildArch:	noarch
+BuildArch:      noarch
 
 %description    doc
 %{summary}.
@@ -104,7 +104,7 @@ mkdir -p %{_target_platform}
 pushd %{_target_platform}
 
 %cmake .. \
-	-DBUILD_SHARED_LIBS:BOOL=ON \
+       -DBUILD_SHARED_LIBS:BOOL=ON \
        -DBUILD_EXAMPLES:BOOL=OFF \
        -DCMAKE_BUILD_TYPE:STRING="RelWithDebInfo"\
        -DCMAKE_VERBOSE_MAKEFILE=ON\
@@ -138,7 +138,7 @@ make %{?_smp_mflags} -C %{_target_platform}
 
 # Install examples
 mkdir -p %{buildroot}%{_datadir}/%{name}/examples
-cp -r Examples/* %{buildroot}%{_datadir}/%{name}/examples/
+cp -ar Examples/* %{buildroot}%{_datadir}/%{name}/examples/
 
 # Install ldd config file
 mkdir -p %{buildroot}%{_sysconfdir}/ld.so.conf.d/
@@ -152,11 +152,12 @@ echo %{_libdir}/%{name} > %{buildroot}%{_sysconfdir}/ld.so.conf.d/%{name}.conf
 
 
 %files
-%{_datadir}/%{name}
-%{_libdir}/%{name}
+%dir %{_datadir}/%{name}
+%dir %{_libdir}/%{name}
 #In order to recognize /usr/lib64/InsightToolkit we need to ship a proper file for /etc/ld.so.conf.d/
-%config %{_sysconfdir}/ld.so.conf.d/%{name}.conf
+%config(noreplace) %{_sysconfdir}/ld.so.conf.d/%{name}.conf
 %{_bindir}/itkTestDriver
+%{_libdir}/%{name}/*.so.*
 %doc LICENSE README.txt NOTICE
 
 
@@ -166,11 +167,11 @@ echo %{_libdir}/%{name} > %{buildroot}%{_sysconfdir}/ld.so.conf.d/%{name}.conf
 %{_includedir}/%{name}/
 
 
-%files          examples
+%files examples
 %{_datadir}/%{name}/examples
 
 
-%files          doc
+%files doc
 %defattr(-,root,root,-)
 %{_docdir}/%{name}-%{version}/
 %{_docdir}/ITK-%{_ver_major}.%{_ver_minor}/
@@ -185,6 +186,8 @@ echo %{_libdir}/%{name} > %{buildroot}%{_sysconfdir}/ld.so.conf.d/%{name}.conf
 - Removed cmake version constraint
 - Changed BR libjpeg-turbo-devel to libjpeg-devel
 - Preserve timestamp of SOURCE1 file.
+- Fixed main file section
+- Added noreplace
 
 * Fri Jan 25 2013 Mario Ceresa mrceresa fedoraproject org InsightToolkit 4.3.1-1%{?dist}
 - Updated to 4.3.1
