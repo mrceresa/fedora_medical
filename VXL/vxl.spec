@@ -35,6 +35,8 @@ Patch21:	0021-Use-expatpp.h-which-is-provided-by-fedora-repos.patch
 Patch22:	0022-Include-missing-vcl_cstdio.h-header.patch
 Patch23:	0023-Remove-volm-because-of-error-in-function-prototype.patch
 Patch24:	0024-Added-missing-sonames-for-mvl2-and-vepl1.patch
+Patch25:	0025-Legacy-def1-r35963.patch
+Patch26:	0026-Legacy-def2-r36001.patch
 
 #KL is used in an "UNMAINTAINED_LIBRARY", vgel is only built on request
 
@@ -145,6 +147,8 @@ find contrib/brl/b3p/expatpp -type f ! -name 'CMakeLists.txt' -execdir rm {} +
 %patch22 -p1
 %patch23 -p1
 %patch24 -p1
+%patch25 -p1
+%patch26 -p1
 
 
 #Fix lib / lib64 problem during install:
