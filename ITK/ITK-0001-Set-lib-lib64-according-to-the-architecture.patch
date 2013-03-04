@@ -1,17 +1,18 @@
-From 8b83db4d05e87489e38bb75969f2bc1d3225b025 Mon Sep 17 00:00:00 2001
+From 295da373736f7401667617406ccaca993bf3593e Mon Sep 17 00:00:00 2001
 From: Mario Ceresa <mrceresa@gmail.com>
 Date: Sat, 24 Nov 2012 14:37:00 +0100
-Subject: [PATCH] Set lib/lib64 according to the architecture
+Subject: [PATCH 1/2] Set lib/lib64 according to the architecture
 
+Signed-off-by: Mario Ceresa <mrceresa@gmail.com>
 ---
  CMakeLists.txt | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/CMakeLists.txt b/CMakeLists.txt
-index b5cc113..3998ec0 100644
+index 81e8c09..e7076a2 100644
 --- a/CMakeLists.txt
 +++ b/CMakeLists.txt
-@@ -62,7 +62,7 @@ if(NOT ITK_INSTALL_DOC_DIR)
+@@ -66,7 +66,7 @@ if(NOT ITK_INSTALL_DOC_DIR)
    set(ITK_INSTALL_DOC_DIR share/doc/ITK-${ITK_VERSION_MAJOR}.${ITK_VERSION_MINOR})
  endif()
  if(NOT ITK_INSTALL_PACKAGE_DIR)
@@ -21,5 +22,5 @@ index b5cc113..3998ec0 100644
  
  # Override CMake's built-in add_* commands: assign LABELS to tests and targets
 -- 
-1.7.11.7
+1.8.1
 

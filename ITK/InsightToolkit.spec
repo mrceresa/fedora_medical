@@ -1,36 +1,33 @@
 %define _ver_major      4
-%define _ver_minor      2
+%define _ver_minor      3
 %define _ver_release    1
 
-
-Buildroot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
-Summary:        Insight Toolkit library for medical image processing
 Name:           InsightToolkit
+Summary:        Insight Toolkit library for medical image processing
 Version:        %{_ver_major}.%{_ver_minor}.%{_ver_release}
-Release:        4%{?dist}
+Release:        2%{?dist}
 License:        BSD
 Group:          Applications/Engineering
-Vendor:         Insight Software Consortium
-Source0:        http://sourceforge.net/projects/itk/files/itk/%{_ver_major}.%{_ver_minor}/InsightToolkit-%{version}.tar.xz
+Source0:        http://sourceforge.net/projects/itk/files/itk/%{_ver_major}.%{_ver_minor}/%{name}-%{version}.tar.gz
 Source1:        http://downloads.sourceforge.net/project/itk/itk/2.4/ItkSoftwareGuide-2.4.0.pdf
 URL:            http://www.itk.org/
-Patch0:		0001-Set-lib-lib64-according-to-the-architecture.patch
-Patch1:		0002-Fixed-vnl_math-namespace-usage-for-compatibility-wit.patch
+Patch0:         %{name}-0001-Set-lib-lib64-according-to-the-architecture.patch
+Patch1:         %{name}-0002-Fixed-vnl_math-namespace-usage-for-compatibility-wit.patch
+Patch2:         %{name}-0003-ENH-Fix-vxl-vnl-namespace.patch
 
 # Thanks to Mathieu Malaterre for pointing out the following patch
 # The patch was retrieved from http://itk.org/gitweb?p=ITK.git;a=patch;h=93833edb2294c0190af9e6c0de26e9485399a7d3
-#Patch1:		0001-Fix-vtkmetaio.patch
+#Patch1:         0001-Fix-vtkmetaio.patch
 #Patch2:         0002-Fix-install-dir.patch
 #Patch3:         0003-Remove-applications-because-this-is-now-a-separate-I.patch
 #Patch4:         0004-Fix-cstddef-inclusion-for-gcc-4.6.patch
 #Patch5:         0005-Provide-a-target-for-vtkmetaio.patch
 
-BuildRequires:  cmake >= 2.6.0
+BuildRequires:  cmake
 BuildRequires:  fftw-devel
-BuildRequires:  gcc-c++
 BuildRequires:  gdcm-devel
 BuildRequires:  hdf5-devel
-BuildRequires:  libjpeg-turbo-devel
+BuildRequires:  libjpeg-devel
 BuildRequires:  libxml2-devel
 BuildRequires:  libpng-devel
 BuildRequires:  libtiff-devel
@@ -38,7 +35,7 @@ BuildRequires:  libjpeg-devel
 BuildRequires:  vxl-devel
 BuildRequires:  zlib-devel
 #For documentation
-#BuildRequires:  graphviz
+BuildRequires:  graphviz
 BuildRequires:  doxygen
 
 %description
@@ -57,25 +54,44 @@ generic programming (i.e.,using templated code). Such C++ templating means
 that the code is highly efficient, and that many software problems are 
 discovered at compile-time, rather than at run-time during program execution.
 
+%package        devel
+Summary:        Insight Toolkit
+Group:          Development/Libraries
+Requires:       %{name}%{?_isa} = %{version}-%{release}
+
+%description devel
+
+%(summary).
+Install this if you want to develop applications that use ITK.
+
+%package        examples
+Summary:        C++, Tcl and Python example programs/scripts for ITK
+Group:          Development/Languages
+Requires:       %{name}%{?_isa} = %{version}-%{release}
+
+%description examples
+ITK examples
+
+%package        doc
+Summary:        Documentation for ITK
+Group:          Documentation
+BuildArch:      noarch
+
+%description    doc
+%{summary}.
+This package contains additional documentation.
+
+
+
 %prep
 %setup -q
 
 %patch0 -p1
 %patch1 -p1
-#%patch3 -p1
-#%patch4 -p1
-
-#Remove bundled library (let's use FEDORA's ones)
-
-#for l in itkzlib zlib itkpng itktiff gdcm
-# Leave itkpng because new libpng changed apis
-#for l in ZLIB GDCM JPEG PNG TIFF Expat OpenJPEG
-#do
-#	find Modules/ThirdParty/$l -type f ! -name 'CMakeLists.txt' -execdir rm {} +
-#done
+%patch2 -p1
 
 # copy guide into the appropriate directory
-cp %{SOURCE1} .
+cp -a %{SOURCE1} .
 
 # remove applications: they are shipped separately now
 rm -rf Applications/
@@ -88,7 +104,7 @@ mkdir -p %{_target_platform}
 pushd %{_target_platform}
 
 %cmake .. \
-	-DBUILD_SHARED_LIBS:BOOL=ON \
+       -DBUILD_SHARED_LIBS:BOOL=ON \
        -DBUILD_EXAMPLES:BOOL=OFF \
        -DCMAKE_BUILD_TYPE:STRING="RelWithDebInfo"\
        -DCMAKE_VERBOSE_MAKEFILE=ON\
@@ -102,7 +118,7 @@ pushd %{_target_platform}
        -DITK_USE_PATENTED:BOOL=OFF \
        -DITK_USE_SYSTEM_HDF5=ON \
        -DITK_USE_SYSTEM_JPEG=ON \
-       -DITK_USE_SYSTEM_TIFF=OFF \
+       -DITK_USE_SYSTEM_TIFF=ON \
        -DITK_USE_SYSTEM_PNG=ON \
        -DITK_USE_SYSTEM_ZLIB=ON \
        -DITK_USE_SYSTEM_GDCM=ON \
@@ -118,17 +134,11 @@ popd
 make %{?_smp_mflags} -C %{_target_platform}
 
 %install
-rm -rf $RPM_BUILD_ROOT
 %make_install -C %{_target_platform}
 
 # Install examples
 mkdir -p %{buildroot}%{_datadir}/%{name}/examples
-cp -r Examples/* %{buildroot}%{_datadir}/%{name}/examples/
-
-# remove copyrighted material
-rm -rf %{buildroot}%{_datadir}/%{name}/examples/Patented
-
-#mv $RPM_BUILD_ROOT%{_libdir}/cmake $RPM_BUILD_ROOT%{_datadir}/%{name}/
+cp -ar Examples/* %{buildroot}%{_datadir}/%{name}/examples/
 
 # Install ldd config file
 mkdir -p %{buildroot}%{_sysconfdir}/ld.so.conf.d/
@@ -139,71 +149,60 @@ echo %{_libdir}/%{name} > %{buildroot}%{_sysconfdir}/ld.so.conf.d/%{name}.conf
 %postun -p /sbin/ldconfig
 
 
+
+
 %files
-%defattr(-,root,root,-)
-#%dir %{_libdir}/%{name}
-%dir %{_libdir}
 %dir %{_datadir}/%{name}
+%dir %{_libdir}/%{name}
 #In order to recognize /usr/lib64/InsightToolkit we need to ship a proper file for /etc/ld.so.conf.d/
-%config %{_sysconfdir}/ld.so.conf.d/%{name}.conf
+%config(noreplace) %{_sysconfdir}/ld.so.conf.d/%{name}.conf
 %{_bindir}/itkTestDriver
-#%{_bindir}/DicomSeriesReadImageWrite2
-#%{_libdir}/%{name}/*.so.*
 %{_libdir}/%{name}/*.so.*
+%doc LICENSE README.txt NOTICE
 
-#%doc Copyright/*
-
-
-%package        devel
-Summary:        Insight Toolkit
-Group:          Development/Libraries
-Requires:       %{name} = %{version}-%{release}
-
-%description devel
-
-Insight Toolkit Library Header Files and Link Libraries
 
 %files devel
-%defattr(-,root,root)
-%doc Documentation/README.html
-%doc ItkSoftwareGuide-2.4.0.pdf
 %{_libdir}/%{name}/*.so
 %{_libdir}/%{name}/cmake/
-#%{_libdir}/*.so
 %{_includedir}/%{name}/
 
-%package        examples
-Summary:        C++, Tcl and Python example programs/scripts for ITK
-Group:          Development/Languages
-Requires:       %{name} = %{version}-%{release}
 
-%description examples
-ITK examples
+%files examples
+%{_datadir}/%{name}/examples
 
-%files          examples
+
+%files doc
 %defattr(-,root,root,-)
-%dir %{_datadir}/%{name}/examples
-%{_datadir}/%{name}/examples/*
-
-
-
-%package        doc
-Summary:        Documentation for ITK
-Group:          Documentation
-
-%description    doc
-ITK doc
-
-%files          doc
-%defattr(-,root,root,-)
-#%dir %{_docdir}/%{name}-%{version}
-%{_docdir}/%{name}-devel-%{version}/
-%{_docdir}/ITK-4.2/
+%{_docdir}/%{name}-%{version}/
+%{_docdir}/ITK-%{_ver_major}.%{_ver_minor}/
+%doc ItkSoftwareGuide-2.4.0.pdf
 
 
 %changelog
+* Tue Feb 12 2013 Mario Ceresa mrceresa fedoraproject org InsightToolkit 4.3.1-2%{?dist}
+- Reorganized sections
+- Fixed patch naming
+- Removed buildroot and rm in install section
+- Removed cmake version constraint
+- Changed BR libjpeg-turbo-devel to libjpeg-devel
+- Preserve timestamp of SOURCE1 file.
+- Fixed main file section
+- Added noreplace
+
+* Fri Jan 25 2013 Mario Ceresa mrceresa fedoraproject org InsightToolkit 4.3.1-1%{?dist}
+- Updated to 4.3.1
+- Fixed conflicts with previous patches
+- Dropped gcc from BR
+- Fixed tabs-vs-space
+- Improved description
+- Re-enabled system tiff
+- Clean up the spec
+- Sanitize use of dir macro
+- Re-organized docs
+- Fixed libdir and datadir ownership
+
 * Wed Dec 12 2012 Mario Ceresa mrceresa fedoraproject org InsightToolkit 4.2.1-4%{?dist}
-- Included improvements to the spec file from Dan VrÃ¡til
+- Included improvements to the spec file from Dan Vratil
 
 * Tue Dec 4 2012 Mario Ceresa mrceresa fedoraproject org InsightToolkit 4.2.1-3%{?dist}
 - Build against system VXL
