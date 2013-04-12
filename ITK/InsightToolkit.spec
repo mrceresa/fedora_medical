@@ -5,7 +5,7 @@
 Name:           InsightToolkit
 Summary:        Insight Toolkit library for medical image processing
 Version:        %{_ver_major}.%{_ver_minor}.%{_ver_release}
-Release:        2%{?dist}
+Release:        5%{?dist}
 License:        BSD
 Group:          Applications/Engineering
 Source0:        http://sourceforge.net/projects/itk/files/itk/%{_ver_major}.%{_ver_minor}/%{name}-%{version}.tar.gz
@@ -14,6 +14,7 @@ URL:            http://www.itk.org/
 Patch0:         %{name}-0001-Set-lib-lib64-according-to-the-architecture.patch
 Patch1:         %{name}-0002-Fixed-vnl_math-namespace-usage-for-compatibility-wit.patch
 Patch2:         %{name}-0003-ENH-Fix-vxl-vnl-namespace.patch
+Patch3:         %{name}-0004-Fix_System_TIFF_Build.patch
 
 # Thanks to Mathieu Malaterre for pointing out the following patch
 # The patch was retrieved from http://itk.org/gitweb?p=ITK.git;a=patch;h=93833edb2294c0190af9e6c0de26e9485399a7d3
@@ -89,6 +90,7 @@ This package contains additional documentation.
 %patch0 -p1
 %patch1 -p1
 %patch2 -p1
+%patch3 -p0
 
 # copy guide into the appropriate directory
 cp -a %{SOURCE1} .
@@ -108,8 +110,8 @@ pushd %{_target_platform}
        -DBUILD_EXAMPLES:BOOL=OFF \
        -DCMAKE_BUILD_TYPE:STRING="RelWithDebInfo"\
        -DCMAKE_VERBOSE_MAKEFILE=ON\
-       -DBUILD_TESTING=OFF\
-       -DITKV3_COMPATIBILITY:BOOL=ON \
+       -DBUILD_TESTING=ON\
+       -DITKV3_COMPATIBILITY:BOOL=OFF \
        -DITK_BUILD_ALL_MODULES:BOOL=ON \
        -DITK_WRAP_PYTHON:BOOL=OFF \
        -DITK_WRAP_JAVA:BOOL=OFF \
@@ -144,12 +146,12 @@ cp -ar Examples/* %{buildroot}%{_datadir}/%{name}/examples/
 mkdir -p %{buildroot}%{_sysconfdir}/ld.so.conf.d/
 echo %{_libdir}/%{name} > %{buildroot}%{_sysconfdir}/ld.so.conf.d/%{name}.conf
 
+%check
+make test -C %{_target_platform}
+
 %post -p /sbin/ldconfig
 
 %postun -p /sbin/ldconfig
-
-
-
 
 %files
 %dir %{_datadir}/%{name}
@@ -179,7 +181,17 @@ echo %{_libdir}/%{name} > %{buildroot}%{_sysconfdir}/ld.so.conf.d/%{name}.conf
 
 
 %changelog
-* Tue Feb 12 2013 Mario Ceresa mrceresa fedoraproject org InsightToolkit 4.3.1-2%{?dist}
+* Mon Apr 08 2013 Mario Ceresa mrceresa fedoraproject org InsightToolkit 4.3.1-5
+- Fixed failing tests
+
+* Wed Apr 03 2013 Mario Ceresa mrceresa fedoraproject org InsightToolkit 4.3.1-4
+- Fixed build with USE_SYSTEM_TIFF
+
+* Fri Mar 29 2013 Mario Ceresa mrceresa fedoraproject org InsightToolkit 4.3.1-3
+- Compiles against VXL with compatibility patches
+- Enabled testing
+
+* Tue Feb 12 2013 Mario Ceresa mrceresa fedoraproject org InsightToolkit 4.3.1-2
 - Reorganized sections
 - Fixed patch naming
 - Removed buildroot and rm in install section
@@ -189,7 +201,7 @@ echo %{_libdir}/%{name} > %{buildroot}%{_sysconfdir}/ld.so.conf.d/%{name}.conf
 - Fixed main file section
 - Added noreplace
 
-* Fri Jan 25 2013 Mario Ceresa mrceresa fedoraproject org InsightToolkit 4.3.1-1%{?dist}
+* Fri Jan 25 2013 Mario Ceresa mrceresa fedoraproject org InsightToolkit 4.3.1-1
 - Updated to 4.3.1
 - Fixed conflicts with previous patches
 - Dropped gcc from BR
@@ -201,13 +213,13 @@ echo %{_libdir}/%{name} > %{buildroot}%{_sysconfdir}/ld.so.conf.d/%{name}.conf
 - Re-organized docs
 - Fixed libdir and datadir ownership
 
-* Wed Dec 12 2012 Mario Ceresa mrceresa fedoraproject org InsightToolkit 4.2.1-4%{?dist}
+* Wed Dec 12 2012 Mario Ceresa mrceresa fedoraproject org InsightToolkit 4.2.1-4
 - Included improvements to the spec file from Dan Vratil
 
-* Tue Dec 4 2012 Mario Ceresa mrceresa fedoraproject org InsightToolkit 4.2.1-3%{?dist}
+* Tue Dec 4 2012 Mario Ceresa mrceresa fedoraproject org InsightToolkit 4.2.1-3
 - Build against system VXL
 
-* Mon Nov 26 2012 Mario Ceresa mrceresa fedoraproject org InsightToolkit 4.2.1-2%{?dist}
+* Mon Nov 26 2012 Mario Ceresa mrceresa fedoraproject org InsightToolkit 4.2.1-2
 - Reorganized install paths
 
 * Tue Nov 20 2012 Mario Ceresa mrceresa fedoraproject org InsightToolkit 4.2.1-1
