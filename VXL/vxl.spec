@@ -1,7 +1,7 @@
 
 Name:		vxl	
 Version:	1.17.0	
-Release:	7%{?dist}
+Release:	8%{?dist}
 Summary:	C++ Libraries for Computer Vision Research and Implementation
 Group:		Development/Libraries
 License:	BSD
@@ -196,7 +196,8 @@ find . -name "*.txx" | xargs chmod ugo-x
 	-DBUILD_DOCUMENTATION:BOOL=ON \
 	-DCMAKE_BUILD_TYPE:STRING="RelWithDebInfo" \
 	-DCMAKE_CXX_FLAGS:STRING="-fpermissive" \
-	-DPYTHON_LIBRARY=/usr/lib64/libpython2.7.so .
+	-DPYTHON_LIBRARY=/usr/lib64/libpython2.7.so \
+	-DVNL_CONFIG_LEGACY_METHODS=ON .
 
 # Why is expat stated, but not shapelib?
 # DCMDK Cmake -- Included in bundle, but why?
@@ -241,6 +242,9 @@ ctest .
 
 
 %changelog
+* Mon Mar 04 2013 Mario Ceresa mrceresa fedoraproject org vxl 1.17.0-8%{?dist}
+- Applied upstream patches (25, 26) to ensure compatibility with ITK
+
 * Sun Nov 25 2012 Mario Ceresa mrceresa fedoraproject org vxl 1.17.0-7%{?dist}
 - Changed source0 path to point to vxl 1.17
 - Added missing sonames
