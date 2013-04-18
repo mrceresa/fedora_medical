@@ -5,15 +5,15 @@
 Name:           InsightToolkit
 Summary:        Insight Toolkit library for medical image processing
 Version:        %{_ver_major}.%{_ver_minor}.%{_ver_release}
-Release:        5%{?dist}
+Release:        6%{?dist}
 License:        BSD
 Group:          Applications/Engineering
 Source0:        http://sourceforge.net/projects/itk/files/itk/%{_ver_major}.%{_ver_minor}/%{name}-%{version}.tar.gz
 Source1:        http://downloads.sourceforge.net/project/itk/itk/2.4/ItkSoftwareGuide-2.4.0.pdf
 URL:            http://www.itk.org/
 Patch0:         %{name}-0001-Set-lib-lib64-according-to-the-architecture.patch
-Patch1:         %{name}-0002-Fixed-vnl_math-namespace-usage-for-compatibility-wit.patch
-Patch2:         %{name}-0003-ENH-Fix-vxl-vnl-namespace.patch
+#Patch1:         %{name}-0002-Fixed-vnl_math-namespace-usage-for-compatibility-wit.patch
+#Patch2:         %{name}-0003-ENH-Fix-vxl-vnl-namespace.patch
 Patch3:         %{name}-0004-Fix_System_TIFF_Build.patch
 
 # Thanks to Mathieu Malaterre for pointing out the following patch
@@ -88,8 +88,8 @@ This package contains additional documentation.
 %setup -q
 
 %patch0 -p1
-%patch1 -p1
-%patch2 -p1
+#%patch1 -p1
+#%patch2 -p1
 %patch3 -p0
 
 # copy guide into the appropriate directory
@@ -181,6 +181,9 @@ make test -C %{_target_platform}
 
 
 %changelog
+* Thu Apr 18 2013 Mario Ceresa mrceresa fedoraproject org InsightToolkit 4.3.1-6
+- Removed unused patches
+
 * Mon Apr 08 2013 Mario Ceresa mrceresa fedoraproject org InsightToolkit 4.3.1-5
 - Fixed failing tests
 
