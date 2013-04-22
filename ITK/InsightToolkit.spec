@@ -23,6 +23,7 @@ BuildRequires:  cmake
 BuildRequires:  doxygen
 BuildRequires:  fftw-devel
 BuildRequires:  gdcm-devel
+BuildRequires:  gccxml
 BuildRequires:  hdf5-devel
 BuildRequires:  libjpeg-devel
 BuildRequires:  libxml2-devel
@@ -78,8 +79,9 @@ BuildArch:      noarch
 %{summary}.
 This package contains additional documentation.
 
-# There is a problem with current gccxml in Fedora. Already contacted Mattias Ellert
-# to see if he can push an update. Disabled for now.
+# Hit bug http://www.gccxml.org/Bug/view.php?id=13372
+# We agreed with Mattias Ellert to postpone the bindings till
+# next gccxml update.
 #%package        python
 #Summary:        Documentation for ITK
 #Group:          Documentation
@@ -127,6 +129,8 @@ pushd %{_target_platform}
        -DITK_USE_SYSTEM_ZLIB=ON \
        -DITK_USE_SYSTEM_GDCM=ON \
        -DITK_USE_SYSTEM_VXL=ON \
+       -DITK_USE_SYSTEM_SWIG=ON \
+       -DITK_USE_SYSTEM_GCCXML=ON \
        -DITK_INSTALL_LIBRARY_DIR=%{_lib}/%{name} \
        -DITK_INSTALL_INCLUDE_DIR=include/%{name} \
        -DITK_INSTALL_PACKAGE_DIR=%{_lib}/cmake/%{name}/ \
@@ -188,8 +192,7 @@ make test -C %{_target_platform} || exit 0
 - Build examples
 - Making tests informative as we debug it with upstream
 - Fixed cmake support file location
-- There is a problem with current gccxml in Fedora. Disabled python bindings for now.
-
+- Disabled python bindings for now, hit http://www.gccxml.org/Bug/view.php?id=13372
 
 * Sat Apr 20 2013 Mario Ceresa mrceresa fedoraproject org InsightToolkit 4.3.1-7
 - Enabled v3.20 compatibility layer
