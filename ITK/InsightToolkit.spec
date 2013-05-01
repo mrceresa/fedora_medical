@@ -10,8 +10,8 @@
 Name:           InsightToolkit
 Summary:        Insight Toolkit library for medical image processing
 Version:        %{_ver_major}.%{_ver_minor}.%{_ver_release}
-Release:        8%{?dist}
-License:        BSD
+Release:        9%{?dist}
+License:        ASL 2.0 
 Group:          Applications/Engineering
 Source0:        http://sourceforge.net/projects/itk/files/itk/%{_ver_major}.%{_ver_minor}/%{name}-%{version}.tar.gz
 Source1:        http://downloads.sourceforge.net/project/itk/itk/2.4/ItkSoftwareGuide-2.4.0.pdf
@@ -188,6 +188,9 @@ make test -C %{_target_platform} || exit 0
 
 
 %changelog
+* Tue Apr 23 2013 Mario Ceresa mrceresa fedoraproject org InsightToolkit 4.3.1-9
+- Changed license to ASL 2.0
+
 * Mon Apr 22 2013 Mario Ceresa mrceresa fedoraproject org InsightToolkit 4.3.1-8
 - Build examples
 - Making tests informative as we debug it with upstream
