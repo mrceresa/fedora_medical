@@ -1,11 +1,12 @@
 %global octpkg dicom
+%global __provides_exclude_from ^%{octpkglibdir}/.*\\.oct$
 
 Name:           octave-%{octpkg}
 Version:        0.1.1
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        Dicom processing for Octave
 Group:          Applications/Engineering
-License:        GPLv2+
+License:        GPLv3+
 URL:            http://octave.sourceforge.net/dicom/
 Source0:        http://downloads.sourceforge.net/octave/%{octpkg}-%{version}.tar.gz
 Patch0:         0001-Changed-gdcm-include-location.patch
@@ -31,7 +32,6 @@ Digital communications in medicine (DICOM) files.
 %octave_pkg_build
 
 %install
-rm -rf %{buildroot}
 %octave_pkg_install
 
 %post
@@ -49,6 +49,11 @@ rm -rf %{buildroot}
 
 
 %changelog
+* Mon May 13 2013 Mario Ceresa <mrceresa@fedoraproject.org> 0.1.1-4
+- Fixed license
+- Dropped buildroot removal in install section
+- Excluded *.oct from provides
+
 * Mon May 13 2013 Mario Ceresa <mrceresa@fedoraproject.org> 0.1.1-3
 - Removed duplicated include in files
 - Dropped obsolated octave-forge
