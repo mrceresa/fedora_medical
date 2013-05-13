@@ -2,7 +2,7 @@
 
 Name:           octave-%{octpkg}
 Version:        0.1.1
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        Dicom processing for Octave
 Group:          Applications/Engineering
 License:        GPLv2+
@@ -17,7 +17,6 @@ BuildRequires:	gdcm-devel
 Requires:       octave(api) = %{octave_api}
 Requires(post): octave
 Requires(postun): octave
-Obsoletes:      octave-forge <= 20090607
 
 %description
 The Octave-forge Image package provides functions for processing 
@@ -46,11 +45,14 @@ rm -rf %{buildroot}
 
 %files
 %{octpkglibdir}
-%dir %{octpkgdir}
 %{octpkgdir}/
 
 
 %changelog
+* Mon May 13 2013 Mario Ceresa <mrceresa@fedoraproject.org> 0.1.1-3
+- Removed duplicated include in files
+- Dropped obsolated octave-forge
+
 * Mon May 13 2013 Mario Ceresa <mrceresa@fedoraproject.org> 0.1.1-2
 - Fixed some initial problems found by fedora-review
 
