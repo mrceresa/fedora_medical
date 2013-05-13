@@ -2,7 +2,7 @@
 
 Name:           octave-%{octpkg}
 Version:        0.1.1
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Dicom processing for Octave
 Group:          Applications/Engineering
 License:        GPLv2+
@@ -48,10 +48,12 @@ rm -rf %{buildroot}
 %{octpkglibdir}
 %dir %{octpkgdir}
 %{octpkgdir}/
-%{octpkgdir}/packinfo
 
 
 %changelog
+* Mon May 13 2013 Mario Ceresa <mrceresa@fedoraproject.org> 0.1.1-2
+- Fixed some initial problems found by fedora-review
+
 * Mon May 13 2013 Mario Ceresa <mrceresa@fedoraproject.org> 0.1.1-1
 - Initial Fedora package
 
