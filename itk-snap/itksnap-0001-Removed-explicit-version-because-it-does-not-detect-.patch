@@ -1,0 +1,28 @@
+From 864abfea6b25a6bbd4191f9b28b9ff689d4b3519 Mon Sep 17 00:00:00 2001
+From: Mario Ceresa <mrceresa@gmail.com>
+Date: Sat, 25 May 2013 15:04:06 +0200
+Subject: [PATCH] Removed explicit version because it does not detect newest
+ VTK releases (Fedora already has 5.10)
+
+
+Signed-off-by: Mario Ceresa <mrceresa@gmail.com>
+---
+ CMake/standalone.cmake | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/CMake/standalone.cmake b/CMake/standalone.cmake
+index 4ca4b3e..1517c35 100644
+--- a/CMake/standalone.cmake
++++ b/CMake/standalone.cmake
+@@ -7,7 +7,7 @@ INCLUDE(${ITK_USE_FILE})
+ #############################################
+ # REQUIRE VTK                               #
+ #############################################
+-FIND_PACKAGE(VTK 5.6 REQUIRED)
++FIND_PACKAGE(VTK REQUIRED)
+ INCLUDE (${VTK_USE_FILE})
+ 
+ #############################################
+-- 
+1.8.1.4
+
