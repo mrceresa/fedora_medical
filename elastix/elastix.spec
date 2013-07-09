@@ -12,9 +12,13 @@ Source1: http://elastix.isi.uu.nl/elastix_manual_v%{_ver_major}.%{_ver_minor}.pd
 Source2: FindANN.cmake
 URL: http://elastix.isi.uu.nl/
 
-Patch1: elastix-0001-use_system_ann.patch
-#Patch2: 0002-Moved-up-version-declarations-because-I-need-to-use-.patch
-#Patch3: 0004-Fix-lib-install-directories.patch
+# Contacted upstream to optionally use system wide ANNlib
+Patch1: elastix-0001-Find-system-wide-ANN.patch
+Patch2: elastix-0002-Conditional-build-bundled-lib.patch
+Patch3: elastix-0003-Use-ANN-lib-dir.patch
+Patch4: elastix-0004-Set-module-path.patch
+Patch5: elastix-0005-Added-install-target-for-libs.patch
+Patch6: elastix-0006-Add-rpath-for-internal-libs-only.patch
 
 BuildRequires: cmake
 BuildRequires: InsightToolkit-devel
@@ -32,41 +36,47 @@ optimisation methods (for example gradient descent), interpolation methods
 Components can easily be plugged in, to allow the user to configure his/her own
 registration methods.
 
-%package devel
-Summary: Development Libraries for elastix
-Group: Development/Libraries
-Requires: %{name} = %{version}-%{release}
+%package        doc
+Summary:        Documentation for elastix
+Group:          Documentation
+BuildArch:      noarch
 
-%description devel
-Development Libraries and Headers for elastix.  You only need to install
-this if you are developing programs that use the elastix library.
+%description    doc
+%{summary}.
+This package contains additional documentation.
 
 %prep
 %setup -qc elastix_v%{_ver_major}.%{_ver_minor}
-%patch1 -p0
-#%patch2 -p1
-#%patch3 -p1
+pushd src/
+%patch1 -p1
+%patch2 -p1
+%patch3 -p1
+%patch4 -p1
+%patch5 -p1
+%patch6 -p1
+popd
 
 # remove bundled libs
 rm -rf src/Common/KNN/ann_1.1
+
+# Copy user manual
+cp -a %{SOURCE1} .
 
 # Provide FindANN.cmake
 cp -a %{SOURCE2} src/
 
 %build
-
 mkdir -p %{_target_platform}
-pushd %{_target_platform}
 
+pushd %{_target_platform}
 %cmake 	../src \
     -DCMAKE_BUILD_TYPE:STRING="RelWithDebInfo"\
-	-DBUILD_SHARED_LIBS=ON\
 	-DELASTIX_BUILD_TESTING=ON\
 	-DITK_DIR=/usr/lib64/cmake/InsightToolkit\
 	-DUSE_ALL_COMPONENTS=ON\
-	-DUSE_MEVISDICOMTIFF=ON
-
-
+	-DELASTIX_USE_MEVISDICOMTIFF=ON\
+	-DUSE_KNNGraphAlphaMutualInformationMetric=ON\
+    -DINSTALL_LIB_PATH=%{_lib}/%{name}/ 
 popd
 
 make %{?_smp_mflags} -C %{_target_platform}
@@ -74,25 +84,26 @@ make %{?_smp_mflags} -C %{_target_platform}
 %install
 %make_install -C %{_target_platform}
 
+%check
+make test -C %{_target_platform}
+
 %files
 %{_bindir}/*
-%{_libdir}/*.so.*
+%{_libdir}/%{name}/*.so
 
+%files doc
+%doc elastix_manual_v%{_ver_major}.%{_ver_minor}.pdf
 
-%files devel
-#%dir %{_includedir}/%{name}/
-#%doc Examples
-#%{_includedir}/%{name}/*
-%{_libdir}/*.so
-#%{_datadir}/gdcm/*.cmake
-
-%post -p /sbin/ldconfig
-%postun -p /sbin/ldconfig
+#%post -p /sbin/ldconfig
+#%postun -p /sbin/ldconfig
 
 %changelog
 * Mon Jul 08 2013 Mario Ceresa mrceresa fedoraproject org - 4.6-1
 - Updated release
-- Updated spec to new guidelines
+- Updated spec to changes in guidelines
+- Added user manual
+- Install libraries as private plugins
 
 * Wed Mar 23 2011 Mario Ceresa mrceresa fedoraproject org - 4.4-1
 - Initial release
+
