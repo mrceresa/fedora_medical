@@ -17,7 +17,9 @@ Patch1: elastix-0001-Find-system-wide-ANN.patch
 Patch2: elastix-0002-Conditional-build-bundled-lib.patch
 Patch3: elastix-0003-Use-ANN-lib-dir.patch
 Patch4: elastix-0004-Set-module-path.patch
+# Make private libraries installable
 Patch5: elastix-0005-Added-install-target-for-libs.patch
+# Rpath to internal libraries
 Patch6: elastix-0006-Add-rpath-for-internal-libs-only.patch
 
 BuildRequires: cmake
