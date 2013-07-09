@@ -1,0 +1,122 @@
+From bb980e09d784183cfb967246d4c6ec3ac3941288 Mon Sep 17 00:00:00 2001
+From: Mario Ceresa <mrceresa@gmail.com>
+Date: Mon, 28 Mar 2011 18:32:44 +0200
+Subject: [PATCH 1/4] Added soname info. Watch out: ANNlib needs to be unbundles in subsequent steps
+
+---
+ src/CMakeLists.txt                            |    2 ++
+ src/Common/CMakeLists.txt                     |    2 ++
+ src/Common/KNN/CMakeLists.txt                 |    2 ++
+ src/Common/KNN/ann_1.1/CMakeLists.txt         |    2 ++
+ src/Common/MevisDicomTiff/CMakeLists.txt      |    2 ++
+ src/Common/ParameterFileParser/CMakeLists.txt |    2 ++
+ src/Common/xout/CMakeLists.txt                |    2 ++
+ src/Core/CMakeLists.txt                       |    2 ++
+ 8 files changed, 16 insertions(+), 0 deletions(-)
+
+diff --git a/src/CMakeLists.txt b/src/CMakeLists.txt
+index 589191e..1847360 100644
+--- a/src/CMakeLists.txt
++++ b/src/CMakeLists.txt
+@@ -254,6 +254,8 @@ STRING( SUBSTRING ${ELASTIX_VERSION} 26 3 ELASTIX_VERSION )
+ STRING( REGEX MATCH "[0-9]+" ELASTIX_VERSION_MAJOR "${ELASTIX_VERSION}" )
+ STRING( REGEX REPLACE "([0-9]+)\\." "" ELASTIX_VERSION_MINOR "${ELASTIX_VERSION}" )
+ 
++SET(ELASTIX_LIBRARY_PROPERTIES VERSION "${ELASTIX_VERSION}" SOVERSION "${ELASTIX_VERSION}")
++
+ #---------------------------------------------------------------------
+ # Configure the doxygen-configuration
+ 
+diff --git a/src/Common/CMakeLists.txt b/src/Common/CMakeLists.txt
+index 7709c33..0c0490b 100644
+--- a/src/Common/CMakeLists.txt
++++ b/src/Common/CMakeLists.txt
+@@ -168,6 +168,8 @@ ADD_LIBRARY( elxCommon
+   ${ImageSamplersFiles}
+ )
+ 
++SET_TARGET_PROPERTIES(elxCommon PROPERTIES ${ELASTIX_LIBRARY_PROPERTIES})
++
+ #---------------------------------------------------------------------
+ # Link against other libraries.
+ 
+diff --git a/src/Common/KNN/CMakeLists.txt b/src/Common/KNN/CMakeLists.txt
+index 1189596..b9965c6 100644
+--- a/src/Common/KNN/CMakeLists.txt
++++ b/src/Common/KNN/CMakeLists.txt
+@@ -35,6 +35,8 @@ ADD_SUBDIRECTORY( ann_1.1 )
+ # Create the KNN library
+ ADD_LIBRARY( KNNlib ${KNN_Files} )
+ 
++SET_TARGET_PROPERTIES(KNNlib PROPERTIES ${ELASTIX_LIBRARY_PROPERTIES})
++
+ # Link it against the necessary libraries.
+ TARGET_LINK_LIBRARIES( KNNlib ANNlib ITKBasicFilters ITKCommon ITKStatistics )
+ 
+diff --git a/src/Common/KNN/ann_1.1/CMakeLists.txt b/src/Common/KNN/ann_1.1/CMakeLists.txt
+index 4dde350..b4e41f6 100644
+--- a/src/Common/KNN/ann_1.1/CMakeLists.txt
++++ b/src/Common/KNN/ann_1.1/CMakeLists.txt
+@@ -27,6 +27,8 @@ SET( ANN_SRCS
+ # Create the ANNlib library
+ ADD_LIBRARY( ANNlib SHARED ${ANN_SRCS} )
+ 
++SET_TARGET_PROPERTIES(ANNlib PROPERTIES ${ELASTIX_LIBRARY_PROPERTIES})
++
+ # Necessary, because in windows dll_export is needed for creating the
+ # dll, but dll_import for using it in a program.
+ SET_TARGET_PROPERTIES( ANNlib PROPERTIES DEFINE_SYMBOL DLL_EXPORTS )
+diff --git a/src/Common/MevisDicomTiff/CMakeLists.txt b/src/Common/MevisDicomTiff/CMakeLists.txt
+index a4367c1..ad0ced7 100644
+--- a/src/Common/MevisDicomTiff/CMakeLists.txt
++++ b/src/Common/MevisDicomTiff/CMakeLists.txt
+@@ -17,6 +17,8 @@ ADD_LIBRARY( mevisdcmtiff
+  itkMevisDicomTiffImageIOFactory.cxx
+  itkUseMevisDicomTiff.h
+ )
++SET_TARGET_PROPERTIES(mevisdcmtiff PROPERTIES ${ELASTIX_LIBRARY_PROPERTIES})
++
+ TARGET_LINK_LIBRARIES( mevisdcmtiff ITKIO ITKCommon )
+ 
+ 
+diff --git a/src/Common/ParameterFileParser/CMakeLists.txt b/src/Common/ParameterFileParser/CMakeLists.txt
+index 3c40c49..28d87c8 100644
+--- a/src/Common/ParameterFileParser/CMakeLists.txt
++++ b/src/Common/ParameterFileParser/CMakeLists.txt
+@@ -10,6 +10,8 @@ SOURCE_GROUP( "Parser" FILES ${param_SRCS} )
+ 
+ ADD_LIBRARY( param ${param_SRCS} )
+ 
++SET_TARGET_PROPERTIES(param PROPERTIES ${ELASTIX_LIBRARY_PROPERTIES})
++
+ TARGET_LINK_LIBRARIES( param ITKCommon )
+ 
+ # Group in IDE's like Visual Studio
+diff --git a/src/Common/xout/CMakeLists.txt b/src/Common/xout/CMakeLists.txt
+index 185d509..2078202 100644
+--- a/src/Common/xout/CMakeLists.txt
++++ b/src/Common/xout/CMakeLists.txt
+@@ -21,5 +21,7 @@ SET( xouthfiles
+ # a lib defining the global variable xout.
+ ADD_LIBRARY( xoutlib xoutmain.cxx ${xouthxxfiles} ${xouthfiles} )
+ 
++SET_TARGET_PROPERTIES(xoutlib PROPERTIES ${ELASTIX_LIBRARY_PROPERTIES})
++
+ # Group in IDE's like Visual Studio
+ SET_PROPERTY( TARGET xoutlib PROPERTY FOLDER "libraries" )
+diff --git a/src/Core/CMakeLists.txt b/src/Core/CMakeLists.txt
+index 5da5c86..2717916 100644
+--- a/src/Core/CMakeLists.txt
++++ b/src/Core/CMakeLists.txt
+@@ -96,6 +96,8 @@ ADD_LIBRARY( elxCore
+   ${ProgressCommandFiles}
+ )
+ 
++SET_TARGET_PROPERTIES(elxCore PROPERTIES ${ELASTIX_LIBRARY_PROPERTIES})
++
+ #---------------------------------------------------------------------
+ # Link against other libraries.
+ 
+-- 
+1.7.4
+

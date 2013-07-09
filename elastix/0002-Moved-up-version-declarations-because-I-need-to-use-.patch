@@ -1,0 +1,57 @@
+From 957b287f0007e4e82282d5a3ea81a36a48f5b1eb Mon Sep 17 00:00:00 2001
+From: Mario Ceresa <mrceresa@gmail.com>
+Date: Mon, 28 Mar 2011 18:36:38 +0200
+Subject: [PATCH 2/4] Moved up version declarations because I need to use them in subproject
+
+---
+ src/CMakeLists.txt |   26 ++++++++++++++------------
+ 1 files changed, 14 insertions(+), 12 deletions(-)
+
+diff --git a/src/CMakeLists.txt b/src/CMakeLists.txt
+index 1847360..1289dbe 100644
+--- a/src/CMakeLists.txt
++++ b/src/CMakeLists.txt
+@@ -111,6 +111,20 @@ ENDIF()
+ SET_PROPERTY( GLOBAL PROPERTY USE_FOLDERS ${CMAKE_USE_FOLDERS} )
+ 
+ #---------------------------------------------------------------------
++# Get version information.
++
++# Get the version number of elastix
++FILE( STRINGS ${elastix_SOURCE_DIR}/Core/Install/elxBaseComponent.h
++  ELASTIX_VERSION REGEX "\(#define\ __ELASTIX_VERSION\)" )
++STRING( SUBSTRING ${ELASTIX_VERSION} 26 3 ELASTIX_VERSION )
++
++# Split version in major minor. Assuming no patch number, just x.y
++STRING( REGEX MATCH "[0-9]+" ELASTIX_VERSION_MAJOR "${ELASTIX_VERSION}" )
++STRING( REGEX REPLACE "([0-9]+)\\." "" ELASTIX_VERSION_MINOR "${ELASTIX_VERSION}" )
++
++SET(ELASTIX_LIBRARY_PROPERTIES VERSION "${ELASTIX_VERSION}" SOVERSION "${ELASTIX_VERSION}")
++
++#---------------------------------------------------------------------
+ # Include directories
+ 
+ SET( elxCommon_INCLUDE_DIRECTORIES
+@@ -242,19 +256,7 @@ FOREACH( ELX_EXAMPLEINPUTFILE ${ELX_EXAMPLEINPUTFILES} )
+     COPYONLY )
+ ENDFOREACH()
+ 
+-#---------------------------------------------------------------------
+-# Get version information.
+ 
+-# Get the version number of elastix
+-FILE( STRINGS ${elastix_SOURCE_DIR}/Core/Install/elxBaseComponent.h
+-  ELASTIX_VERSION REGEX "\(#define\ __ELASTIX_VERSION\)" )
+-STRING( SUBSTRING ${ELASTIX_VERSION} 26 3 ELASTIX_VERSION )
+-
+-# Split version in major minor. Assuming no patch number, just x.y
+-STRING( REGEX MATCH "[0-9]+" ELASTIX_VERSION_MAJOR "${ELASTIX_VERSION}" )
+-STRING( REGEX REPLACE "([0-9]+)\\." "" ELASTIX_VERSION_MINOR "${ELASTIX_VERSION}" )
+-
+-SET(ELASTIX_LIBRARY_PROPERTIES VERSION "${ELASTIX_VERSION}" SOVERSION "${ELASTIX_VERSION}")
+ 
+ #---------------------------------------------------------------------
+ # Configure the doxygen-configuration
+-- 
+1.7.4
+

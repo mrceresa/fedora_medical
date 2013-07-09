@@ -1,0 +1,110 @@
+From e734b5feeef299774eb1320b60fd77220c84e944 Mon Sep 17 00:00:00 2001
+From: Mario Ceresa <mrceresa@gmail.com>
+Date: Tue, 29 Mar 2011 11:44:56 +0200
+Subject: [PATCH 4/4] Fix lib install directories
+
+---
+ src/Common/CMakeLists.txt                     |    1 +
+ src/Common/KNN/CMakeLists.txt                 |    1 +
+ src/Common/KNN/ann_1.1/CMakeLists.txt         |    2 +-
+ src/Common/MevisDicomTiff/CMakeLists.txt      |    2 +-
+ src/Common/ParameterFileParser/CMakeLists.txt |    2 ++
+ src/Common/xout/CMakeLists.txt                |    2 ++
+ src/Core/CMakeLists.txt                       |    3 +++
+ 7 files changed, 11 insertions(+), 2 deletions(-)
+
+diff --git a/src/Common/CMakeLists.txt b/src/Common/CMakeLists.txt
+index 0c0490b..f149b26 100644
+--- a/src/Common/CMakeLists.txt
++++ b/src/Common/CMakeLists.txt
+@@ -190,3 +190,4 @@ ELSE()
+   )
+ ENDIF()
+ 
++INSTALL( TARGETS elxCommon RUNTIME DESTINATION bin LIBRARY DESTINATION lib${LIB_SUFFIX} ARCHIVE DESTINATION lib${LIB_SUFFIX})
+diff --git a/src/Common/KNN/CMakeLists.txt b/src/Common/KNN/CMakeLists.txt
+index b9965c6..7335356 100644
+--- a/src/Common/KNN/CMakeLists.txt
++++ b/src/Common/KNN/CMakeLists.txt
+@@ -36,6 +36,7 @@ ADD_SUBDIRECTORY( ann_1.1 )
+ ADD_LIBRARY( KNNlib ${KNN_Files} )
+ 
+ SET_TARGET_PROPERTIES(KNNlib PROPERTIES ${ELASTIX_LIBRARY_PROPERTIES})
++INSTALL( TARGETS KNNlib RUNTIME DESTINATION bin LIBRARY DESTINATION lib${LIB_SUFFIX} )
+ 
+ # Link it against the necessary libraries.
+ TARGET_LINK_LIBRARIES( KNNlib ANNlib ITKBasicFilters ITKCommon ITKStatistics )
+diff --git a/src/Common/KNN/ann_1.1/CMakeLists.txt b/src/Common/KNN/ann_1.1/CMakeLists.txt
+index b4e41f6..b17052b 100644
+--- a/src/Common/KNN/ann_1.1/CMakeLists.txt
++++ b/src/Common/KNN/ann_1.1/CMakeLists.txt
+@@ -45,7 +45,7 @@ IF( WIN32 )
+ ELSE()
+   INSTALL( TARGETS ANNlib
+     RUNTIME DESTINATION bin
+-    LIBRARY DESTINATION lib )
++    LIBRARY DESTINATION lib${LIB_SUFFIX})
+     #COMPONENT libraries )
+ ENDIF()
+ 
+diff --git a/src/Common/MevisDicomTiff/CMakeLists.txt b/src/Common/MevisDicomTiff/CMakeLists.txt
+index ad0ced7..67fd8b1 100644
+--- a/src/Common/MevisDicomTiff/CMakeLists.txt
++++ b/src/Common/MevisDicomTiff/CMakeLists.txt
+@@ -21,7 +21,7 @@ SET_TARGET_PROPERTIES(mevisdcmtiff PROPERTIES ${ELASTIX_LIBRARY_PROPERTIES})
+ 
+ TARGET_LINK_LIBRARIES( mevisdcmtiff ITKIO ITKCommon )
+ 
+-
++INSTALL( TARGETS mevisdcmtiff RUNTIME DESTINATION bin LIBRARY DESTINATION lib${LIB_SUFFIX} ARCHIVE DESTINATION lib${LIB_SUFFIX})
+ 
+ # add mevisdcmtiff to the list of target_link_libraries in your cmakelists.txt file.
+ 
+diff --git a/src/Common/ParameterFileParser/CMakeLists.txt b/src/Common/ParameterFileParser/CMakeLists.txt
+index 28d87c8..eaf805a 100644
+--- a/src/Common/ParameterFileParser/CMakeLists.txt
++++ b/src/Common/ParameterFileParser/CMakeLists.txt
+@@ -14,5 +14,7 @@ SET_TARGET_PROPERTIES(param PROPERTIES ${ELASTIX_LIBRARY_PROPERTIES})
+ 
+ TARGET_LINK_LIBRARIES( param ITKCommon )
+ 
++INSTALL( TARGETS param RUNTIME DESTINATION bin LIBRARY DESTINATION lib${LIB_SUFFIX} ARCHIVE DESTINATION lib${LIB_SUFFIX})
++
+ # Group in IDE's like Visual Studio
+ SET_PROPERTY( TARGET param PROPERTY FOLDER "libraries" )
+diff --git a/src/Common/xout/CMakeLists.txt b/src/Common/xout/CMakeLists.txt
+index 2078202..303cf1c 100644
+--- a/src/Common/xout/CMakeLists.txt
++++ b/src/Common/xout/CMakeLists.txt
+@@ -23,5 +23,7 @@ ADD_LIBRARY( xoutlib xoutmain.cxx ${xouthxxfiles} ${xouthfiles} )
+ 
+ SET_TARGET_PROPERTIES(xoutlib PROPERTIES ${ELASTIX_LIBRARY_PROPERTIES})
+ 
++INSTALL( TARGETS xoutlib RUNTIME DESTINATION bin LIBRARY DESTINATION lib${LIB_SUFFIX} ARCHIVE DESTINATION lib${LIB_SUFFIX})
++
+ # Group in IDE's like Visual Studio
+ SET_PROPERTY( TARGET xoutlib PROPERTY FOLDER "libraries" )
+diff --git a/src/Core/CMakeLists.txt b/src/Core/CMakeLists.txt
+index 2717916..f206d8b 100644
+--- a/src/Core/CMakeLists.txt
++++ b/src/Core/CMakeLists.txt
+@@ -98,6 +98,8 @@ ADD_LIBRARY( elxCore
+ 
+ SET_TARGET_PROPERTIES(elxCore PROPERTIES ${ELASTIX_LIBRARY_PROPERTIES})
+ 
++INSTALL( TARGETS elxCore RUNTIME DESTINATION bin LIBRARY DESTINATION lib${LIB_SUFFIX} ARCHIVE DESTINATION lib${LIB_SUFFIX})
++
+ #---------------------------------------------------------------------
+ # Link against other libraries.
+ 
+@@ -189,6 +191,7 @@ ELSE()
+     #COMPONENT core )
+ ENDIF()
+ 
++
+ #---------------------------------------------------------------------
+ # The Core/Install directory contains a CMakeLists file for
+ # defining the elastix compilation types.
+-- 
+1.7.4
+
