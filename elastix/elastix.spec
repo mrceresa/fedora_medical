@@ -7,8 +7,8 @@ Version: %{_ver_major}.%{_ver_minor}
 Release: 1%{?dist}
 License: BSD
 Group: Development/Libraries
-Source0: http://elastix.isi.uu.nl/elastix_sources_v%{_ver_major}.%{_ver_minor}.tar.bz2
-Source1: http://elastix.isi.uu.nl/elastix_manual_v%{_ver_major}.%{_ver_minor}.pdf
+Source0: http://elastix.isi.uu.nl/download/elastix_sources_v%{_ver_major}.%{_ver_minor}.tar.bz2
+Source1: http://elastix.isi.uu.nl/download/elastix_manual_v%{_ver_major}.%{_ver_minor}.pdf
 Source2: FindANN.cmake
 URL: http://elastix.isi.uu.nl/
 
